@@ -4,7 +4,7 @@
  * Purpose: Performs bubble sort on an array
  * 
  * @author Prabhsimran Singh
- * @version 2.0 08/09/18 
+ * @version 2.1 08/09/18 
 */
 
 #include <iostream>
