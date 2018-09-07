@@ -4,19 +4,20 @@
  * Purpose: Performs selection sort on an array
  * 
  * @author Prabhsimran Singh
- * @version 1.1 07/09/18 
+ * @version 2.0 08/09/18 
 */
 
 #include <iostream>
 using namespace std;
 
 /**
- * Sorts an integer array using Selection Sort algorithm.
+ * Sorts an array using Selection Sort algorithm.
  * 
- * @param arr the integer array to sort.
+ * @param arr the array to sort (type T).
  * @param size the size of the array.
 */
-void selectionSort(int arr[], int size) {
+template <class T>
+void selectionSort(T arr[], int size) {
     for (int i = 0; i < size - 1; i++) {
         int min = i;
         for (int j = i + 1; j < size; j++) {
@@ -26,7 +27,7 @@ void selectionSort(int arr[], int size) {
         }
         if (min == i)
             continue;
-        int swap = arr[min];
+        T swap = arr[min];
         arr[min] = arr[i];
         arr[i] = swap;
     }

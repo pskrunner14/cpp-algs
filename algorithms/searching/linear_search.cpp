@@ -4,7 +4,7 @@
  * Purpose: Performs linear search on an array
  * 
  * @author Prabhsimran Singh
- * @version 1.0 07/09/18 
+ * @version 2.0 08/09/18 
 */
 
 #include <iostream>
@@ -13,12 +13,13 @@ using namespace std;
 /**
  * Searches for a key in an array using Linear Search algorithm.
  * 
- * @param arr the integer array to sort.
+ * @param arr the array to search from (type T).
  * @param size the size of the array.
- * @param key the element to search for.
+ * @param key the element to search for (type T).
  * @returns The index of the key element (default: -1)
 */
-int linearSearch(int arr[], int size, int key) {
+template <class T>
+int linearSearch(T arr[], int size, T key) {
     int index = -1;
     for (int i = 0; i < size; i++) {
         if (arr[i] == key) {
