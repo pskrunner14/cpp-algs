@@ -30,3 +30,9 @@
 *.exe
 *.out
 *.app
+
+basic/*
+
+.vscode/*
+
+problems/*
