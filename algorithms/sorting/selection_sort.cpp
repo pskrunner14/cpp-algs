@@ -17,16 +17,15 @@ using namespace std;
  * @param size the size of the array.
 */
 void selectionSort(int arr[], int size) {
-    int min, start, swap;
     for (int i = 0; i < size - 1; i++) {
-        start = i;
-        min = start;
+        int start = i;
+        int min = start;
         for (int j = start + 1; j < size; j++) {
             if (arr[j] < arr[min]){
                 min = j;
             }
         }
-        swap = arr[min];
+        int swap = arr[min];
         arr[min] = arr[start];
         arr[start] = swap;
     }

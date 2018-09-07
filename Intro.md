@@ -20,6 +20,16 @@ This is the introduction to this repository.
 
 The following algorithms have been implemented in this project.
 
+### Sorting
+
+* __Bubble Sort__:
+* __Selection Sort__:
+
+### Searching
+
+* __Linear Search__:
+* __Binary Search__:
+
 ## Data Structures
 
 The following data structures have been implemented in this project.
