@@ -11,6 +11,7 @@ The following algorithms have been implemented in this project.
 
 * Bubble Sort
 * Selection Sort
+* Insertion Sort
 
 ### Searching
 

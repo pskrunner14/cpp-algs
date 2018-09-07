@@ -24,6 +24,7 @@ The following algorithms have been implemented in this project.
 
 * __Bubble Sort__:
 * __Selection Sort__:
+* __Insertion Sort__:
 
 ### Searching
 

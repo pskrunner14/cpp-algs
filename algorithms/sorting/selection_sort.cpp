@@ -4,7 +4,7 @@
  * Purpose: Performs selection sort on an array
  * 
  * @author Prabhsimran Singh
- * @version 1.0 07/09/18 
+ * @version 1.1 07/09/18 
 */
 
 #include <iostream>
@@ -18,15 +18,16 @@ using namespace std;
 */
 void selectionSort(int arr[], int size) {
     for (int i = 0; i < size - 1; i++) {
-        int start = i;
-        int min = start;
-        for (int j = start + 1; j < size; j++) {
+        int min = i;
+        for (int j = i + 1; j < size; j++) {
             if (arr[j] < arr[min]){
                 min = j;
             }
         }
+        if (min == i)
+            continue;
         int swap = arr[min];
-        arr[min] = arr[start];
-        arr[start] = swap;
+        arr[min] = arr[i];
+        arr[i] = swap;
     }
 }
