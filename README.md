@@ -1,7 +1,7 @@
-# C++ Practice
+# C++ Algorithms & Data Structures
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/daf097a7fe524ddcaeb8dc005755cdb4)](https://www.codacy.com/app/pskrunner14/cpp-practice?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=pskrunner14/cpp-practice&amp;utm_campaign=Badge_Grade)
 
-These are C++ implementations of various algorithms and data structures for practice.
+These are C++ implementations of various algorithms and data structures optimized and modularized for peak performance and extensibility.
 
 ## Algorithms
 
@@ -14,6 +14,7 @@ The following algorithms have been implemented in this project.
 * Insertion Sort
 * Shell Sort
 * Merge Sort
+* Quick Sort
 
 ### Searching
 

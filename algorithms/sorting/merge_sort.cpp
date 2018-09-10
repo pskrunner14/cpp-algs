@@ -15,7 +15,7 @@ void merge(T arr[], T aux[], int lo, int mid, int hi) {
     for (int k = lo; k <= hi; k++) {
         aux[k] = arr[k]; 
     }
-    int i = lo, j = mid+1;
+    int i = lo, j = mid + 1;
     for (int k = lo; k <= hi; k++) {
         if (i > mid)              
             arr[k] = aux[j++];

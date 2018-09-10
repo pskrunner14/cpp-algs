@@ -27,6 +27,7 @@ The following algorithms have been implemented in this project.
 * __Insertion Sort__:
 * __Shell Sort__:
 * __Merge Sort__:
+* __Quick Sort__:
 
 ### Searching
 
