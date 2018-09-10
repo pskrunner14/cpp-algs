@@ -24,4 +24,5 @@ The following data structures have been implemented in this project.
 
 ## References
 
+* [Algs4 Algorithms and Clients Library](https://algs4.cs.princeton.edu/code/)
 * [Stanford CS Education Library](http://cslibrary.stanford.edu/)
