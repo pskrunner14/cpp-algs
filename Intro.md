@@ -25,6 +25,8 @@ The following algorithms have been implemented in this project.
 * __Bubble Sort__:
 * __Selection Sort__:
 * __Insertion Sort__:
+* __Shell Sort__:
+* __Merge Sort__:
 
 ### Searching
 
@@ -37,4 +39,5 @@ The following data structures have been implemented in this project.
 
 ## References
 
+* [Algs4 Algorithms and Clients Library](https://algs4.cs.princeton.edu/code/)
 * [Stanford CS Education Library](http://cslibrary.stanford.edu/)
