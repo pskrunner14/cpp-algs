@@ -4,7 +4,7 @@
  * Purpose: Performs shell sort on an array
  * 
  * @author Prabhsimran Singh
- * @version 1.0 08/09/18 
+ * @version 1.1 11/09/18 
 */
 
 #include <iostream>
@@ -18,13 +18,14 @@ using namespace std;
 */
 template <class T>
 void shellSort(T arr[], int size) {
-    int s = 1;
-    while (s < size / 3) s = 3 * s + 1; 
-    while (s >= 1) {
-        for (int i = s; i < size; i++) {
-            for (int j = i; j >= s && arr[j] < arr[j - s]; j -= s)
-                swap(arr[j], arr[j - s]);
+    int h = 1;
+    while (h < size / 3) 
+		h = 3 * h + 1;
+    while (h >= 1) {
+        for (int i = h; i < size; i++) {
+            for (int j = i; j >= h && arr[j] < arr[j - h]; j -= h)
+                swap(arr[j], arr[j - h]);
         }
-        s /= 3;
+        h /= 3;
     }
 }
