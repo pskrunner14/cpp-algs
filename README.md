@@ -20,10 +20,12 @@ The following algorithms have been implemented in this project.
 
 * Linear Search
 * Binary Search
+<!-- 
+### Miscellaneous
 
 ## Data Structures
 
-The following data structures have been implemented in this project.
+The following data structures have been implemented in this project. -->
 
 ## References
 
