@@ -32,4 +32,5 @@ The following data structures have been implemented in this project.
 ## References
 
 * [Algs4 Algorithms and Clients Library](https://algs4.cs.princeton.edu/code/)
+* [Introduction to Algorithms](https://mitpress.mit.edu/books/introduction-algorithms-third-edition) by T.H. Cormen.
 * [Stanford CS Education Library](http://cslibrary.stanford.edu/)
