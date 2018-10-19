@@ -1,15 +1,12 @@
-/**
- * Algorithms - sorting
- * quick_sort.cpp
- * Purpose: Performs quick sort on an array
- * 
- * @author Prabhsimran Singh
- * @version 1.0 11/09/18
-*/
-
 #include <iostream>
 #include <bits/stdc++.h> 
 using namespace std;
+
+template <class T>
+void print_array(T arr[], int n) {
+    for (int i = 0; i < n; i++)
+        cout << arr[i] << endl;
+}
 
 template <class T>
 int partition(T arr[], int lo, int hi) {
@@ -38,18 +35,31 @@ void sort(T arr[], int lo, int hi) {
     sort(arr, p + 1, hi);
 }
 
-/**
- * Sorts an array using Quick Sort algorithm.
- * 
- * @param arr the array to sort (type T).
- * @param size the size of the array.
-*/
 template <class T>
 void quickSort(T arr[], int size) {
-    // randomize the array to make 
-    // worst case time O(nlogn) - has
-    // huge affect with very large inputs
-    // i.e. ~1M elements.
     random_shuffle(arr, arr + size);
     sort(arr, 0, size - 1);
+    print_array(arr, size);
+}
+
+int length(char arr[]) {
+    int len = 0;
+    for (int i = 0; arr[i] != '\0'; i++) {
+        len++;
+    }
+    return len;
+}
+
+int main() {
+
+    int n;
+    cin >> n;
+
+    int arr[n];
+
+    for (int i = 0; i < n; i++)
+        cin >> arr[i];
+    
+    quickSort<int>(arr, n);
+    return 0;
 }

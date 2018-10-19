@@ -30,7 +30,7 @@ void sink(T arr[], int k, int n) {
  * @param size the size of the array.
 */
 template <class T>
-void heapSort(T arr, int size) {
+void heapSort(T arr[], int size) {
     for (int k = size / 2; k >= 1; k--)
         sink(arr, k, size);
     while (size > 1) {
