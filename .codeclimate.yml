@@ -1,0 +1,7 @@
+plugins:
+    cppcheck:
+        enabled: true
+        exclude_patterns:
+            - "practice/"
+exclude_patterns:
+    - "practice/"
