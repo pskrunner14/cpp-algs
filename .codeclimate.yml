@@ -1,7 +1,13 @@
-plugins:
+engines:
     cppcheck:
         enabled: true
         exclude_patterns:
             - "practice/"
+        config:
+            check: all
+            language: c++
+            stds:
+                - c++11
+            platform: unix64
 exclude_patterns:
     - "practice/"
