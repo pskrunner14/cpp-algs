@@ -13,124 +13,135 @@ using namespace std;
 
 template <class T>
 struct LinkNode {
-    T val;
-    LinkNode<T>* prev;
-    LinkNode<T>* next;
+    T value;
+    LinkNode<T> *next;
+    LinkNode<T> *prev;
 };
 
 template <class T>
-void printLinkedList(LinkNode<T>* head) {
-    cout << "Doubly Linked List: ";
-    for (LinkNode<T>* temp = head; temp != NULL; temp = temp->next)
-        cout << temp->val << " ";
-    cout << endl;
-}
+class SinglyLinkedList {
+  private:
+    LinkNode<T> *head;
 
-template <class T>
-LinkNode<T>* insertLinkNodeUsingValue(LinkNode<T>* last, T val) {
-    if (last == NULL) {
-        LinkNode<T>* temp = new LinkNode<T>{val};
-        return temp;
+  public:
+    SinglyLinkedList() {
+        this->head = NULL;
     }
-    LinkNode<T>* new_node = new LinkNode<T>{val};
-    new_node->prev = last;
-    last->next = new_node;
-    return new_node;
-}
 
-template <class T>
-LinkNode<T>* insertLinkNodesUsingArray(LinkNode<T>* head, T* arr, int size) {
-    LinkNode<T>* temp;
-    if (head == NULL) {
-        head = insertLinkNodeUsingValue(head, arr[0]);
-        temp = head;
-    } else {
-        temp = insertLinkNodeUsingValue(head, arr[0]);
+    SinglyLinkedList(T value) {
+        insertUsingValue(value);
     }
-    for (int i = 1; i < size; i++)
-        temp = insertLinkNodeUsingValue(temp, arr[i]);
-    return head;
-}
 
-template <class T>
-LinkNode<T>* createLinkedListUsingValue(T val) {
-    LinkNode<T>* head = new LinkNode<T>{val};
-    return head;
-}
-
-template <class T>
-LinkNode<T>* createLinkedListUsingArray(T* arr, int size) {
-    LinkNode<T>* head = NULL;
-    return insertLinkNodesUsingArray(head, arr, size);
-}
-
-template <class T>
-void deleteLinkNodeUsingValue(LinkNode<T>* head, T val) {
-    if (head->val == val) {
-        delete head;
-        return;
+    SinglyLinkedList(T *arr, int size) {
+        insertUsingArray(arr, size);
     }
-    LinkNode<T>* p_temp = NULL;
-    LinkNode<T>* temp = head;
-    while (temp != NULL) {
-        if (temp->val == val) {
-            p_temp->next = temp->next;
-            delete temp;
+
+    ~SinglyLinkedList() {
+        // delete linked list when object is destroyed
+        delete this->head;
+    }
+
+    LinkNode<T> *insertUsingValue(T value, LinkNode<T> *aux = NULL) {
+        if (this->head == NULL) {
+            this->head = new LinkNode<T>{value};
+        }
+        LinkNode<T> *temp;
+        if (aux == NULL) {
+            temp = this->head;
+        } else {
+            // save on traversal computation
+            temp = aux;
+        }
+        LinkNode<T> *new_node = new LinkNode<T>{value};
+        while (temp->next != NULL)
+            temp = temp->next;
+        temp->next = new_node;
+        return temp->next;
+    }
+
+    void insertUsingArray(T *arr, int size) {
+        LinkNode<T> *temp;
+        if (this->head == NULL) {
+            this->head = insertUsingValue(arr[0]);
+            temp = head;
+        } else {
+            temp = insertUsingValue(arr[0], this->head);
+        }
+        for (int i = 1; i < size; i++)
+            temp = insertUsingValue(arr[i], temp);
+    }
+
+    void deleteUsingValue(T value) {
+        if (head->value == value) {
+            delete this->head;
             return;
         }
-        p_temp = temp;
-        temp = temp->next;
+        LinkNode<T> *p_temp;
+        LinkNode<T> *temp = this->head;
+        while (temp != NULL) {
+            if (temp->value == value) {
+                p_temp->next = temp->next;
+                delete temp;
+                return;
+            }
+            p_temp = temp;
+            temp = temp->next;
+        }
     }
-}
 
-template <class T>
-void deleteLinkNodeUsingIndex(LinkNode<T>* head, int index) {
-    if (index == 0) {
-        delete head;
-        return;
-    }
-    LinkNode<T>* p_temp = NULL;
-    LinkNode<T>* temp = head;
-    int i = 0;
-    while (temp != NULL) {
-        if (i == index) {
-            p_temp->next = temp->next;
-            delete temp;
+    void deleteUsingIndex(int index) {
+        if (index == 0) {
+            delete this->head;
             return;
         }
-        p_temp = temp;
-        temp = temp->next;
-        i++;
-    }
-}
-
-template <class T>
-bool searchLinkedList(LinkNode<T>* head, T val) {
-    LinkNode<T>* temp = head;
-    while (temp != NULL) {
-        if (temp->val == val)
-            return true;
-        temp = temp->next;
-    }
-    return false;
-}
-
-template <class T>
-LinkNode<T>* reverseLinkedList(LinkNode<T>* head) {
-    LinkNode<T>* l_node = head;
-    LinkNode<T>* rev_node = l_node->next;
-    LinkNode<T>* next_node;
-    if (l_node == head)
-        l_node->next = NULL;
-    if (rev_node != NULL)
-        next_node = rev_node->next;
-    while (rev_node != NULL) {
-        rev_node->next = l_node;
-        l_node = rev_node;
-        rev_node = next_node;
-        if (next_node != NULL) {
-            next_node = next_node->next;
+        LinkNode<T> *p_temp;
+        LinkNode<T> *temp = this->head;
+        int i = 0;
+        while (temp != NULL) {
+            if (i == index) {
+                p_temp->next = temp->next;
+                delete temp;
+                return;
+            }
+            p_temp = temp;
+            temp = temp->next;
+            i++;
         }
     }
-    return l_node;
-}
+
+    LinkNode<T> *search(T value) {
+        LinkNode<T> *temp = head;
+        while (temp != NULL) {
+            if (temp->value == value)
+                return temp;
+            temp = temp->next;
+        }
+        return NULL;
+    }
+
+    void reverse() {
+        LinkNode<T> *l_node = this->head;
+        LinkNode<T> *rev_node = l_node->next;
+        LinkNode<T> *next_node;
+        if (l_node == this->head)
+            l_node->next = NULL;
+        if (rev_node != NULL)
+            next_node = rev_node->next;
+        while (rev_node != NULL) {
+            rev_node->next = l_node;
+            l_node = rev_node;
+            rev_node = next_node;
+            if (next_node != NULL) {
+                next_node = next_node->next;
+            }
+        }
+        this->head = l_node;
+    }
+
+    void print() {
+        cout << "Doubly Linked List: ";
+        for (LinkNode<T> *temp = this->head; temp != NULL; temp = temp->next)
+            cout << temp->value << " ";
+        cout << endl;
+    }
+};
