@@ -11,12 +11,12 @@
 using namespace std;
 
 template <class T>
-void sink(T arr[], int k, int n) {
+void sink(T *arr, int k, int n) {
     while (2 * k <= n) {
         int j = 2 * k;
-        if (j < n && arr[j] < arr[j + 1]) 
+        if (j < n && arr[j] < arr[j + 1])
             j++;
-        if (!arr[k] < arr[j]) 
+        if (!arr[k] < arr[j])
             break;
         swap(arr[k], arr[j]);
         k = j;
@@ -30,7 +30,7 @@ void sink(T arr[], int k, int n) {
  * @param size the size of the array.
 */
 template <class T>
-void heapSort(T arr[], int size) {
+void heapSort(T *arr, int size) {
     for (int k = size / 2; k >= 1; k--)
         sink(arr, k, size);
     while (size > 1) {

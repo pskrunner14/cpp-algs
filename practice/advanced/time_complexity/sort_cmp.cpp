@@ -1,10 +1,10 @@
 #include <iostream>
 #include <sys/time.h>
 
-#include "../../algorithms/sorting/quick_sort.cpp"
-#include "../../algorithms/sorting/heap_sort.cpp"
-#include "../../algorithms/sorting/selection_sort.cpp"
-#include "../../algorithms/sorting/merge_sort.cpp"
+#include "../../../algorithms/sorting/heap_sort.cpp"
+#include "../../../algorithms/sorting/merge_sort.cpp"
+#include "../../../algorithms/sorting/quick_sort.cpp"
+#include "../../../algorithms/sorting/selection_sort.cpp"
 
 long timeit() {
     struct timeval start;
@@ -12,7 +12,7 @@ long timeit() {
     return start.tv_sec * 1000000 + start.tv_usec;
 }
 
-void init_array(int* arr, int n) {
+void init_array(int *arr, int n) {
     for (int i = 0; i < n; i++) {
         arr[i] = n - i;
     }
@@ -37,11 +37,11 @@ int main() {
         quickSort(arr, n);
         long end_quick = timeit();
 
-        // init_array(arr, n);
-        // // time heap sort
-        // long start_heap = timeit();
-        // heapSort(arr, n);
-        // long end_heap = timeit();
+        init_array(arr, n);
+        // time heap sort
+        long start_heap = timeit();
+        heapSort(arr, n);
+        long end_heap = timeit();
 
         init_array(arr, n);
         // time selection sort
@@ -49,14 +49,15 @@ int main() {
         selectionSort(arr, n);
         long end_selec = timeit();
 
-        delete [] arr;
+        delete[] arr;
         // log info for each n
         cout << "n: " << n << endl;
         cout << "-------" << endl;
         cout << "merge sort - " << (end_merge - start_merge) << endl;
         cout << "quick sort - " << (end_quick - start_quick) << endl;
-        // cout << "heap sort - " << (end_heap - start_heap) << endl;
-        cout << "selection sort - " << (end_selec - start_selec) << endl << endl;
+        cout << "heap sort - " << (end_heap - start_heap) << endl;
+        cout << "selection sort - " << (end_selec - start_selec) << endl
+             << endl;
     }
     return 0;
 }
@@ -91,4 +92,4 @@ int main() {
  * i.e. the upper bound for the algorithm's performance.
  * 
  * ex. Insertion Sort has O(n^2) worst case time complexity.
- */ 
+ */
