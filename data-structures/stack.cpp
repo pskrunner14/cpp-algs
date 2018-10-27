@@ -38,9 +38,23 @@ class Stack {
         if (this->length == 0) {
             return NULL;
         }
-        T elem = this->stack[this->length - 1];
+        T elem = peek();
         this->length--;
         return elem;
+    }
+
+    T peek() {
+        if (this->length == 0) {
+            return NULL;
+        }
+        return this->stack[this->length - 1];
+    }
+
+    bool isEmpty() {
+        if (this->length == 0) {
+            return true;
+        }
+        return false;
     }
 
     void print() {

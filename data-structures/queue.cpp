@@ -22,7 +22,7 @@ class Queue {
         this->queue = new T[this->capacity];
     }
 
-    void push(T val) {
+    void enqueue(T val) {
         if (this->length == this->capacity) {
             T *aux = new T[2 * this->capacity];
             for (int i = 0; i < this->length; i++) {
@@ -34,14 +34,28 @@ class Queue {
         this->queue[this->length++] = val;
     }
 
-    T pop() {
+    T dequeue() {
         if (this->length == 0) {
             return NULL;
         }
-        T elem = this->queue[0];
+        T elem = getFront();
         this->queue = this->queue + 1;
         this->length--;
         return elem;
+    }
+
+    T getFront() {
+        if (this->length == 0) {
+            return NULL;
+        }
+        return this->queue[0];
+    }
+
+    bool isEmpty() {
+        if (this->length == 0) {
+            return true;
+        }
+        return false;
     }
 
     void print() {
