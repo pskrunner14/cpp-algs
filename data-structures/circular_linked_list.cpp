@@ -93,6 +93,10 @@ class CircularLinkedList {
         return NULL;
     }
 
+    LinkNode<T> *getLinkedList() {
+        return this->last;
+    }
+
     void print() {
         cout << "Circular Linked List: ";
         LinkNode<T> *temp = this->last->next;

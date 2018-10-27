@@ -140,6 +140,10 @@ class DoublyLinkedList {
         this->head->next = temp->prev;
     }
 
+    LinkNode<T> *getLinkedList() {
+        return this->head;
+    }
+
     void print() {
         cout << "Doubly Linked List: ";
         LinkNode<T> *temp = this->head;

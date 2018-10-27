@@ -136,6 +136,10 @@ class SinglyLinkedList {
         this->head = l_node;
     }
 
+    LinkNode<T> *getLinkedList() {
+        return this->head;
+    }
+
     void print() {
         cout << "Singly Linked List: ";
         LinkNode<T> *temp = this->head;
