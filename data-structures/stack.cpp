@@ -9,7 +9,54 @@
 #include <iostream>
 using namespace std;
 
+template <class T>
 class Stack {
   public:
+    Stack() {
+        this->capacity = 10;
+        this->stack = new T[this->capacity];
+    }
+
+    Stack(int capacity) {
+        this->capacity = capacity;
+        this->stack = new T[this->capacity];
+    }
+
+    void push(T val) {
+        if (this->length == this->capacity) {
+            T *aux = new T[2 * this->capacity];
+            for (int i = 0; i < this->length; i++) {
+                aux[i] = this->stack[i];
+            }
+            delete[] this->stack;
+            this->stack = aux;
+        }
+        this->stack[this->length++] = val;
+    }
+
+    T pop() {
+        if (this->length == 0) {
+            return NULL;
+        }
+        T elem = this->stack[this->length - 1];
+        this->length--;
+        return elem;
+    }
+
+    void print() {
+        cout << "Stack:" << endl;
+        for (int i = 0; i < this->length; i++) {
+            cout << this->stack[i] << " ";
+        }
+        cout << endl;
+    }
+
+    int size() {
+        return this->length;
+    }
+
   private:
+    int length = 0;
+    int capacity;
+    T *stack;
 };
