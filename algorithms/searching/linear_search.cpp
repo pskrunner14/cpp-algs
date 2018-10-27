@@ -19,7 +19,7 @@ using namespace std;
  * @returns The index of the key element (default: -1)
 */
 template <class T>
-int linearSearch(T arr[], int size, T key) {
+int linearSearch(T *arr, int size, T key) {
     int index = -1;
     for (int i = 0; i < size; i++) {
         if (arr[i] == key) {

@@ -19,17 +19,17 @@ using namespace std;
  * @returns The index of the key element (default: -1)
 */
 template <class T>
-int binarySearch(T arr[], int n, T key){
-  	int start = 0;
-  	int end = n - 1;
-  	while (start <= end) {
-      	int mid = (start + end) / 2;
-      	if (arr[mid] == key)
-          	return mid;
+int binarySearch(T *arr, int n, T key) {
+    int start = 0;
+    int end = n - 1;
+    while (start <= end) {
+        int mid = (start + end) / 2;
+        if (arr[mid] == key)
+            return mid;
         else if (arr[mid] > key)
-          	end = mid - 1;
+            end = mid - 1;
         else
-          	start = mid + 1;
+            start = mid + 1;
     }
-  	return -1;
+    return -1;
 }

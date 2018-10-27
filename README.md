@@ -22,6 +22,7 @@ The following algorithms have been implemented in this project.
 
 * Linear Search
 * Binary Search
+* Ternary Search
 
 ## Data Structures
 

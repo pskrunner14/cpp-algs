@@ -4,7 +4,7 @@
  * Purpose: Implementation of Circular Linked List
  * 
  * @author Prabhsimran Singh
- * @version 1.0 11/09/18
+ * @version 1.0 27/10/18
 */
 #include <iostream>
 using namespace std;
