@@ -17,6 +17,8 @@ int main() {
     ll->print();
     ll->deleteUsingIndex(1);
     ll->print();
+    ll->deleteUsingIndex(0);
+    ll->print();
     LinkNode<int> *elem = ll->search(101);
     if (elem != NULL) {
         cout << "Found " << elem->value << "!" << endl;

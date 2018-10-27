@@ -6,7 +6,6 @@
  * @author Prabhsimran Singh
  * @version 2.0 27/10/18
 */
-
 #include <iostream>
 using namespace std;
 
@@ -42,6 +41,7 @@ class SinglyLinkedList {
     LinkNode<T> *insertUsingValue(T value, LinkNode<T> *aux = NULL) {
         if (this->head == NULL) {
             this->head = new LinkNode<T>{value};
+            return this->head;
         }
         LinkNode<T> *temp;
         if (aux == NULL) {
@@ -61,7 +61,7 @@ class SinglyLinkedList {
         LinkNode<T> *temp;
         if (this->head == NULL) {
             this->head = insertUsingValue(arr[0]);
-            temp = head;
+            temp = this->head;
         } else {
             temp = insertUsingValue(arr[0], this->head);
         }
@@ -71,11 +71,11 @@ class SinglyLinkedList {
 
     void deleteUsingValue(T value) {
         if (head->value == value) {
-            delete this->head;
+            this->head = this->head->next;
             return;
         }
-        LinkNode<T> *p_temp;
-        LinkNode<T> *temp = this->head;
+        LinkNode<T> *p_temp = this->head;
+        LinkNode<T> *temp = this->head->next;
         while (temp != NULL) {
             if (temp->value == value) {
                 p_temp->next = temp->next;
@@ -89,12 +89,12 @@ class SinglyLinkedList {
 
     void deleteUsingIndex(int index) {
         if (index == 0) {
-            delete this->head;
+            this->head = this->head->next;
             return;
         }
-        LinkNode<T> *p_temp;
-        LinkNode<T> *temp = this->head;
-        int i = 0;
+        LinkNode<T> *p_temp = this->head;
+        LinkNode<T> *temp = this->head->next;
+        int i = 1;
         while (temp != NULL) {
             if (i == index) {
                 p_temp->next = temp->next;
@@ -108,7 +108,7 @@ class SinglyLinkedList {
     }
 
     LinkNode<T> *search(T value) {
-        LinkNode<T> *temp = head;
+        LinkNode<T> *temp = this->head;
         while (temp != NULL) {
             if (temp->value == value)
                 return temp;

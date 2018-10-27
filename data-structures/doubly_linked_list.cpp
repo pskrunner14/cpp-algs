@@ -14,29 +14,29 @@ using namespace std;
 template <class T>
 struct LinkNode {
     T value;
-    LinkNode<T> *next;
     LinkNode<T> *prev;
+    LinkNode<T> *next;
 };
 
 template <class T>
-class SinglyLinkedList {
+class DoublyLinkedList {
   private:
     LinkNode<T> *head;
 
   public:
-    SinglyLinkedList() {
+    DoublyLinkedList() {
         this->head = NULL;
     }
 
-    SinglyLinkedList(T value) {
+    DoublyLinkedList(T value) {
         insertUsingValue(value);
     }
 
-    SinglyLinkedList(T *arr, int size) {
+    DoublyLinkedList(T *arr, int size) {
         insertUsingArray(arr, size);
     }
 
-    ~SinglyLinkedList() {
+    ~DoublyLinkedList() {
         // delete linked list when object is destroyed
         delete this->head;
     }
