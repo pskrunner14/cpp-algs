@@ -111,7 +111,7 @@ class DoublyLinkedList {
     LinkNode<T> *search(T value) {
         LinkNode<T> *temp_s = this->head;
         LinkNode<T> *temp_e = this->tail;
-        while (true) {
+        while (temp_s != NULL && temp_e != NULL) {
             if (temp_s->value == value)
                 return temp_s;
             temp_s = temp_s->next;
@@ -121,6 +121,7 @@ class DoublyLinkedList {
                 return NULL;
             temp_e = temp_e->prev;
         }
+        return NULL;
     }
 
     void reverse() {
