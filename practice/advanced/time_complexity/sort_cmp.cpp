@@ -1,10 +1,16 @@
 #include <iostream>
 #include <sys/time.h>
 
+// algorithms
+#include "../../../algorithms/sorting/bubble_sort.cpp"
 #include "../../../algorithms/sorting/heap_sort.cpp"
+#include "../../../algorithms/sorting/insertion_sort.cpp"
 #include "../../../algorithms/sorting/merge_sort.cpp"
 #include "../../../algorithms/sorting/quick_sort.cpp"
 #include "../../../algorithms/sorting/selection_sort.cpp"
+#include "../../../algorithms/sorting/shell_sort.cpp"
+
+using namespace std;
 
 long timeit() {
     struct timeval start;
@@ -20,7 +26,7 @@ void init_array(int *arr, int n) {
 
 int main() {
 
-    for (int n = 10; n < 1000000; n *= 10) {
+    for (int n = 10; n < 100000000; n *= 10) {
         // create an array
         int *arr = new int[n];
 
@@ -45,9 +51,9 @@ int main() {
 
         init_array(arr, n);
         // time selection sort
-        long start_selec = timeit();
-        selectionSort(arr, n);
-        long end_selec = timeit();
+        long start_shell = timeit();
+        shellSort(arr, n);
+        long end_shell = timeit();
 
         delete[] arr;
         // log info for each n
@@ -56,8 +62,8 @@ int main() {
         cout << "merge sort - " << (end_merge - start_merge) << endl;
         cout << "quick sort - " << (end_quick - start_quick) << endl;
         cout << "heap sort - " << (end_heap - start_heap) << endl;
-        cout << "selection sort - " << (end_selec - start_selec) << endl
-             << endl;
+        cout << "shell sort - " << (end_shell - start_shell) << endl;
+        cout << endl;
     }
     return 0;
 }

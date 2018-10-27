@@ -54,7 +54,7 @@ class SinglyLinkedList {
         while (temp->next != NULL)
             temp = temp->next;
         temp->next = new_node;
-        return temp->next;
+        return new_node;
     }
 
     void insertUsingArray(T *arr, int size) {
@@ -138,8 +138,10 @@ class SinglyLinkedList {
 
     void print() {
         cout << "Singly Linked List: ";
-        for (LinkNode<T> *temp = this->head; temp != NULL; temp = temp->next)
+        LinkNode<T> *temp = this->head;
+        for (; temp != NULL; temp = temp->next)
             cout << temp->value << " ";
         cout << endl;
+        delete temp;
     }
 };
