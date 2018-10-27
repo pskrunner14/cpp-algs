@@ -26,10 +26,12 @@ class CircularLinkedList {
     }
 
     CircularLinkedList(T value) {
+        this->last = NULL;
         insertUsingValue(value);
     }
 
     CircularLinkedList(T *arr, int size) {
+        this->last = NULL;
         insertUsingArray(arr, size);
     }
 
@@ -40,17 +42,18 @@ class CircularLinkedList {
 
     void insertUsingValue(T value) {
         if (this->last == NULL) {
-            this->last = new LinkNode<T>{value};
+            this->last = new LinkNode<T>{value, NULL};
             this->last->next = this->last; // circular
             return;
         }
-        LinkNode<T> *new_node = new LinkNode<T>{value};
+        LinkNode<T> *new_node = new LinkNode<T>{value, NULL};
+        new_node->next = this->last->next;
         this->last->next = new_node;
         this->last = new_node;
     }
 
     void insertUsingArray(T *arr, int size) {
-        for (int i = 1; i < size; i++)
+        for (int i = 0; i < size; i++)
             insertUsingValue(arr[i]);
     }
 
@@ -77,31 +80,6 @@ class CircularLinkedList {
         }
     }
 
-    void deleteUsingIndex(int index) {
-        if (index == 0) {
-            LinkNode<T> *aux = this->last;
-            while (aux->next != this->last) {
-                aux = aux->next;
-            }
-            aux->next = this->last->next;
-            this->last = aux;
-            return;
-        }
-        LinkNode<T> *p_temp = this->last;
-        LinkNode<T> *temp = this->last->next;
-        int i = 1;
-        while (temp != this->last) {
-            if (i == index) {
-                p_temp->next = temp->next;
-                delete temp;
-                return;
-            }
-            p_temp = temp;
-            temp = temp->next;
-            i++;
-        }
-    }
-
     LinkNode<T> *search(T value) {
         if (this->last->value == value) {
             return this->last;
@@ -117,8 +95,11 @@ class CircularLinkedList {
 
     void print() {
         cout << "Circular Linked List: ";
-        for (LinkNode<T> *temp = this->last->next; temp != this->last; temp = temp->next)
+        LinkNode<T> *temp = this->last->next;
+        do {
             cout << temp->value << " ";
+            temp = temp->next;
+        } while (temp != this->last->next);
         cout << endl;
     }
 };

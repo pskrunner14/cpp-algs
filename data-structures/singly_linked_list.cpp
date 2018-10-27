@@ -40,7 +40,7 @@ class SinglyLinkedList {
 
     LinkNode<T> *insertUsingValue(T value, LinkNode<T> *aux = NULL) {
         if (this->head == NULL) {
-            this->head = new LinkNode<T>{value};
+            this->head = new LinkNode<T>{value, NULL};
             return this->head;
         }
         LinkNode<T> *temp;
@@ -50,7 +50,7 @@ class SinglyLinkedList {
             // save on traversal computation
             temp = aux;
         }
-        LinkNode<T> *new_node = new LinkNode<T>{value};
+        LinkNode<T> *new_node = new LinkNode<T>{value, NULL};
         while (temp->next != NULL)
             temp = temp->next;
         temp->next = new_node;
