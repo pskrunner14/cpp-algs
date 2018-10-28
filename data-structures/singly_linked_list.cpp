@@ -115,12 +115,10 @@ class SinglyLinkedList {
 
     LinkNode<T> *search(T value) {
         LinkNode<T> *temp = this->head;
-        while (temp != NULL) {
-            if (temp->value == value)
-                return temp;
+        while (temp != NULL && temp->value != value) {
             temp = temp->next;
         }
-        return NULL;
+        return temp;
     }
 
     void reverse() {
