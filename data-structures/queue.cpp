@@ -29,7 +29,8 @@ class Queue {
 
     void enqueue(T val) {
         if (this->length == this->capacity) {
-            T *aux = new T[2 * this->capacity];
+            this->capacity *= 2;
+            T *aux = new T[this->capacity];
             for (int i = 0; i < this->length; i++) {
                 aux[i] = this->queue[i];
             }
