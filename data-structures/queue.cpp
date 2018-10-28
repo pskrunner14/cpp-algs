@@ -11,6 +11,11 @@ using namespace std;
 
 template <class T>
 class Queue {
+  private:
+    T *queue;
+    int length = 0;
+    int capacity;
+
   public:
     Queue() {
         this->capacity = 10;
@@ -59,7 +64,6 @@ class Queue {
     }
 
     void print() {
-        cout << "Queue:" << endl;
         for (int i = 0; i < this->length; i++) {
             cout << this->queue[i] << " ";
         }
@@ -69,9 +73,4 @@ class Queue {
     int size() {
         return this->length;
     }
-
-  private:
-    int length = 0;
-    int capacity;
-    T *queue;
 };

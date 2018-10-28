@@ -19,6 +19,7 @@ template <class T>
 class SinglyLinkedList {
   private:
     LinkNode<T> *head;
+    int size = 0;
 
   public:
     SinglyLinkedList() {
@@ -34,13 +35,13 @@ class SinglyLinkedList {
     }
 
     ~SinglyLinkedList() {
-        // delete linked list when object is destroyed
         delete this->head;
     }
 
     LinkNode<T> *insertUsingValue(T value, LinkNode<T> *aux = NULL) {
         if (this->head == NULL) {
             this->head = new LinkNode<T>{value, NULL};
+            this->size = 1;
             return this->head;
         }
         LinkNode<T> *temp;
@@ -54,6 +55,7 @@ class SinglyLinkedList {
         while (temp->next != NULL)
             temp = temp->next;
         temp->next = new_node;
+        this->size++;
         return new_node;
     }
 
@@ -72,6 +74,7 @@ class SinglyLinkedList {
     void deleteUsingValue(T value) {
         if (head->value == value) {
             this->head = this->head->next;
+            this->size--;
             return;
         }
         LinkNode<T> *p_temp = this->head;
@@ -80,6 +83,7 @@ class SinglyLinkedList {
             if (temp->value == value) {
                 p_temp->next = temp->next;
                 delete temp;
+                this->size--;
                 return;
             }
             p_temp = temp;
@@ -90,6 +94,7 @@ class SinglyLinkedList {
     void deleteUsingIndex(int index) {
         if (index == 0) {
             this->head = this->head->next;
+            this->size--;
             return;
         }
         LinkNode<T> *p_temp = this->head;
@@ -99,6 +104,7 @@ class SinglyLinkedList {
             if (i == index) {
                 p_temp->next = temp->next;
                 delete temp;
+                this->size--;
                 return;
             }
             p_temp = temp;
@@ -136,12 +142,15 @@ class SinglyLinkedList {
         this->head = l_node;
     }
 
+    int getSize() {
+        return this->size;
+    }
+
     LinkNode<T> *getLinkedList() {
         return this->head;
     }
 
     void print() {
-        cout << "Singly Linked List: ";
         LinkNode<T> *temp = this->head;
         for (; temp != NULL; temp = temp->next)
             cout << temp->value << " ";

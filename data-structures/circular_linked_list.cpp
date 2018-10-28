@@ -19,6 +19,7 @@ template <class T>
 class CircularLinkedList {
   private:
     LinkNode<T> *last;
+    int size = 0;
 
   public:
     CircularLinkedList() {
@@ -26,12 +27,10 @@ class CircularLinkedList {
     }
 
     CircularLinkedList(T value) {
-        this->last = NULL;
         insertUsingValue(value);
     }
 
     CircularLinkedList(T *arr, int size) {
-        this->last = NULL;
         insertUsingArray(arr, size);
     }
 
@@ -44,12 +43,14 @@ class CircularLinkedList {
         if (this->last == NULL) {
             this->last = new LinkNode<T>{value, NULL};
             this->last->next = this->last; // circular
+            this->size = 1;
             return;
         }
         LinkNode<T> *new_node = new LinkNode<T>{value, NULL};
         new_node->next = this->last->next;
         this->last->next = new_node;
         this->last = new_node;
+        this->size++;
     }
 
     void insertUsingArray(T *arr, int size) {
@@ -65,6 +66,7 @@ class CircularLinkedList {
             }
             aux->next = this->last->next;
             this->last = aux;
+            this->size--;
             return;
         }
         LinkNode<T> *p_temp;
@@ -73,6 +75,7 @@ class CircularLinkedList {
             if (temp->value == value) {
                 p_temp->next = temp->next;
                 delete temp;
+                this->size--;
                 return;
             }
             p_temp = temp;
@@ -93,17 +96,22 @@ class CircularLinkedList {
         return NULL;
     }
 
+    int getSize() {
+        return this->size;
+    }
+
     LinkNode<T> *getLinkedList() {
-        return this->last;
+        return this->last->next;
     }
 
     void print() {
-        cout << "Circular Linked List: ";
         LinkNode<T> *temp = this->last->next;
-        do {
+        int i = 0;
+        while (i < this->size) {
             cout << temp->value << " ";
             temp = temp->next;
-        } while (temp != this->last->next);
+            i++;
+        }
         cout << endl;
     }
 };

@@ -26,6 +26,7 @@ int main() {
         cout << "Not Found!" << endl;
     }
     ll->print();
+    cout << ll->getSize() << endl;
 
     delete[] arr;
     delete ll;

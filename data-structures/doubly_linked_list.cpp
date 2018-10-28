@@ -22,6 +22,7 @@ class DoublyLinkedList {
   private:
     LinkNode<T> *head;
     LinkNode<T> *tail;
+    int size = 0;
 
   public:
     DoublyLinkedList() {
@@ -47,12 +48,14 @@ class DoublyLinkedList {
         if (this->head == NULL) {
             this->head = new LinkNode<T>{value, NULL, NULL};
             this->tail = this->head;
+            this->size = 1;
             return;
         }
         LinkNode<T> *new_node = new LinkNode<T>{value, NULL, NULL};
         this->tail->next = new_node;
         new_node->prev = this->tail;
         this->tail = new_node;
+        this->size++;
     }
 
     void insertUsingArray(T *arr, int size) {
@@ -64,11 +67,13 @@ class DoublyLinkedList {
         if (head->value == value) {
             this->head = this->head->next;
             this->head->prev = NULL;
+            this->size--;
             return;
         }
         if (tail->value == value) {
             this->tail = this->tail->prev;
             this->tail->next = NULL;
+            this->size--;
             return;
         }
         LinkNode<T> *temp = this->head;
@@ -77,6 +82,7 @@ class DoublyLinkedList {
                 LinkNode<T> *p_temp = temp->prev;
                 p_temp->next = temp->next;
                 delete temp;
+                this->size--;
                 return;
             }
             temp = temp->next;
@@ -87,11 +93,13 @@ class DoublyLinkedList {
         if (index == 0) {
             this->head = this->head->next;
             this->head->prev = NULL;
+            this->size--;
             return;
         }
         if (index == -1) {
             this->tail = this->tail->prev;
             this->tail->next = NULL;
+            this->size--;
             return;
         }
         LinkNode<T> *temp = this->head;
@@ -101,6 +109,7 @@ class DoublyLinkedList {
                 LinkNode<T> *p_temp = temp->prev;
                 p_temp->next = temp->next;
                 delete temp;
+                this->size--;
                 return;
             }
             temp = temp->next;
@@ -127,7 +136,6 @@ class DoublyLinkedList {
     void reverse() {
         LinkNode<T> *temp = NULL;
         LinkNode<T> *current = this->head;
-
         while (current != NULL) {
             temp = current->prev;
             current->prev = current->next;
@@ -138,6 +146,10 @@ class DoublyLinkedList {
         this->tail = this->head;
         this->head = current;
         this->head->next = temp->prev;
+    }
+
+    int getSize() {
+        return this->size;
     }
 
     LinkNode<T> *getLinkedList() {

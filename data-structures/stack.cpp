@@ -11,6 +11,11 @@ using namespace std;
 
 template <class T>
 class Stack {
+  private:
+    T *stack;
+    int length = 0;
+    int capacity;
+
   public:
     Stack() {
         this->capacity = 10;
@@ -58,7 +63,6 @@ class Stack {
     }
 
     void print() {
-        cout << "Stack:" << endl;
         for (int i = 0; i < this->length; i++) {
             cout << this->stack[i] << " ";
         }
@@ -68,9 +72,4 @@ class Stack {
     int size() {
         return this->length;
     }
-
-  private:
-    int length = 0;
-    int capacity;
-    T *stack;
 };
