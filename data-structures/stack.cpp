@@ -44,12 +44,12 @@ class Stack {
         if (this->length == 0) {
             return NULL;
         }
-        T elem = peek();
+        T elem = top();
         this->length--;
         return elem;
     }
 
-    T peek() {
+    T top() {
         if (this->length == 0) {
             return NULL;
         }

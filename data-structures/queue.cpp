@@ -44,13 +44,13 @@ class Queue {
         if (this->length == 0) {
             return NULL;
         }
-        T elem = getFront();
+        T elem = peek();
         this->queue = this->queue + 1;
         this->length--;
         return elem;
     }
 
-    T getFront() {
+    T peek() {
         if (this->length == 0) {
             return NULL;
         }
