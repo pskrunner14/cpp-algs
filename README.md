@@ -24,6 +24,11 @@ The following algorithms have been implemented in this project.
 * Binary Search
 * Ternary Search
 
+### Miscellaneous
+
+* Matrix Multiplication
+* Matrix Chain Multiplication
+
 ## Data Structures
 
 The following data structures have been implemented in this project.
@@ -36,6 +41,6 @@ The following data structures have been implemented in this project.
 
 ## References
 
-* [Algs4 Algorithms and Clients Library](https://algs4.cs.princeton.edu/code/)
-* [Introduction to Algorithms](https://mitpress.mit.edu/books/introduction-algorithms-third-edition) by T.H. Cormen.
+* [Introduction to Algorithms](https://mitpress.mit.edu/books/introduction-algorithms-third-edition) by Cormen et al.
+* [Algs4 Algorithms and Clients Library](https://algs4.cs.princeton.edu/home/) by Robert Sedgewick and Kevin Wayne.
 * [Stanford CS Education Library](http://cslibrary.stanford.edu/)

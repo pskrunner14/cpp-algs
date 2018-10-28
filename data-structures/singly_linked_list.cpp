@@ -19,6 +19,7 @@ template <class T>
 class SinglyLinkedList {
   private:
     LinkNode<T> *head;
+    int size = 0;
 
   public:
     SinglyLinkedList() {
@@ -34,13 +35,13 @@ class SinglyLinkedList {
     }
 
     ~SinglyLinkedList() {
-        // delete linked list when object is destroyed
         delete this->head;
     }
 
     LinkNode<T> *insertUsingValue(T value, LinkNode<T> *aux = NULL) {
         if (this->head == NULL) {
-            this->head = new LinkNode<T>{value};
+            this->head = new LinkNode<T>{value, NULL};
+            this->size = 1;
             return this->head;
         }
         LinkNode<T> *temp;
@@ -50,11 +51,12 @@ class SinglyLinkedList {
             // save on traversal computation
             temp = aux;
         }
-        LinkNode<T> *new_node = new LinkNode<T>{value};
+        LinkNode<T> *new_node = new LinkNode<T>{value, NULL};
         while (temp->next != NULL)
             temp = temp->next;
         temp->next = new_node;
-        return temp->next;
+        this->size++;
+        return new_node;
     }
 
     void insertUsingArray(T *arr, int size) {
@@ -72,6 +74,7 @@ class SinglyLinkedList {
     void deleteUsingValue(T value) {
         if (head->value == value) {
             this->head = this->head->next;
+            this->size--;
             return;
         }
         LinkNode<T> *p_temp = this->head;
@@ -80,6 +83,7 @@ class SinglyLinkedList {
             if (temp->value == value) {
                 p_temp->next = temp->next;
                 delete temp;
+                this->size--;
                 return;
             }
             p_temp = temp;
@@ -90,6 +94,7 @@ class SinglyLinkedList {
     void deleteUsingIndex(int index) {
         if (index == 0) {
             this->head = this->head->next;
+            this->size--;
             return;
         }
         LinkNode<T> *p_temp = this->head;
@@ -99,6 +104,7 @@ class SinglyLinkedList {
             if (i == index) {
                 p_temp->next = temp->next;
                 delete temp;
+                this->size--;
                 return;
             }
             p_temp = temp;
@@ -109,12 +115,10 @@ class SinglyLinkedList {
 
     LinkNode<T> *search(T value) {
         LinkNode<T> *temp = this->head;
-        while (temp != NULL) {
-            if (temp->value == value)
-                return temp;
+        while (temp != NULL && temp->value != value) {
             temp = temp->next;
         }
-        return NULL;
+        return temp;
     }
 
     void reverse() {
@@ -136,10 +140,19 @@ class SinglyLinkedList {
         this->head = l_node;
     }
 
+    int getSize() {
+        return this->size;
+    }
+
+    LinkNode<T> *getLinkedList() {
+        return this->head;
+    }
+
     void print() {
-        cout << "Singly Linked List: ";
-        for (LinkNode<T> *temp = this->head; temp != NULL; temp = temp->next)
+        LinkNode<T> *temp = this->head;
+        for (; temp != NULL; temp = temp->next)
             cout << temp->value << " ";
         cout << endl;
+        delete temp;
     }
 };

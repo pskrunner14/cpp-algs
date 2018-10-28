@@ -45,13 +45,16 @@ void sort(T *arr, int lo, int hi) {
  * 
  * @param arr the array to sort (type T).
  * @param size the size of the array.
+ * @param randomize the flag that specifies whether to randomly shuffly the data array before sorting in order to ensure average case.
 */
 template <class T>
-void quickSort(T *arr, int size) {
+void quickSort(T *arr, int size, bool randomize = true) {
     // randomize the array to make
     // worst case time O(nlogn) - has
     // huge affect with very large inputs
     // i.e. ~1M elements.
-    random_shuffle(arr, arr + size);
+    if (randomize) {
+        random_shuffle(arr, arr + size);
+    }
     sort(arr, 0, size - 1);
 }
