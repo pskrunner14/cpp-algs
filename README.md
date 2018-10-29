@@ -27,7 +27,7 @@ The following algorithms have been implemented in this project.
 ### Miscellaneous
 
 * Matrix Multiplication
-* Matrix Chain Multiplication
+<!-- * Matrix Chain Multiplication -->
 
 ## Data Structures
 
@@ -38,6 +38,7 @@ The following data structures have been implemented in this project.
 * Singly Linked List
 * Doubly Linked List
 * Circular Linked List
+* Binary Search Tree
 
 ## References
 

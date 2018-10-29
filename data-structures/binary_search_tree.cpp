@@ -7,295 +7,328 @@
  * @version 1.0 28/10/18
 */
 
-#include <iostream>
 #include <climits>
+#include <iostream>
 #include <queue>
+
+#include "../algorithms/sorting/heap_sort.cpp"
 using namespace std;
 
 template <typename T>
 class BinaryTreeNode {
   public:
-     T data;
-	 BinaryTreeNode* left;
-	 BinaryTreeNode* right;
+    T data;
+    BinaryTreeNode *left;
+    BinaryTreeNode *right;
 
-	 BinaryTreeNode(T data){
-		 this->data = data;
-		 left = NULL;
-		 right = NULL;
-	 }
-	 ~BinaryTreeNode(){
-		 delete left;
-		 delete right;
-	 }
+    BinaryTreeNode(T data) {
+        this->data = data;
+        left = NULL;
+        right = NULL;
+    }
+
+    ~BinaryTreeNode() {
+        delete left;
+        delete right;
+    }
 };
 
 template <typename T>
 class BST {
+  private:
+    BinaryTreeNode<T> *root;
+
   public:
-    BinaryTreeNode<T>* root;
-
-    BST(){
-	    root = NULL;
+    BST() {
+        this->root = NULL;
+        takeInputLevelWise();
     }
 
-    ~BST(){
-	    delete root;
+    BST(T rootData) {
+        insert(rootData);
     }
 
-	BinaryTreeNode<T>* takeInputLevelWiseHelper() {
-		T rootData;
-		cout << "Enter root data" << endl;
-		cin >> rootData;
-		if(rootData == -1) {             // if data is -1 consider it as no child node.
-			return NULL;
-		}
-		BinaryTreeNode<T>* root = new BinaryTreeNode<T>(rootData);
-		queue<BinaryTreeNode<T>*> pendingNodes;               // queue used to input levelwise
-		pendingNodes.push(root);
+    BST(T *arr, int n) {
+        constructTree(arr, n);
+    }
 
-		while(pendingNodes.size() != 0) {
-			BinaryTreeNode<T>* front = pendingNodes.front();
-			pendingNodes.pop();
-			cout << "Enter left child of " << front->data << endl;
-			T leftChildData;
-			cin >> leftChildData;
-			if(leftChildData != -1) {
-				BinaryTreeNode<T>* child = new BinaryTreeNode<T>(leftChildData);
-				front->left = child;
-				pendingNodes.push(child);               // Push child node for inputing there child nodes.
-			}
-			cout << "Enter right child of " << front->data << endl;
-			T rightChildData;
-			cin >> rightChildData;
-			if(rightChildData != -1) {
-				BinaryTreeNode<T>* child = new BinaryTreeNode<T>(rightChildData);
-				front->right = child;
-				pendingNodes.push(child);               // Push child node for inputing there child nodes.
-			}
-		}
-		return root;
-	}
+    ~BST() {
+        delete this->root;
+    }
 
-	void takeInputLevelWise(){
-		root = takeInputLevelWiseHelper();
-	}
-
-	bool search(BinaryTreeNode<T>* root, T element){
-		if(root == NULL){
-			return false;
-		}
-		if(root->data == element){
-			return true;
-		}
-		if(root->data < element){
-			return search(root->right, element);
-		} else {
-			return search(root->left, element);
-		}
-	}
-
-	void search(T data){
-		if(search(root, data)){
-			cout << "Found!" << endl;
-		} else {
-			cout << "Not Found!" << endl;
-		}
-	}
-
-	BinaryTreeNode<T>* insert(T element, BinaryTreeNode<T>* node){
-		if(node == NULL){
-			BinaryTreeNode<T>* newNode = new BinaryTreeNode<T>(element);
-			return newNode;
-		}
-		if(element < node->data){
-			node->left = insert(element, node->left);
-		} else {
-			node->right = insert(element, node->right);
-		}
-		return node;
-	}
-
-	void insert(T data){
-		this->root = insert(data, this->root);
-	}
-
-	void printTree(BinaryTreeNode<T>* root){
-		if(root == NULL){
-			return;
-		}
-		cout << root->data << ": ";
-		if(root->left != NULL){
-			cout << "L:" << root->left->data << ",";
-		}
-		if(root->right != NULL){
-			cout << "R:" << root->right->data;
-		}
-		cout << endl;
-		printTree(root->left);
-		printTree(root->right);
-	}
-
-	void printTree(){
-		printTree(this->root);
-	}
-
-    BinaryTreeNode<T>* deleteData(T data, BinaryTreeNode<T>* node){
-        if(node == NULL){
+  private:
+    BinaryTreeNode<T> *constructTreeHelper(T *input, T start, T end) {
+        if (end < start) {
             return NULL;
         }
-        if(data > node->data){
-            node->right = deleteData(data, node->right);
+        int rootIndex = (start + end) / 2;
+        BinaryTreeNode<T> *root = new BinaryTreeNode<T>(input[rootIndex]);
+        root->left = constructTreeHelper(input, start, rootIndex - 1);
+        root->right = constructTreeHelper(input, rootIndex + 1, end);
+        return root;
+    }
+
+  public:
+    void constructTree(T *input, int n) {
+        heapSort(input, n);
+        this->root = constructTreeHelper(input, 0, n - 1);
+    }
+
+  private:
+    BinaryTreeNode<T> *takeInputLevelWiseHelper() {
+        T rootData;
+        cout << "Enter root data" << endl;
+        cin >> rootData;
+        if (rootData == -1) { // if data is -1 consider it as no child node.
+            return NULL;
+        }
+        BinaryTreeNode<T> *root = new BinaryTreeNode<T>(rootData);
+        queue<BinaryTreeNode<T> *> pendingNodes; // queue used to input levelwise
+        pendingNodes.push(root);
+
+        while (pendingNodes.size() != 0) {
+            BinaryTreeNode<T> *front = pendingNodes.front();
+            pendingNodes.pop();
+            cout << "Enter left child of " << front->data << endl;
+            T leftChildData;
+            cin >> leftChildData;
+            if (leftChildData != -1) {
+                BinaryTreeNode<T> *child = new BinaryTreeNode<T>(leftChildData);
+                front->left = child;
+                pendingNodes.push(child); // Push child node for inputing there child nodes.
+            }
+            cout << "Enter right child of " << front->data << endl;
+            T rightChildData;
+            cin >> rightChildData;
+            if (rightChildData != -1) {
+                BinaryTreeNode<T> *child = new BinaryTreeNode<T>(rightChildData);
+                front->right = child;
+                pendingNodes.push(child); // Push child node for inputing there child nodes.
+            }
+        }
+        return root;
+    }
+
+  public:
+    void takeInputLevelWise() {
+        root = takeInputLevelWiseHelper();
+    }
+
+  private:
+    BinaryTreeNode<T> *insertNode(BinaryTreeNode<T> *node, T element) {
+        if (node == NULL) {
+            BinaryTreeNode<T> *newNode = new BinaryTreeNode<T>(element);
+            return newNode;
+        }
+        if (element < node->data) {
+            node->left = insertNode(node->left, element);
+        } else {
+            node->right = insertNode(node->right, element);
+        }
+        return node;
+    }
+
+  public:
+    void insert(T data) {
+        this->root = insertNode(this->root, data);
+    }
+
+  private:
+    BinaryTreeNode<T> *searchTree(BinaryTreeNode<T> *node, T element) {
+        if (node == NULL) {
+            return NULL;
+        }
+        if (node->data == element) {
             return node;
-        } else if(data < node->data){
-            node->left = deleteData(data, node->left);
+        } else if (node->data < element) {
+            return searchTree(node->right, element);
+        } else {
+            return searchTree(node->left, element);
+        }
+    }
+
+  public:
+    BinaryTreeNode<T> *search(T data) {
+        return searchTree(this->root, data);
+    }
+
+  private:
+    BinaryTreeNode<T> *removeNode(BinaryTreeNode<T> *node, T data) {
+        if (node == NULL) {
+            return NULL;
+        }
+        if (data > node->data) {
+            node->right = removeNode(node->right, data);
+            return node;
+        } else if (data < node->data) {
+            node->left = removeNode(node->left, data);
             return node;
         } else {
-            if(node->left == NULL && node->right == NULL){
+            if (node->left == NULL && node->right == NULL) {
                 delete node;
                 return NULL;
-            } else if(node->left == NULL){
-                BinaryTreeNode<T>* temp = node->right;
+            } else if (node->left == NULL) {
+                BinaryTreeNode<T> *temp = node->right;
                 node->right = NULL;
                 delete node;
                 return temp;
-            } else if(node->right == NULL){
-                BinaryTreeNode<T>* temp = node->left;
+            } else if (node->right == NULL) {
+                BinaryTreeNode<T> *temp = node->left;
                 node->left = NULL;
                 delete node;
                 return temp;
             } else {
-                BinaryTreeNode<T>* minNode = node->right;
-                while(minNode->left != NULL){
+                BinaryTreeNode<T> *minNode = node->right;
+                while (minNode->left != NULL) {
                     minNode = minNode->left;
                 }
                 T rightMinData = minNode->data;
-				node->data = rightMinData;
-				node->right = deleteData(rightMinData, node->right);
-				return node;
+                node->data = rightMinData;
+                node->right = removeNode(node->right, rightMinData);
+                return node;
             }
         }
     }
 
-	void deleteData(T data){
-		root = deleteData(data, root);
-	}
+  public:
+    void remove(T data) {
+        this->root = removeNode(this->root, data);
+    }
 
-	void inOrder(BinaryTreeNode<T>* root){
-		if(root == NULL) {
-			return;
-		}
-		inOrder(root->left);
-		cout << root->data << " ";
-		inOrder(root->right);
-	}
+  private:
+    void inOrderTraversal(BinaryTreeNode<T> *node) {
+        if (node == NULL) {
+            return;
+        }
+        inOrderTraversal(node->left);
+        cout << node->data << " ";
+        inOrderTraversal(node->right);
+    }
 
-	void inOrder(){
-		inOrder(root);
-	}
+  public:
+    void inOrder() {
+        inOrder(this->root);
+    }
 
-	void preOrder(BinaryTreeNode<T>* root){
-		if(root == NULL) {
-			return;
-		}
-		cout << root->data << " ";
-		preOrder(root->left);
-		preOrder(root->right);
-	}
+  private:
+    void preOrderTraversal(BinaryTreeNode<T> *node) {
+        if (node == NULL) {
+            return;
+        }
+        cout << node->data << " ";
+        preOrderTraversal(node->left);
+        preOrderTraversal(node->right);
+    }
 
-	void preOrder(){
-		preOrder(root);
-	}
+  public:
+    void preOrder() {
+        preOrder(this->root);
+    }
 
-	void postOrder(BinaryTreeNode<T>* root){
-		if(root == NULL) {
-			return;
-		}
-		postOrder(root->left);
-		postOrder(root->right);
-		cout << root->data << " ";
-	}
+  private:
+    void postOrderTraversal(BinaryTreeNode<T> *node) {
+        if (node == NULL) {
+            return;
+        }
+        postOrderTraversal(node->left);
+        postOrderTraversal(node->right);
+        cout << node->data << " ";
+    }
 
-	void postOrder(){
-		postOrder(root);
-	}
+  public:
+    void postOrder() {
+        postOrder(this->root);
+    }
 
-	bool isBST(BinaryTreeNode<T>* root, T min = INT_MIN, T max = INT_MAX){
-		if(root == NULL) {
-			return true;
-		}
-		if(root->data < min || root->data >= max) {
-			return false;
-		}
-		bool isLeftOk = isBST(root->left, min, root->data);
-		bool isRightOk = isBST(root->right, root->data, max);
-		return isLeftOk && isRightOk;
-	}
+  private:
+    bool isBinarySearchTree(BinaryTreeNode<T> *node, T min = INT_MIN, T max = INT_MAX) {
+        if (node == NULL) {
+            return true;
+        }
+        if (node->data < min || node->data >= max) {
+            return false;
+        }
+        bool isLeftOk = isBinarySearchTree(node->left, min, node->data);
+        bool isRightOk = isBinarySearchTree(node->right, node->data, max);
+        return isLeftOk && isRightOk;
+    }
 
-	void isBST(){
-		if(isBST(root)){
-			cout << "Yes" << endl;
-		} else {
-			cout << "No" << endl;
-		}
-	}
+  public:
+    bool isBST() {
+        return isBinarySearchTree(this->root);
+    }
 
-	BinaryTreeNode<T>* constructTreeHelper(T *input, T start, T end){
-		if(end < start){
-			return NULL;
-		}
-		int rootIndex = (start + end) / 2;
-		BinaryTreeNode<T>* root = new BinaryTreeNode<T>(input[rootIndex]);
-		root->left = constructTreeHelper(input, start, rootIndex - 1);
-		root->right = constructTreeHelper(input, rootIndex + 1, end);
-		return root;
-	}
+  private:
+    T minimumNode(BinaryTreeNode<T> *node) {
+        if (node == NULL) {
+            return INT_MAX;
+        }
+        return min(node->data, min(minimumNode(node->left), minimumNode(node->right)));
+    }
 
-	void constructTree(T *input, int n){
-		root = constructTreeHelper(input, 0, n - 1);
-	}
+  public:
+    T minimum() {
+        return minimumNode(this->root);
+    }
 
-	T minimum(BinaryTreeNode<T>* root){
-		if(root == NULL){
-			return INT_MAX;
-		}
-		return min(root->data, min(minimum(root->left), minimum(root->right)));
-	}
+  private:
+    T maximumNode(BinaryTreeNode<T> *node) {
+        if (node == NULL) {
+            return INT_MIN;
+        }
+        return max(node->data, max(maximumNode(node->left), maximumNode(node->right)));
+    }
 
-	void minimum(){
-		cout << minimum(root);
-	}
+  public:
+    T maximum() {
+        return maximumNode(this->root);
+    }
 
-	T maximum(BinaryTreeNode<T>* root){
-		if(root == NULL){
-			return INT_MIN;
-		}
-		return max(root->data, max(maximum(root->left), maximum(root->right)));
-	}
+  private:
+    int heightTree(BinaryTreeNode<T> *node) {
+        if (node == NULL) {
+            return 0;
+        }
+        return 1 + max(heightTree(node->left), heightTree(node->right));
+    }
 
-	void maximum(){
-		cout << maximum(root);
-	}
+  public:
+    int height() {
+        return heightTree(this->root);
+    }
 
-	int height(BinaryTreeNode<T>* root){
-		if(root == NULL) {
-			return 0;
-		}
-		return 1 + max(height(root->left), height(root->right));
-	}
+  private:
+    int sizeTree(BinaryTreeNode<T> *node) {
+        if (node == NULL) {
+            return 0;
+        }
+        return 1 + sizeTree(node->left) + sizeTree(node->right);
+    }
 
-	void height(){
-		cout << height(root);
-	}
+  public:
+    int size() {
+        return sizeTree(this->root);
+    }
 
-	int numNodes(BinaryTreeNode<T>* root){
-		if(root == NULL) {
-			return 0;
-		}
-		return 1 + numNodes(root->left) + numNodes(root->right);
-	}
+  private:
+    void printTree(BinaryTreeNode<T> *node) {
+        if (node == NULL) {
+            return;
+        }
+        cout << node->data << ": ";
+        if (node->left != NULL) {
+            cout << "L:" << node->left->data << ",";
+        }
+        if (root->right != NULL) {
+            cout << "R:" << node->right->data;
+        }
+        cout << endl;
+        printTree(node->left);
+        printTree(node->right);
+    }
 
-	void numNodes(){
-		cout << numNodes(root);
-	}
+  public:
+    void print() {
+        printTree(this->root);
+    }
 };
