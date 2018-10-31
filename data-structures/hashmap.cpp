@@ -7,17 +7,17 @@
  * @version 1.0 30/10/18
 */
 
+#include <iostream>
 using namespace std;
 
 template <typename T>
 class MapNode {
   public:
-	  string key;
+	  const string key;
 	  T value;
 	  MapNode<T>* next;
 
-	  MapNode(string key, T value){
-		  this->key = key;
+	  MapNode(const string &key, const T &value): key(key) {
 		  this->value = value;
 		  next = NULL;
 	  }
@@ -41,6 +41,15 @@ class Hashmap {
 		this->buckets = new MapNode<T>*[this->numBuckets];
 		for(int i = 0; i < this->numBuckets; i++){
 		    this->buckets[i] = NULL;
+		}
+	}
+
+	Hashmap(const Hashmap &h) {
+		this->count = h.count;
+		this->numBuckets = h.numBuckets;
+		this->buckets = new MapNode<T>*[this->numBuckets];
+		for(int i = 0; i < this->numBuckets; i++){
+		    this->buckets[i] = h.buckets[i];
 		}
 	}
 
@@ -82,7 +91,7 @@ class Hashmap {
 		int oldBucketCount = this->numBuckets;
 		this->numBuckets *= 2;
 		this->count = 0;
-		for (int i = 0; i < this->oldBucketCount; i++){
+		for (int i = 0; i < oldBucketCount; i++){
 		    MapNode<T>* head = temp[i];
 			while(head != NULL){
 				string key = head->key;
@@ -98,7 +107,7 @@ class Hashmap {
 	}
 
   public:
-	void insert(string key, T value){
+	void insert(const string &key, const T &value){
 		int bucketIndex = getBucketIndex(key);
 		MapNode<T>* head = this->buckets[bucketIndex];
 		while(head != NULL){
@@ -111,15 +120,15 @@ class Hashmap {
 		head = this->buckets[bucketIndex];
 		MapNode<T>* node = new MapNode<T>(key, value);
 		node->next = head;
-		buckets[bucketIndex] = node;
-		count++;
+		this->buckets[bucketIndex] = node;
+		this->count++;
 		double loadFactor = (1.0 * this->count) / this->numBuckets;
 		if(loadFactor > 0.7){
 			rehash();
 		}
 	}
 
-	T getValue(string key){
+	T getValue(const string &key){
 		int bucketIndex = getBucketIndex(key);
 		MapNode<T>* head = this->buckets[bucketIndex];
 		while(head != NULL){
@@ -131,7 +140,7 @@ class Hashmap {
 		return 0;
 	}
 
-	T remove(string key){
+	T remove(const string &key){
 		int bucketIndex = getBucketIndex(key);
 		MapNode<T> *head = this->buckets[bucketIndex];
 		MapNode<T> *prev = NULL;
@@ -150,6 +159,17 @@ class Hashmap {
 			}
 			prev = head;
 			head = head->next;
+		}
+	}
+
+	void print(){
+		for(int i = 0; i < this->numBuckets; i++){
+		    MapNode<int>* head = this->buckets[i];
+			while(head != NULL){
+				cout << head->key << " : ";
+				cout << head->value << endl;
+				head = head-> next;
+			}
 		}
 	}
 };
