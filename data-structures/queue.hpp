@@ -2,8 +2,8 @@
 
 /**
  * Data Structures - queue
- * queue.cpp
- * Purpose: Implementation of Queue
+ * queue.hpp
+ * Purpose: Queue Interface
  * 
  * @author Prabhsimran Singh
  * @version 1.0 27/10/18

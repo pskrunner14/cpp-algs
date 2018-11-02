@@ -36,16 +36,20 @@ Queue<T>::~Queue() {
 }
 
 template <class T>
+void Queue<T>::extend() {
+    T *aux = new T[2 * this->capacity];
+    for (int i = 0; i < this->length; i++) {
+        aux[i] = this->queue[i];
+    }
+    delete[] this->queue;
+    this->queue = aux;
+    this->capacity *= 2;
+}
+
+template <class T>
 void Queue<T>::enqueue(const T &val) {
     if (this->length == this->capacity) {
-
-        T *aux = new T[2 * this->capacity];
-        for (int i = 0; i < this->length; i++) {
-            aux[i] = this->queue[i];
-        }
-        delete[] this->queue;
-        this->queue = aux;
-        this->capacity *= 2;
+        this->extend();
     }
     this->queue[this->length++] = val;
 }
@@ -74,7 +78,7 @@ T &Queue<T>::operator+(int index) const {
     if (index >= this->length || index < 0) {
         throw std::runtime_error("queue index out of bound");
     }
-    return this->data[index];
+    return this->queue[index];
 }
 
 template <class T>
@@ -82,12 +86,12 @@ T &Queue<T>::operator[](int index) const {
     if (index >= this->length || index < 0) {
         throw std::runtime_error("queue index out of bound");
     }
-    return this->data[index];
+    return this->queue[index];
 }
 
 template <class T>
 void Queue<T>::operator=(const Queue &q) {
-    this->data = new int[this->capacity];
+    this->queue = new T[this->capacity];
     for (int i = 0; i < q.size(); i++) {
         this->enqueue(q[i]);
     }

@@ -77,7 +77,7 @@ T &Stack<T>::operator+(int index) const {
     if (index >= this->length || index < 0) {
         throw std::runtime_error("stack index out of bound");
     }
-    return this->data[index];
+    return this->stack[index];
 }
 
 template <class T>
@@ -85,12 +85,12 @@ T &Stack<T>::operator[](int index) const {
     if (index >= this->length || index < 0) {
         throw std::runtime_error("stack index out of bound");
     }
-    return this->data[index];
+    return this->stack[index];
 }
 
 template <class T>
 void Stack<T>::operator=(const Stack &s) {
-    this->data = new int[this->capacity];
+    this->stack = new T[this->capacity];
     for (int i = 0; i < s.size(); i++) {
         this->push(s[i]);
     }
