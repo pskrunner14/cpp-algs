@@ -7,9 +7,6 @@
  * @version 1.0 27/10/18 
 */
 
-#include <iostream>
-using namespace std;
-
 /**
  * Searches for a key in an array using Ternary Search algorithm.
  * 
@@ -19,7 +16,7 @@ using namespace std;
  * @returns The index of the key element (default: -1)
 */
 template <class T>
-int ternarySearch(T *arr, int n, T key) {
+int ternarySearch(T *arr, const int &n, const T &key) {
     int start = 0;
     int end = n - 1;
     while (start <= end) {

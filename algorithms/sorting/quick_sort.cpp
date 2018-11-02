@@ -9,10 +9,9 @@
 
 #include <bits/stdc++.h>
 #include <iostream>
-using namespace std;
 
 template <class T>
-int partition(T *arr, int lo, int hi) {
+int partition(T *arr, const int &lo, const int &hi) {
     int i = lo;
     int j = hi + 1;
     T v = arr[lo];
@@ -25,19 +24,19 @@ int partition(T *arr, int lo, int hi) {
                 break;
         if (i >= j)
             break;
-        swap(arr[i], arr[j]);
+        std::swap(arr[i], arr[j]);
     }
-    swap(arr[lo], arr[j]);
+    std::swap(arr[lo], arr[j]);
     return j;
 }
 
 template <class T>
-void sort(T *arr, int lo, int hi) {
+void qsort(T *arr, const int &lo, const int &hi) {
     if (hi <= lo)
         return;
     int p = partition(arr, lo, hi);
-    sort(arr, lo, p - 1);
-    sort(arr, p + 1, hi);
+    qsort(arr, lo, p - 1);
+    qsort(arr, p + 1, hi);
 }
 
 /**
@@ -48,13 +47,13 @@ void sort(T *arr, int lo, int hi) {
  * @param randomize the flag that specifies whether to randomly shuffly the data array before sorting in order to ensure average case.
 */
 template <class T>
-void quickSort(T *arr, int size, bool randomize = true) {
+void quickSort(T *arr, const int &size, bool randomize = true) {
     // randomize the array to make
     // worst case time O(nlogn) - has
     // huge affect with very large inputs
     // i.e. ~1M elements.
     if (randomize) {
-        random_shuffle(arr, arr + size);
+        std::random_shuffle(arr, arr + size);
     }
-    sort(arr, 0, size - 1);
+    qsort(arr, 0, size - 1);
 }

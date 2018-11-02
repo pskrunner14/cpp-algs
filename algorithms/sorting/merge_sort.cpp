@@ -7,11 +7,8 @@
  * @version 1.0 11/09/18
 */
 
-#include <iostream>
-using namespace std;
-
 template <class T>
-void merge(T *arr, T *aux, int lo, int mid, int hi) {
+void merge(T *arr, T *aux, const int &lo, const int &mid, const int &hi) {
     for (int k = lo; k <= hi; k++) {
         aux[k] = arr[k];
     }
@@ -29,12 +26,12 @@ void merge(T *arr, T *aux, int lo, int mid, int hi) {
 }
 
 template <class T>
-void sort(T *arr, T *aux, int lo, int hi) {
+void msort(T *arr, T *aux, const int &lo, const int &hi) {
     if (hi <= lo)
         return;
     int mid = lo + (hi - lo) / 2;
-    sort(arr, aux, lo, mid);
-    sort(arr, aux, mid + 1, hi);
+    msort(arr, aux, lo, mid);
+    msort(arr, aux, mid + 1, hi);
     merge(arr, aux, lo, mid, hi);
 }
 
@@ -45,7 +42,7 @@ void sort(T *arr, T *aux, int lo, int hi) {
  * @param size the size of the array.
 */
 template <class T>
-void mergeSort(T *arr, int size) {
+void mergeSort(T *arr, const int &size) {
     T *aux = new T[size];
-    sort(arr, aux, 0, size - 1);
+    msort(arr, aux, 0, size - 1);
 }

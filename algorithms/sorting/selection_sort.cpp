@@ -8,7 +8,6 @@
 */
 
 #include <iostream>
-using namespace std;
 
 /**
  * Sorts an array using Selection Sort algorithm.
@@ -17,7 +16,7 @@ using namespace std;
  * @param size the size of the array.
 */
 template <class T>
-void selectionSort(T *arr, int size) {
+void selectionSort(T *arr, const int &size) {
     for (int i = 0; i < size - 1; i++) {
         int min = i;
         for (int j = i + 1; j < size; j++) {
@@ -26,6 +25,6 @@ void selectionSort(T *arr, int size) {
         }
         if (min == i)
             continue;
-        swap(arr[min], arr[i]);
+        std::swap(arr[min], arr[i]);
     }
 }

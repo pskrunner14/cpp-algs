@@ -7,9 +7,6 @@
  * @version 2.0 08/09/18 
 */
 
-#include <iostream>
-using namespace std;
-
 /**
  * Sorts an array using Insertion Sort algorithm.
  * 
@@ -17,7 +14,7 @@ using namespace std;
  * @param size the size of the array.
 */
 template <class T>
-void insertionSort(T *arr, int size) {
+void insertionSort(T *arr, const int &size) {
     for (int i = 1; i < size; i++) {
         T key = arr[i];
         int index = i - 1;

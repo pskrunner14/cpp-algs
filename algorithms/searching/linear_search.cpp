@@ -7,9 +7,6 @@
  * @version 2.0 08/09/18 
 */
 
-#include <iostream>
-using namespace std;
-
 /**
  * Searches for a key in an array using Linear Search algorithm.
  * 
@@ -19,7 +16,7 @@ using namespace std;
  * @returns The index of the key element (default: -1)
 */
 template <class T>
-int linearSearch(T *arr, int size, T key) {
+int linearSearch(T *arr, const int &size, const T &key) {
     int index = -1;
     for (int i = 0; i < size; i++) {
         if (arr[i] == key) {

@@ -8,17 +8,16 @@
 */
 
 #include <iostream>
-using namespace std;
 
 template <class T>
-void sink(T *arr, int k, int n) {
+void sink(T *arr, int k, const int &n) {
     while (2 * k <= n) {
         int j = 2 * k;
         if (j < n && arr[j] < arr[j + 1])
             j++;
         if (!arr[k] < arr[j])
             break;
-        swap(arr[k], arr[j]);
+        std::swap(arr[k], arr[j]);
         k = j;
     }
 }
@@ -34,7 +33,7 @@ void heapSort(T *arr, int size) {
     for (int k = size / 2; k >= 1; k--)
         sink(arr, k, size);
     while (size > 1) {
-        swap(arr[1], arr[size--]);
+        std::swap(arr[1], arr[size--]);
         sink(arr, 1, size);
     }
 }
