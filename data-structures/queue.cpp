@@ -7,71 +7,109 @@
  * @version 1.0 27/10/18
 */
 #include <iostream>
-using namespace std;
+
+#include "queue.hpp"
+using namespace ds;
 
 template <class T>
-class Queue {
-  private:
-    T *queue;
-    int length = 0;
-    int capacity;
+Queue<T>::Queue() {
+    this->queue = new T[this->capacity];
+}
 
-  public:
-    Queue() {
-        this->capacity = 10;
-        this->queue = new T[this->capacity];
+template <class T>
+Queue<T>::Queue(const int &capacity) {
+    this->capacity = capacity;
+    this->queue = new T[this->capacity];
+}
+
+template <class T>
+Queue<T>::Queue(const Queue &q) {
+    this->stack = new T[this->capacity];
+    for (int i = 0; i < q.size(); i++) {
+        this->enqueue(q[i]);
     }
+}
 
-    Queue(int capacity) {
-        this->capacity = capacity;
-        this->queue = new T[this->capacity];
-    }
+template <class T>
+Queue<T>::~Queue() {
+    delete[] this->queue;
+}
 
-    void enqueue(T val) {
-        if (this->length == this->capacity) {
-            this->capacity *= 2;
-            T *aux = new T[this->capacity];
-            for (int i = 0; i < this->length; i++) {
-                aux[i] = this->queue[i];
-            }
-            delete[] this->queue;
-            this->queue = aux;
-        }
-        this->queue[this->length++] = val;
-    }
+template <class T>
+void Queue<T>::enqueue(const T &val) {
+    if (this->length == this->capacity) {
 
-    T dequeue() {
-        if (this->length == 0) {
-            return NULL;
-        }
-        T elem = peek();
-        this->queue = this->queue + 1;
-        this->length--;
-        return elem;
-    }
-
-    T peek() {
-        if (this->length == 0) {
-            return NULL;
-        }
-        return this->queue[0];
-    }
-
-    bool isEmpty() {
-        if (this->length == 0) {
-            return true;
-        }
-        return false;
-    }
-
-    void print() {
+        T *aux = new T[2 * this->capacity];
         for (int i = 0; i < this->length; i++) {
-            cout << this->queue[i] << " ";
+            aux[i] = this->queue[i];
         }
-        cout << endl;
+        delete[] this->queue;
+        this->queue = aux;
+        this->capacity *= 2;
     }
+    this->queue[this->length++] = val;
+}
 
-    int size() {
-        return this->length;
+template <class T>
+T &Queue<T>::dequeue() {
+    if (this->empty()) {
+        throw std::runtime_error("queue index out of bound");
     }
-};
+    T elem = this->peek();
+    this->queue++;
+    this->length--;
+    return elem;
+}
+
+template <class T>
+T &Queue<T>::peek() const {
+    if (this->empty()) {
+        throw std::runtime_error("queue index out of bound");
+    }
+    return this->queue[0];
+}
+
+template <class T>
+T &Queue<T>::operator+(int index) const {
+    if (index >= this->length || index < 0) {
+        throw std::runtime_error("queue index out of bound");
+    }
+    return this->data[index];
+}
+
+template <class T>
+T &Queue<T>::operator[](int index) const {
+    if (index >= this->length || index < 0) {
+        throw std::runtime_error("queue index out of bound");
+    }
+    return this->data[index];
+}
+
+template <class T>
+void Queue<T>::operator=(const Queue &q) {
+    this->data = new int[this->capacity];
+    for (int i = 0; i < q.size(); i++) {
+        this->enqueue(q[i]);
+    }
+}
+
+template <class T>
+bool Queue<T>::empty() const {
+    if (this->length == 0) {
+        return true;
+    }
+    return false;
+}
+
+template <class T>
+void Queue<T>::print() const {
+    for (int i = 0; i < this->length; i++) {
+        std::cout << this->queue[i] << " ";
+    }
+    std::cout << std::endl;
+}
+
+template <class T>
+int Queue<T>::size() const {
+    return this->length;
+}

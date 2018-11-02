@@ -35,4 +35,5 @@
 
 codechef/*
 practice/*
+data-structures/deque.cpp
 algorithms/misc/chain_matrix_mul.cpp

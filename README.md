@@ -35,6 +35,8 @@ The following data structures have been implemented in this project.
 
 * Stack
 * Queue
+* Deque
+* Hashmap
 * Singly Linked List
 * Doubly Linked List
 * Circular Linked List
