@@ -7,7 +7,6 @@
  * @version 1.0 27/10/18
 */
 #include <iostream>
-#include <stdexcept>
 
 #include "stack.hpp"
 using namespace ds;

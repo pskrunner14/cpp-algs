@@ -89,34 +89,6 @@ class DoublyLinkedList {
         }
     }
 
-    void deleteUsingIndex(int index) {
-        if (index == 0) {
-            this->head = this->head->next;
-            this->head->prev = NULL;
-            this->size--;
-            return;
-        }
-        if (index == -1) {
-            this->tail = this->tail->prev;
-            this->tail->next = NULL;
-            this->size--;
-            return;
-        }
-        LinkNode<T> *temp = this->head;
-        int i = 0;
-        while (temp != NULL) {
-            if (i == index) {
-                LinkNode<T> *p_temp = temp->prev;
-                p_temp->next = temp->next;
-                delete temp;
-                this->size--;
-                return;
-            }
-            temp = temp->next;
-            i++;
-        }
-    }
-
     LinkNode<T> *search(T value) {
         LinkNode<T> *temp_s = this->head;
         LinkNode<T> *temp_e = this->tail;
@@ -157,7 +129,6 @@ class DoublyLinkedList {
     }
 
     void print() {
-        cout << "Doubly Linked List: ";
         LinkNode<T> *temp = this->head;
         for (; temp != NULL; temp = temp->next)
             cout << temp->value << " ";

@@ -7,9 +7,6 @@
  * @version 1.0 28/10/18 
 */
 
-#include <iostream>
-using namespace std;
-
 /**
  * Performs matrix multiplication and returns the output matrix.
  * 

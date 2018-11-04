@@ -91,28 +91,6 @@ class SinglyLinkedList {
         }
     }
 
-    void deleteUsingIndex(int index) {
-        if (index == 0) {
-            this->head = this->head->next;
-            this->size--;
-            return;
-        }
-        LinkNode<T> *p_temp = this->head;
-        LinkNode<T> *temp = this->head->next;
-        int i = 1;
-        while (temp != NULL) {
-            if (i == index) {
-                p_temp->next = temp->next;
-                delete temp;
-                this->size--;
-                return;
-            }
-            p_temp = temp;
-            temp = temp->next;
-            i++;
-        }
-    }
-
     LinkNode<T> *search(T value) {
         LinkNode<T> *temp = this->head;
         while (temp != NULL && temp->value != value) {
