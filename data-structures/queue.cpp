@@ -9,7 +9,8 @@
 #include <iostream>
 
 #include "queue.hpp"
-using namespace ds;
+
+namespace ds {
 
 template <class T>
 Queue<T>::Queue() {
@@ -117,3 +118,4 @@ template <class T>
 int Queue<T>::size() const {
     return this->length;
 }
+}; // namespace ds

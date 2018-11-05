@@ -9,7 +9,8 @@
 #include <iostream>
 
 #include "deque.hpp"
-using namespace ds;
+
+namespace ds {
 
 template <class T>
 Deque<T>::Deque() {
@@ -90,7 +91,7 @@ void Deque<T>::enqueue_back(const T &val) {
 }
 
 template <class T>
-T &Deque<T>::dequeue_front() {
+T Deque<T>::dequeue_front() {
     if (this->empty()) {
         throw std::runtime_error("deque index out of bound");
     }
@@ -99,7 +100,7 @@ T &Deque<T>::dequeue_front() {
 }
 
 template <class T>
-T &Deque<T>::dequeue_back() {
+T Deque<T>::dequeue_back() {
     if (this->empty()) {
         throw std::runtime_error("deque index out of bound");
     }
@@ -108,7 +109,7 @@ T &Deque<T>::dequeue_back() {
 }
 
 template <class T>
-T &Deque<T>::peek_front() const {
+T Deque<T>::peek_front() const {
     if (this->empty()) {
         throw std::runtime_error("deque index out of bound");
     }
@@ -116,7 +117,7 @@ T &Deque<T>::peek_front() const {
 }
 
 template <class T>
-T &Deque<T>::peek_back() const {
+T Deque<T>::peek_back() const {
     if (this->empty()) {
         throw std::runtime_error("deque index out of bound");
     }
@@ -124,7 +125,7 @@ T &Deque<T>::peek_back() const {
 }
 
 template <class T>
-T &Deque<T>::operator+(int index) const {
+T Deque<T>::operator+(int index) const {
     if (index >= this->length || index < 0) {
         throw std::runtime_error("deque index out of bound");
     }
@@ -132,7 +133,7 @@ T &Deque<T>::operator+(int index) const {
 }
 
 template <class T>
-T &Deque<T>::operator[](int index) const {
+T Deque<T>::operator[](int index) const {
     if (index >= this->length || index < 0) {
         throw std::runtime_error("deque index out of bound");
     }
@@ -167,3 +168,4 @@ template <class T>
 int Deque<T>::size() const {
     return this->length;
 }
+}; // namespace ds

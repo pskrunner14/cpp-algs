@@ -9,7 +9,8 @@
 #include <iostream>
 
 #include "stack.hpp"
-using namespace ds;
+
+namespace ds {
 
 template <class T>
 Stack<T>::Stack() {
@@ -55,7 +56,7 @@ void Stack<T>::push(const T &val) {
 }
 
 template <class T>
-T &Stack<T>::pop() {
+T Stack<T>::pop() {
     if (this->empty()) {
         throw std::runtime_error("stack index out of bound");
     }
@@ -64,7 +65,7 @@ T &Stack<T>::pop() {
 }
 
 template <class T>
-T &Stack<T>::top() const {
+T Stack<T>::top() const {
     if (this->empty()) {
         throw std::runtime_error("stack index out of bound");
     }
@@ -72,7 +73,7 @@ T &Stack<T>::top() const {
 }
 
 template <class T>
-T &Stack<T>::operator+(int index) const {
+T Stack<T>::operator+(int index) const {
     if (index >= this->length || index < 0) {
         throw std::runtime_error("stack index out of bound");
     }
@@ -80,7 +81,7 @@ T &Stack<T>::operator+(int index) const {
 }
 
 template <class T>
-T &Stack<T>::operator[](int index) const {
+T Stack<T>::operator[](int index) const {
     if (index >= this->length || index < 0) {
         throw std::runtime_error("stack index out of bound");
     }
@@ -115,3 +116,4 @@ template <class T>
 int Stack<T>::size() const {
     return this->length;
 }
+}; // namespace ds

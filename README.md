@@ -39,7 +39,8 @@ The following data structures have been implemented in this project.
 * Hashmap
 * Singly Linked List
 * Doubly Linked List
-* Circular Linked List
+* Circular Singly Linked List
+* Circular Doubly Linked List
 * Binary Search Tree
 
 ## References
