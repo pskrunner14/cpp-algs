@@ -1,0 +1,3 @@
+#define cpp_algs_VERSION_MAJOR @cpp_algs_VERSION_MAJOR@
+#define cpp_algs_VERSION_MINOR @cpp_algs_VERSION_MINOR@
+#define cpp_algs_VERSION_PATCH @cpp_algs_VERSION_PATCH@

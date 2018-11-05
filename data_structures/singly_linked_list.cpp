@@ -10,7 +10,7 @@
 
 #include "singly_linked_list.hpp"
 
-namespace ds {
+using namespace ds;
 
 // Single Node implementation
 template <class T>
@@ -142,4 +142,3 @@ void SinglyLinkedList<T>::print() const {
         std::cout << temp->value << " ";
     std::cout << std::endl;
 }
-}; // namespace ds

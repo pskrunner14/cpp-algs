@@ -11,7 +11,7 @@
 
 #include "doubly_linked_list.hpp"
 
-namespace ds {
+using namespace ds;
 
 // double node implementation
 template <class T>
@@ -161,4 +161,3 @@ void DoublyLinkedList<T>::print() const {
         std::cout << temp->value << " ";
     std::cout << std::endl;
 }
-} // namespace ds

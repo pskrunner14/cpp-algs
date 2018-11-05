@@ -10,7 +10,7 @@
 
 #include "circular_singly_linked_list.hpp"
 
-namespace ds {
+using namespace ds;
 
 // Single Node implementation
 template <class T>
@@ -131,4 +131,3 @@ void CircularSinglyLinkedList<T>::print() const {
         std::cout << temp->value << " ";
     std::cout << temp->value << std::endl;
 }
-} // namespace ds
