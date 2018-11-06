@@ -11,19 +11,17 @@ set (cpp_algs_VERSION_PATCH 1)
 set (CMAKE_CXX_STANDARD 11)
 
 configure_file (
-    "${PROJECT_SOURCE_DIR}/ca_config.hpp.in"
-    "${PROJECT_SOURCE_DIR}/ca_config.hpp"
+    "${PROJECT_SOURCE_DIR}/config.hpp.in"
+    "${PROJECT_SOURCE_DIR}/config.hpp"
 )
 
 include_directories (data_structures)
 
-file (GLOB SOURCES "data_structures/*.cpp")
-
-message("SOURCES:")
-foreach(file ${SOURCES})
-    message("${file}")
-endforeach()
-
+# need to write implementation in headers itself 
+# since this project relies heavily on template 
+# classes and compiler needs to see interface along
+# with implementation at the same time for templated fxns
+file (GLOB_RECURSE SOURCES "data_structures/*.cpp")
 add_library (cpp_algs SHARED ${SOURCES})
 
 install (TARGETS cpp_algs DESTINATION /usr/lib)

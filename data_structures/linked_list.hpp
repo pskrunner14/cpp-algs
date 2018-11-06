@@ -50,4 +50,4 @@ class LinkedList {
 
     virtual void print() const;
 };
-}; // namespace ds
+} // namespace ds
