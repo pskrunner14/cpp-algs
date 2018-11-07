@@ -44,16 +44,16 @@ class Queue {
     void enqueue(const T &);
 
     // removes and returns an element from front of queue
-    T &dequeue();
+    T dequeue();
 
     // returns the front element of queue
-    T &peek() const;
+    T peek() const;
 
     // overloading the + operator behaviour
-    T &operator+(int) const;
+    T operator+(int) const;
 
     // overloading the array access operator behaviour
-    T &operator[](int) const;
+    T operator[](int) const;
 
     // assignment operator to make deep copy
     void operator=(const Queue &);
@@ -112,7 +112,7 @@ void Queue<T>::enqueue(const T &val) {
 }
 
 template <class T>
-T &Queue<T>::dequeue() {
+T Queue<T>::dequeue() {
     if (this->empty()) {
         throw std::runtime_error("queue index out of bound");
     }
@@ -123,7 +123,7 @@ T &Queue<T>::dequeue() {
 }
 
 template <class T>
-T &Queue<T>::peek() const {
+T Queue<T>::peek() const {
     if (this->empty()) {
         throw std::runtime_error("queue index out of bound");
     }
@@ -131,7 +131,7 @@ T &Queue<T>::peek() const {
 }
 
 template <class T>
-T &Queue<T>::operator+(int index) const {
+T Queue<T>::operator+(int index) const {
     if (index >= this->length || index < 0) {
         throw std::runtime_error("queue index out of bound");
     }
@@ -139,7 +139,7 @@ T &Queue<T>::operator+(int index) const {
 }
 
 template <class T>
-T &Queue<T>::operator[](int index) const {
+T Queue<T>::operator[](int index) const {
     if (index >= this->length || index < 0) {
         throw std::runtime_error("queue index out of bound");
     }
