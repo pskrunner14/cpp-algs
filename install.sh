@@ -16,7 +16,7 @@ cd ..
 # launch test program
 echo "[INSTALL] testing..."
 
-if g++ tests/test.cpp -l cpp_algs -I data_structures/; then
+if g++ tests/test.cpp -l cpp_algs -I cpp_algs/; then
     echo "[INSTALL] CPP-ALGS successfully installed on system!"
 else
     echo "[INSTALL] Installation failed!"

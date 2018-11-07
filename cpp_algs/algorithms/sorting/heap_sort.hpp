@@ -1,13 +1,28 @@
+#pragma once
+
 /**
  * Algorithms - sorting
- * heap_sort.cpp
+ * heap_sort.hpp
  * Purpose: Performs heap sort on an array
  * 
  * @author Prabhsimran Singh
  * @version 1.0 11/09/18
 */
-
 #include <iostream>
+
+namespace al {
+
+template <typename T>
+void sink(T *, int, const int &);
+
+/**
+ * Sorts an array using Heap Sort algorithm.
+ * 
+ * @param arr the array to sort (type T).
+ * @param size the size of the array.
+*/
+template <typename T>
+void heapSort(T *, int);
 
 template <typename T>
 void sink(T *arr, int k, const int &n) {
@@ -22,12 +37,6 @@ void sink(T *arr, int k, const int &n) {
     }
 }
 
-/**
- * Sorts an array using Heap Sort algorithm.
- * 
- * @param arr the array to sort (type T).
- * @param size the size of the array.
-*/
 template <typename T>
 void heapSort(T *arr, int size) {
     for (int k = size / 2; k >= 1; k--)
@@ -37,3 +46,4 @@ void heapSort(T *arr, int size) {
         sink(arr, 1, size);
     }
 }
+} // namespace al

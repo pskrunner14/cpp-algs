@@ -1,11 +1,15 @@
+#pragma once
+
 /**
  * Algorithms - searching
- * ternary_search.cpp
+ * ternary_search.hpp
  * Purpose: Performs ternary search on an array
  * 
  * @author Prabhsimran Singh
  * @version 1.0 27/10/18 
 */
+
+namespace al {
 
 /**
  * Searches for a key in an array using Ternary Search algorithm.
@@ -15,6 +19,9 @@
  * @param key the element to search for (type T).
  * @returns The index of the key element (default: -1)
 */
+template <typename T>
+int ternarySearch(T *, const int &, const T &);
+
 template <typename T>
 int ternarySearch(T *arr, const int &n, const T &key) {
     int start = 0;
@@ -37,3 +44,4 @@ int ternarySearch(T *arr, const int &n, const T &key) {
     }
     return -1;
 }
+} // namespace al

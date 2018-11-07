@@ -1,14 +1,33 @@
+#pragma once
+
 /**
  * Algorithms - sorting
- * quick_sort.cpp
+ * quick_sort.hpp
  * Purpose: Performs quick sort on an array
  * 
  * @author Prabhsimran Singh
  * @version 1.0 11/09/18
 */
-
 #include <bits/stdc++.h>
 #include <iostream>
+
+namespace al {
+
+template <typename T>
+int partition(T *, const int &, const int &);
+
+template <typename T>
+void qsort(T *, const int &, const int &);
+
+/**
+ * Sorts an array using Quick Sort algorithm.
+ * 
+ * @param arr the array to sort (type T).
+ * @param size the size of the array.
+ * @param randomize the flag that specifies whether to randomly shuffly the data array before sorting in order to ensure average case.
+*/
+template <typename T>
+void quickSort(T *, const int &, bool);
 
 template <typename T>
 int partition(T *arr, const int &lo, const int &hi) {
@@ -39,13 +58,6 @@ void qsort(T *arr, const int &lo, const int &hi) {
     qsort(arr, p + 1, hi);
 }
 
-/**
- * Sorts an array using Quick Sort algorithm.
- * 
- * @param arr the array to sort (type T).
- * @param size the size of the array.
- * @param randomize the flag that specifies whether to randomly shuffly the data array before sorting in order to ensure average case.
-*/
 template <typename T>
 void quickSort(T *arr, const int &size, bool randomize = true) {
     // randomize the array to make
@@ -57,3 +69,4 @@ void quickSort(T *arr, const int &size, bool randomize = true) {
     }
     qsort(arr, 0, size - 1);
 }
+} // namespace al

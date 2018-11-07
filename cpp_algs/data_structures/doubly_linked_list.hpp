@@ -53,10 +53,7 @@ class DoublyLinkedList {
 
 // doubly linked list implementation
 template <typename T>
-DoublyLinkedList<T>::DoublyLinkedList() {
-    head = NULL;
-    tail = NULL;
-}
+DoublyLinkedList<T>::DoublyLinkedList() : head(NULL), tail(NULL) {}
 
 template <typename T>
 DoublyLinkedList<T>::DoublyLinkedList(const T &value) {

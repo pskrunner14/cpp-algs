@@ -1,11 +1,15 @@
+#pragma once
+
 /**
  * Algorithms - searching
- * binary_search.cpp
+ * binary_search.hpp
  * Purpose: Performs binary search on an array
  * 
  * @author Prabhsimran Singh
  * @version 2.0 08/09/18 
 */
+
+namespace al {
 
 /**
  * Searches for a key in an array using Binary Search algorithm.
@@ -15,6 +19,9 @@
  * @param key the element to search for (type T).
  * @returns The index of the key element (default: -1)
 */
+template <typename T>
+int binarySearch(T *, const int &, const T &);
+
 template <typename T>
 int binarySearch(T *arr, const int &n, const T &key) {
     int start = 0;
@@ -30,3 +37,4 @@ int binarySearch(T *arr, const int &n, const T &key) {
     }
     return -1;
 }
+} // namespace al

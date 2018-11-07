@@ -1,13 +1,16 @@
+#pragma once
+
 /**
  * Algorithms - sorting
- * shell_sort.cpp
+ * shell_sort.hpp
  * Purpose: Performs shell sort on an array
  * 
  * @author Prabhsimran Singh
  * @version 1.1 11/09/18 
 */
-
 #include <iostream>
+
+namespace al {
 
 /**
  * Sorts an array using Shell Sort algorithm.
@@ -15,6 +18,9 @@
  * @param arr the array to sort (type T).
  * @param size the size of the array.
 */
+template <typename T>
+void shellSort(T *, const int &);
+
 template <typename T>
 void shellSort(T *arr, const int &size) {
     int h = 1;
@@ -28,3 +34,4 @@ void shellSort(T *arr, const int &size) {
         h /= 3;
     }
 }
+} // namespace al
