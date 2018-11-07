@@ -57,5 +57,6 @@ template <typename T>
 void mergeSort(T *arr, const int &size) {
     T *aux = new T[size];
     msort(arr, aux, 0, size - 1);
+    delete[] aux;
 }
 } // namespace al
