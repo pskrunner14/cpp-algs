@@ -70,91 +70,90 @@ class Stack {
 
 template <class T>
 Stack<T>::Stack() {
-    this->stack = new T[this->capacity];
+    stack = new T[capacity];
 }
 
 template <class T>
-Stack<T>::Stack(const int &capacity) {
-    this->capacity = capacity;
-    this->stack = new T[this->capacity];
+Stack<T>::Stack(const int &capacity) : capacity(capacity) {
+    stack = new T[capacity];
 }
 
 template <class T>
 Stack<T>::Stack(const Stack &s) {
-    this->stack = new T[this->capacity];
+    stack = new T[capacity];
     for (int i = 0; i < s.size(); i++) {
-        this->push(s[i]);
+        push(s[i]);
     }
 }
 
 template <class T>
 Stack<T>::~Stack() {
-    delete[] this->stack;
+    delete[] stack;
 }
 
 template <class T>
 void Stack<T>::extend() {
-    T *aux = new T[2 * this->capacity];
-    for (int i = 0; i < this->length; i++) {
-        aux[i] = this->stack[i];
+    T *aux = new T[2 * capacity];
+    for (int i = 0; i < length; i++) {
+        aux[i] = stack[i];
     }
-    delete[] this->stack;
-    this->stack = aux;
-    this->capacity *= 2;
+    delete[] stack;
+    stack = aux;
+    capacity *= 2;
 }
 
 template <class T>
 void Stack<T>::push(const T &val) {
-    if (this->length == this->capacity) {
-        this->extend();
+    if (length == capacity) {
+        extend();
     }
-    this->stack[this->length++] = val;
+    stack[length++] = val;
 }
 
 template <class T>
 T Stack<T>::pop() {
-    if (this->empty()) {
+    if (empty()) {
         throw std::runtime_error("stack index out of bound");
     }
-    this->length--;
-    return this->stack[this->length];
+    length--;
+    return stack[length];
 }
 
 template <class T>
 T Stack<T>::top() const {
-    if (this->empty()) {
+    if (empty()) {
         throw std::runtime_error("stack index out of bound");
     }
-    return this->stack[this->length - 1];
+    return stack[length - 1];
 }
 
 template <class T>
 T Stack<T>::operator+(int index) const {
-    if (index >= this->length || index < 0) {
+    if (index >= length || index < 0) {
         throw std::runtime_error("stack index out of bound");
     }
-    return this->stack[index];
+    return stack[index];
 }
 
 template <class T>
 T Stack<T>::operator[](int index) const {
-    if (index >= this->length || index < 0) {
+    if (index >= length || index < 0) {
         throw std::runtime_error("stack index out of bound");
     }
-    return this->stack[index];
+    return stack[index];
 }
 
 template <class T>
 void Stack<T>::operator=(const Stack &s) {
-    this->stack = new T[this->capacity];
+    stack = new T[capacity];
     for (int i = 0; i < s.size(); i++) {
-        this->push(s[i]);
+        push(s[i]);
     }
 }
 
 template <class T>
 bool Stack<T>::empty() const {
-    if (this->length == 0) {
+    if (length == 0) {
         return true;
     }
     return false;
@@ -162,14 +161,14 @@ bool Stack<T>::empty() const {
 
 template <class T>
 void Stack<T>::print() const {
-    for (int i = 0; i < this->length; i++) {
-        std::cout << this->stack[i] << " ";
+    for (int i = 0; i < length; i++) {
+        std::cout << stack[i] << " ";
     }
     std::cout << std::endl;
 }
 
 template <class T>
 int Stack<T>::size() const {
-    return this->length;
+    return length;
 }
 } // namespace ds

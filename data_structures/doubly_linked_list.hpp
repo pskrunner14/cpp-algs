@@ -26,18 +26,10 @@ class DoubleNode {
 
 // double node implementation
 template <class T>
-DoubleNode<T>::DoubleNode(const T &value) {
-    this->value = value;
-    this->prev = NULL;
-    this->next = NULL;
-}
+DoubleNode<T>::DoubleNode(const T &value) : value(value) {}
 
 template <class T>
-DoubleNode<T>::DoubleNode(const T &value, DoubleNode *prev, DoubleNode *next) {
-    this->value = value;
-    this->prev = prev;
-    this->next = next;
-}
+DoubleNode<T>::DoubleNode(const T &value, DoubleNode *prev, DoubleNode *next) : value(value), prev(prev), next(next) {}
 
 template <class T>
 class DoublyLinkedList {
@@ -79,25 +71,25 @@ class DoublyLinkedList {
 // doubly linked list implementation
 template <class T>
 DoublyLinkedList<T>::DoublyLinkedList() {
-    this->head = NULL;
-    this->tail = NULL;
+    head = NULL;
+    tail = NULL;
 }
 
 template <class T>
 DoublyLinkedList<T>::DoublyLinkedList(const T &value) {
-    this->insertNode(value);
+    insertNode(value);
 }
 
 template <class T>
 DoublyLinkedList<T>::DoublyLinkedList(T *arr, const int &size) {
-    this->insertArray(arr, size);
+    insertArray(arr, size);
 }
 
 template <class T>
 DoublyLinkedList<T>::DoublyLinkedList(const DoublyLinkedList &d) {
     DoubleNode<T> *temp = d.getLinkedList();
     while (temp != NULL) {
-        this->insertNode(temp->value);
+        insertNode(temp->value);
         temp = temp->next;
     }
 }
@@ -105,54 +97,54 @@ DoublyLinkedList<T>::DoublyLinkedList(const DoublyLinkedList &d) {
 template <class T>
 DoublyLinkedList<T>::~DoublyLinkedList() {
     // delete linked list when object is destroyed
-    delete this->head;
-    delete this->tail;
+    delete head;
+    delete tail;
 }
 
 template <class T>
 void DoublyLinkedList<T>::insertNode(const T &value) {
-    if (this->head == NULL) {
-        this->head = new DoubleNode<T>(value);
-        this->tail = this->head;
-        this->size = 1;
+    if (head == NULL) {
+        head = new DoubleNode<T>(value);
+        tail = head;
+        size = 1;
         return;
     }
     DoubleNode<T> *new_node = new DoubleNode<T>(value);
-    this->tail->next = new_node;
-    new_node->prev = this->tail;
-    this->tail = new_node;
-    this->size++;
+    tail->next = new_node;
+    new_node->prev = tail;
+    tail = new_node;
+    size++;
 }
 
 template <class T>
 void DoublyLinkedList<T>::insertArray(T *arr, const int &size) {
     for (int i = 0; i < size; i++) {
-        this->insertNode(arr[i]);
+        insertNode(arr[i]);
     }
 }
 
 template <class T>
 void DoublyLinkedList<T>::deleteNode(const T &value) {
     if (head->value == value) {
-        DoubleNode<T> *temp = this->head->next;
-        delete this->head;
-        this->head = temp;
-        this->head->prev = NULL;
-        this->size--;
+        DoubleNode<T> *temp = head->next;
+        delete head;
+        head = temp;
+        head->prev = NULL;
+        size--;
     } else if (tail->value == value) {
-        DoubleNode<T> *temp = this->tail->prev;
-        delete this->tail;
-        this->tail = temp;
-        this->tail->next = NULL;
-        this->size--;
+        DoubleNode<T> *temp = tail->prev;
+        delete tail;
+        tail = temp;
+        tail->next = NULL;
+        size--;
     } else {
-        DoubleNode<T> *temp = this->head->next;
+        DoubleNode<T> *temp = head->next;
         while (temp != NULL) {
             if (temp->value == value) {
                 DoubleNode<T> *p_temp = temp->prev;
                 p_temp->next = temp->next;
                 delete temp;
-                this->size--;
+                size--;
                 return;
             }
             temp = temp->next;
@@ -162,8 +154,8 @@ void DoublyLinkedList<T>::deleteNode(const T &value) {
 
 template <class T>
 DoubleNode<T> *DoublyLinkedList<T>::search(const T &value) const {
-    DoubleNode<T> *temp_s = this->head;
-    DoubleNode<T> *temp_e = this->tail;
+    DoubleNode<T> *temp_s = head;
+    DoubleNode<T> *temp_e = tail;
     while (temp_s != NULL && temp_e != NULL) {
         if (temp_s->value == value)
             return temp_s;
@@ -180,32 +172,32 @@ DoubleNode<T> *DoublyLinkedList<T>::search(const T &value) const {
 template <class T>
 void DoublyLinkedList<T>::reverse() {
     DoubleNode<T> *temp = NULL;
-    DoubleNode<T> *current = this->head;
+    DoubleNode<T> *current = head;
     while (current != NULL) {
         temp = current->prev;
         current->prev = current->next;
         current->next = temp;
         current = current->prev;
     }
-    current = this->tail;
-    this->tail = this->head;
-    this->head = current;
-    this->head->next = temp->prev;
+    current = tail;
+    tail = head;
+    head = current;
+    head->next = temp->prev;
 }
 
 template <class T>
 inline int DoublyLinkedList<T>::getSize() const {
-    return this->size;
+    return size;
 }
 
 template <class T>
 inline DoubleNode<T> *DoublyLinkedList<T>::getLinkedList() const {
-    return this->head;
+    return head;
 }
 
 template <class T>
 void DoublyLinkedList<T>::print() const {
-    for (DoubleNode<T> *temp = this->head; temp != NULL; temp = temp->next)
+    for (DoubleNode<T> *temp = head; temp != NULL; temp = temp->next)
         std::cout << temp->value << " ";
     std::cout << std::endl;
 }

@@ -88,143 +88,142 @@ class Deque {
 
 template <class T>
 Deque<T>::Deque() {
-    this->deque = new T[this->capacity];
+    deque = new T[capacity];
 }
 
 template <class T>
-Deque<T>::Deque(const int &capacity) {
-    this->capacity = capacity;
-    this->front = this->capacity / 2;
-    this->back = this->front;
-    this->deque = new T[this->capacity];
+Deque<T>::Deque(const int &capacity) : capacity(capacity) {
+    front = capacity / 2;
+    back = front;
+    deque = new T[capacity];
 }
 
 template <class T>
-Deque<T>::Deque(const Deque &q) {
-    this->deque = new T[this->capacity];
-    for (int i = 0; i < q.size(); i++) {
-        this->enqueue_back(q[q.front + i]);
+Deque<T>::Deque(const Deque &d) {
+    deque = new T[capacity];
+    for (int i = 0; i < d.size(); i++) {
+        enqueue_back(d[d.front + i]);
     }
 }
 
 template <class T>
 Deque<T>::~Deque() {
-    delete[] this->deque;
+    delete[] deque;
 }
 
 template <class T>
 void Deque<T>::extend() {
-    T *aux = new T[2 * this->capacity];
-    for (int i = 0; i < this->length; i++) {
-        aux[this->front + i] = this->deque[this->front + i];
+    T *aux = new T[2 * capacity];
+    for (int i = 0; i < length; i++) {
+        aux[front + i] = deque[front + i];
     }
-    delete[] this->deque;
-    this->deque = aux;
-    this->capacity *= 2;
-    this->calibrate();
+    delete[] deque;
+    deque = aux;
+    capacity *= 2;
+    calibrate();
 }
 
 template <class T>
 void Deque<T>::calibrate() {
-    T *aux = new T[this->capacity];
-    int new_front = this->capacity / 4;
-    int new_back = new_front + this->length - 1;
-    for (int i = 0; i < this->length; i++) {
-        aux[new_front + i] = this->deque[this->front + i];
+    T *aux = new T[capacity];
+    int new_front = capacity / 4;
+    int new_back = new_front + length - 1;
+    for (int i = 0; i < length; i++) {
+        aux[new_front + i] = deque[front + i];
     }
-    delete[] this->deque;
-    this->deque = aux;
-    this->front = new_front;
-    this->back = new_back;
+    delete[] deque;
+    deque = aux;
+    front = new_front;
+    back = new_back;
 }
 
 template <class T>
 void Deque<T>::enqueue_front(const T &val) {
-    if (this->front == 0) {
-        this->extend();
+    if (front == 0) {
+        extend();
     }
-    if (this->length == 0) {
-        this->deque[this->front] = val;
+    if (length == 0) {
+        deque[front] = val;
     } else {
-        this->deque[--this->front] = val;
+        deque[--front] = val;
     }
-    this->length++;
+    length++;
 }
 
 template <class T>
 void Deque<T>::enqueue_back(const T &val) {
-    if (this->back == this->capacity - 1) {
-        this->extend();
+    if (back == capacity - 1) {
+        extend();
     }
-    if (this->length == 0) {
-        this->deque[this->back] = val;
+    if (length == 0) {
+        deque[back] = val;
     } else {
-        this->deque[++this->back] = val;
+        deque[++back] = val;
     }
-    this->length++;
+    length++;
 }
 
 template <class T>
 T Deque<T>::dequeue_front() {
-    if (this->empty()) {
+    if (empty()) {
         throw std::runtime_error("deque index out of bound");
     }
-    this->length--;
-    return this->deque[this->front++];
+    length--;
+    return deque[front++];
 }
 
 template <class T>
 T Deque<T>::dequeue_back() {
-    if (this->empty()) {
+    if (empty()) {
         throw std::runtime_error("deque index out of bound");
     }
-    this->length--;
-    return this->deque[this->back--];
+    length--;
+    return deque[back--];
 }
 
 template <class T>
 T Deque<T>::peek_front() const {
-    if (this->empty()) {
+    if (empty()) {
         throw std::runtime_error("deque index out of bound");
     }
-    return this->deque[this->front];
+    return deque[front];
 }
 
 template <class T>
 T Deque<T>::peek_back() const {
-    if (this->empty()) {
+    if (empty()) {
         throw std::runtime_error("deque index out of bound");
     }
-    return this->deque[this->back];
+    return deque[back];
 }
 
 template <class T>
 T Deque<T>::operator+(int index) const {
-    if (index >= this->length || index < 0) {
+    if (index >= length || index < 0) {
         throw std::runtime_error("deque index out of bound");
     }
-    return this->deque[this->front + index];
+    return deque[front + index];
 }
 
 template <class T>
 T Deque<T>::operator[](int index) const {
-    if (index >= this->length || index < 0) {
+    if (index >= length || index < 0) {
         throw std::runtime_error("deque index out of bound");
     }
-    return this->deque[this->front + index];
+    return deque[front + index];
 }
 
 template <class T>
 void Deque<T>::operator=(const Deque &q) {
-    this->deque = new T[this->capacity];
+    deque = new T[capacity];
     for (int i = 0; i < q.size(); i++) {
-        this->enqueue_back(q[q.front + i]);
+        enqueue_back(q[q.front + i]);
     }
 }
 
 template <class T>
 bool Deque<T>::empty() const {
-    if (this->length == 0) {
+    if (length == 0) {
         return true;
     }
     return false;
@@ -232,14 +231,14 @@ bool Deque<T>::empty() const {
 
 template <class T>
 void Deque<T>::print() const {
-    for (int i = this->front; i <= this->back; i++) {
-        std::cout << this->deque[i] << " ";
+    for (int i = front; i <= back; i++) {
+        std::cout << deque[i] << " ";
     }
     std::cout << std::endl;
 }
 
 template <class T>
 int Deque<T>::size() const {
-    return this->length;
+    return length;
 }
 } // namespace ds

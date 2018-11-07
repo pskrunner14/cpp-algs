@@ -25,16 +25,10 @@ class SingleNode {
 
 // Single Node implementation
 template <class T>
-SingleNode<T>::SingleNode(const T &value) {
-    this->value = value;
-    this->next = NULL;
-}
+SingleNode<T>::SingleNode(const T &value) : value(value), next(NULL) {}
 
 template <class T>
-SingleNode<T>::SingleNode(const T &value, SingleNode *s) {
-    this->value = value;
-    this->next = s;
-}
+SingleNode<T>::SingleNode(const T &value, SingleNode *next) : value(value), next(next) {}
 
 template <class T>
 class SinglyLinkedList {
@@ -74,69 +68,69 @@ class SinglyLinkedList {
 
 // Singly Linked List implementation
 template <class T>
-SinglyLinkedList<T>::SinglyLinkedList() : head(NULL), tail(NULL) {}
+SinglyLinkedList<T>::SinglyLinkedList() {}
 
 template <class T>
 SinglyLinkedList<T>::SinglyLinkedList(const T &value) {
-    this->insertNode(value);
+    insertNode(value);
 }
 
 template <class T>
 SinglyLinkedList<T>::SinglyLinkedList(T *arr, const int &size) {
-    this->insertArray(arr, size);
+    insertArray(arr, size);
 }
 
 template <class T>
 SinglyLinkedList<T>::SinglyLinkedList(const SinglyLinkedList &s) {
     SingleNode<T> *temp = s.getLinkedList();
     while (temp != NULL) {
-        this->insertNode(temp->value);
+        insertNode(temp->value);
         temp = temp->next;
     }
 }
 
 template <class T>
 SinglyLinkedList<T>::~SinglyLinkedList() {
-    delete this->head;
-    delete this->tail;
+    delete head;
+    delete tail;
 }
 
 template <class T>
 void SinglyLinkedList<T>::insertNode(const T &value) {
-    if (this->head == NULL) {
-        this->head = new SingleNode<T>(value);
-        this->tail = this->head;
-        this->size = 1;
+    if (head == NULL) {
+        head = new SingleNode<T>(value);
+        tail = head;
+        size = 1;
         return;
     }
     SingleNode<T> *new_node = new SingleNode<T>(value);
-    this->tail->next = new_node;
-    this->tail = new_node;
-    this->size++;
+    tail->next = new_node;
+    tail = new_node;
+    size++;
     return;
 }
 
 template <class T>
 void SinglyLinkedList<T>::insertArray(T *arr, const int &size) {
     for (int i = 0; i < size; i++) {
-        this->insertNode(arr[i]);
+        insertNode(arr[i]);
     }
 }
 
 template <class T>
 void SinglyLinkedList<T>::deleteNode(const T &value) {
     if (head->value == value) {
-        this->head = this->head->next;
-        this->size--;
+        head = head->next;
+        size--;
         return;
     }
-    SingleNode<T> *p_temp = this->head;
-    SingleNode<T> *temp = this->head->next;
+    SingleNode<T> *p_temp = head;
+    SingleNode<T> *temp = head->next;
     while (temp != NULL) {
         if (temp->value == value) {
             p_temp->next = temp->next;
             delete temp;
-            this->size--;
+            size--;
             return;
         }
         p_temp = temp;
@@ -146,7 +140,7 @@ void SinglyLinkedList<T>::deleteNode(const T &value) {
 
 template <class T>
 SingleNode<T> *SinglyLinkedList<T>::search(const T &value) const {
-    SingleNode<T> *temp = this->head;
+    SingleNode<T> *temp = head;
     while (temp != NULL && temp->value != value) {
         temp = temp->next;
     }
@@ -155,10 +149,10 @@ SingleNode<T> *SinglyLinkedList<T>::search(const T &value) const {
 
 template <class T>
 void SinglyLinkedList<T>::reverse() {
-    SingleNode<T> *l_node = this->head;
+    SingleNode<T> *l_node = head;
     SingleNode<T> *rev_node = l_node->next;
     SingleNode<T> *next_node;
-    if (l_node == this->head)
+    if (l_node == head)
         l_node->next = NULL;
     if (rev_node != NULL)
         next_node = rev_node->next;
@@ -170,22 +164,22 @@ void SinglyLinkedList<T>::reverse() {
             next_node = next_node->next;
         }
     }
-    this->head = l_node;
+    head = l_node;
 }
 
 template <class T>
 inline int SinglyLinkedList<T>::getSize() const {
-    return this->size;
+    return size;
 }
 
 template <class T>
 inline SingleNode<T> *SinglyLinkedList<T>::getLinkedList() const {
-    return this->head;
+    return head;
 }
 
 template <class T>
 void SinglyLinkedList<T>::print() const {
-    for (SingleNode<T> *temp = this->head; temp != NULL; temp = temp->next)
+    for (SingleNode<T> *temp = head; temp != NULL; temp = temp->next)
         std::cout << temp->value << " ";
     std::cout << std::endl;
 }

@@ -25,16 +25,10 @@ class SingleNode {
 
 // Single Node implementation
 template <class T>
-SingleNode<T>::SingleNode(const T &value) {
-    this->value = value;
-    this->next = NULL;
-}
+SingleNode<T>::SingleNode(const T &value) : value(value) {}
 
 template <class T>
-SingleNode<T>::SingleNode(const T &value, SingleNode *s) {
-    this->value = value;
-    this->next = s;
-}
+SingleNode<T>::SingleNode(const T &value, SingleNode *next) : value(value), next(next) {}
 
 template <class T>
 class CircularSinglyLinkedList {
@@ -77,35 +71,35 @@ CircularSinglyLinkedList<T>::CircularSinglyLinkedList() : head(NULL), tail(NULL)
 
 template <class T>
 CircularSinglyLinkedList<T>::CircularSinglyLinkedList(const T &value) {
-    this->insertNode(value);
+    insertNode(value);
 }
 
 template <class T>
 CircularSinglyLinkedList<T>::CircularSinglyLinkedList(T *arr, const int &size) {
-    this->insertArray(arr, size);
+    insertArray(arr, size);
 }
 
 template <class T>
 CircularSinglyLinkedList<T>::~CircularSinglyLinkedList() {
     // delete linked list when object is destroyed
-    delete this->head;
-    delete this->tail;
+    delete head;
+    delete tail;
 }
 
 template <class T>
 void CircularSinglyLinkedList<T>::insertNode(const T &value) {
-    if (this->head == NULL) {
-        this->head = new SingleNode<T>(value);
-        this->tail = this->head;
-        this->tail->next = this->head;
-        this->head->next = this->tail; // circular
-        this->size = 1;
+    if (head == NULL) {
+        head = new SingleNode<T>(value);
+        tail = head;
+        tail->next = head;
+        head->next = tail; // circular
+        size = 1;
         return;
     }
-    SingleNode<T> *new_node = new SingleNode<T>(value, this->tail->next);
-    this->tail->next = new_node;
-    this->tail = new_node;
-    this->size++;
+    SingleNode<T> *new_node = new SingleNode<T>(value, tail->next);
+    tail->next = new_node;
+    tail = new_node;
+    size++;
 }
 
 template <class T>
@@ -116,27 +110,27 @@ void CircularSinglyLinkedList<T>::insertArray(T *arr, const int &size) {
 
 template <class T>
 void CircularSinglyLinkedList<T>::deleteNode(const T &value) {
-    if (this->head->value == value) {
-        SingleNode<T> *temp = this->head;
-        this->tail->next = temp->next;
-        delete this->head;
-        this->head = temp;
-    } else if (this->tail->value == value) {
-        SingleNode<T> *temp = this->head;
-        while (temp->next != this->tail) {
+    if (head->value == value) {
+        SingleNode<T> *temp = head;
+        tail->next = temp->next;
+        delete head;
+        head = temp;
+    } else if (tail->value == value) {
+        SingleNode<T> *temp = head;
+        while (temp->next != tail) {
             temp = temp->next;
         }
-        temp->next = this->head;
-        delete this->tail;
-        this->tail = temp;
+        temp->next = head;
+        delete tail;
+        tail = temp;
     } else {
-        SingleNode<T> *p_temp = this->head;
-        SingleNode<T> *temp = this->head->next;
-        while (temp != this->tail) {
+        SingleNode<T> *p_temp = head;
+        SingleNode<T> *temp = head->next;
+        while (temp != tail) {
             if (temp->value == value) {
                 p_temp->next = temp->next;
                 delete temp;
-                this->size--;
+                size--;
                 return;
             }
             p_temp = temp;
@@ -147,11 +141,11 @@ void CircularSinglyLinkedList<T>::deleteNode(const T &value) {
 
 template <class T>
 SingleNode<T> *CircularSinglyLinkedList<T>::search(const T &value) const {
-    if (value == this->head->value) {
-        return this->head;
+    if (value == head->value) {
+        return head;
     }
-    SingleNode<T> *temp = this->head->next;
-    while (temp != this->head) {
+    SingleNode<T> *temp = head->next;
+    while (temp != head) {
         if (temp->value == value) {
             return temp;
         }
@@ -162,18 +156,18 @@ SingleNode<T> *CircularSinglyLinkedList<T>::search(const T &value) const {
 
 template <class T>
 inline int CircularSinglyLinkedList<T>::getSize() const {
-    return this->size;
+    return size;
 }
 
 template <class T>
 inline SingleNode<T> *CircularSinglyLinkedList<T>::getLinkedList() const {
-    return this->head;
+    return head;
 }
 
 template <class T>
 void CircularSinglyLinkedList<T>::print() const {
-    SingleNode<T> *temp = this->head;
-    for (; temp != this->tail; temp = temp->next)
+    SingleNode<T> *temp = head;
+    for (; temp != tail; temp = temp->next)
         std::cout << temp->value << " ";
     std::cout << temp->value << std::endl;
 }

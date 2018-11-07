@@ -70,93 +70,92 @@ class Queue {
 
 template <class T>
 Queue<T>::Queue() {
-    this->queue = new T[this->capacity];
+    queue = new T[capacity];
 }
 
 template <class T>
-Queue<T>::Queue(const int &capacity) {
-    this->capacity = capacity;
-    this->queue = new T[this->capacity];
+Queue<T>::Queue(const int &capacity) : capacity(capacity) {
+    queue = new T[capacity];
 }
 
 template <class T>
 Queue<T>::Queue(const Queue &q) {
-    this->stack = new T[this->capacity];
+    queue = new T[capacity];
     for (int i = 0; i < q.size(); i++) {
-        this->enqueue(q[i]);
+        enqueue(q[i]);
     }
 }
 
 template <class T>
 Queue<T>::~Queue() {
-    delete[] this->queue;
+    delete[] queue;
 }
 
 template <class T>
 void Queue<T>::extend() {
-    T *aux = new T[2 * this->capacity];
-    for (int i = 0; i < this->length; i++) {
-        aux[i] = this->queue[i];
+    T *aux = new T[2 * capacity];
+    for (int i = 0; i < length; i++) {
+        aux[i] = queue[i];
     }
-    delete[] this->queue;
-    this->queue = aux;
-    this->capacity *= 2;
+    delete[] queue;
+    queue = aux;
+    capacity *= 2;
 }
 
 template <class T>
 void Queue<T>::enqueue(const T &val) {
-    if (this->length == this->capacity) {
-        this->extend();
+    if (length == capacity) {
+        extend();
     }
-    this->queue[this->length++] = val;
+    queue[length++] = val;
 }
 
 template <class T>
 T Queue<T>::dequeue() {
-    if (this->empty()) {
+    if (empty()) {
         throw std::runtime_error("queue index out of bound");
     }
-    T elem = this->peek();
-    this->queue++;
-    this->length--;
+    T elem = peek();
+    queue++;
+    length--;
     return elem;
 }
 
 template <class T>
 T Queue<T>::peek() const {
-    if (this->empty()) {
+    if (empty()) {
         throw std::runtime_error("queue index out of bound");
     }
-    return this->queue[0];
+    return queue[0];
 }
 
 template <class T>
 T Queue<T>::operator+(int index) const {
-    if (index >= this->length || index < 0) {
+    if (index >= length || index < 0) {
         throw std::runtime_error("queue index out of bound");
     }
-    return this->queue[index];
+    return queue[index];
 }
 
 template <class T>
 T Queue<T>::operator[](int index) const {
-    if (index >= this->length || index < 0) {
+    if (index >= length || index < 0) {
         throw std::runtime_error("queue index out of bound");
     }
-    return this->queue[index];
+    return queue[index];
 }
 
 template <class T>
 void Queue<T>::operator=(const Queue &q) {
-    this->queue = new T[this->capacity];
+    queue = new T[capacity];
     for (int i = 0; i < q.size(); i++) {
-        this->enqueue(q[i]);
+        enqueue(q[i]);
     }
 }
 
 template <class T>
 bool Queue<T>::empty() const {
-    if (this->length == 0) {
+    if (length == 0) {
         return true;
     }
     return false;
@@ -164,14 +163,14 @@ bool Queue<T>::empty() const {
 
 template <class T>
 void Queue<T>::print() const {
-    for (int i = 0; i < this->length; i++) {
-        std::cout << this->queue[i] << " ";
+    for (int i = 0; i < length; i++) {
+        std::cout << queue[i] << " ";
     }
     std::cout << std::endl;
 }
 
 template <class T>
 int Queue<T>::size() const {
-    return this->length;
+    return length;
 }
 } // namespace ds
