@@ -1,3 +1,5 @@
+#pragma once
+
 /**
  * Algorithms - miscellaneous
  * matrix_mul.cpp
@@ -6,6 +8,9 @@
  * @author Prabhsimran Singh
  * @version 1.0 28/10/18 
 */
+#include <iostream>
+
+namespace al {
 
 /**
  * Performs matrix multiplication and returns the output matrix.
@@ -18,6 +23,9 @@
  * 
  * @returns the mxk output matrix.
 */
+template <typename T>
+T **matmul(T **, T **, const int &, const int &, const int &);
+
 template <typename T>
 T **matmul(T **a, T **b, const int &m, const int &n, const int &k) {
     T **out = new T *[m];
@@ -33,3 +41,4 @@ T **matmul(T **a, T **b, const int &m, const int &n, const int &k) {
     }
     return out;
 }
+} // namespace al

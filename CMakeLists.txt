@@ -29,10 +29,6 @@ configure_file(
     "${PROJECT_SOURCE_DIR}/cpp_algs/config.hpp"
 )
 
-# Need to write impl. in headers itself since 
-# this project relies heavily on template 
-# classes and compiler needs interface and impl.
-# at the same time for templated fxns.
 add_library(cpp_algs SHARED "cpp_algs/cpp_algs.hpp")
 set_target_properties(cpp_algs PROPERTIES LINKER_LANGUAGE CXX)
     
