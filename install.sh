@@ -10,14 +10,16 @@ cmake ..
 # build project using Makefile
 make 
 # install the shared object file
-sudo make install
-
-cd ..
-# launch test program
-echo "[INSTALL] testing..."
-
-if g++ tests/test.cpp -l cpp_algs -I cpp_algs/; then
+if sudo make install; then
     echo "[INSTALL] CPP-ALGS successfully installed on system!"
 else
     echo "[INSTALL] Installation failed!"
+fi
+
+cd ..
+# launch test program
+if g++ tests/test.cpp -l cpp_algs -I cpp_algs/; then
+    echo "[INSTALL] Test toy program working!"
+else
+    echo "[INSTALL] Library installed incorrectly!"
 fi

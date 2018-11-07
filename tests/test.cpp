@@ -1,8 +1,9 @@
 #include <iostream>
 using namespace std;
 
-#include "algorithms/searching/ternary_search.hpp"
-#include "data_structures/doubly_linked_list.hpp"
+// #include "algorithms/searching/ternary_search.hpp"
+// #include "data_structures/doubly_linked_list.hpp"
+#include "cpp_algs.hpp"
 
 int main() {
     ds::DoublyLinkedList<int> ll = ds::DoublyLinkedList<int>();

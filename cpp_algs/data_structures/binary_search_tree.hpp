@@ -11,7 +11,6 @@
 #include <iostream>
 #include <queue>
 
-#include "../algorithms/sorting/heap_sort.cpp"
 using namespace std;
 
 template <typename T>
@@ -70,7 +69,7 @@ class BST {
 
   public:
     void constructTree(T *input, int n) {
-        heapSort(input, n);
+        al::heapSort(input, n);
         this->root = constructTreeHelper(input, 0, n - 1);
     }
 

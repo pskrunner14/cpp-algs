@@ -24,10 +24,9 @@ void qsort(T *, const int &, const int &);
  * 
  * @param arr the array to sort (type T).
  * @param size the size of the array.
- * @param randomize the flag that specifies whether to randomly shuffly the data array before sorting in order to ensure average case.
 */
 template <typename T>
-void quickSort(T *, const int &, bool);
+void quickSort(T *, const int &, bool = true);
 
 template <typename T>
 int partition(T *arr, const int &lo, const int &hi) {
@@ -59,14 +58,12 @@ void qsort(T *arr, const int &lo, const int &hi) {
 }
 
 template <typename T>
-void quickSort(T *arr, const int &size, bool randomize = true) {
+void quickSort(T *arr, const int &size) {
     // randomize the array to make
     // worst case time O(nlogn) - has
     // huge affect with very large inputs
     // i.e. ~1M elements.
-    if (randomize) {
-        std::random_shuffle(arr, arr + size);
-    }
+    std::random_shuffle(arr, arr + size);
     qsort(arr, 0, size - 1);
 }
 } // namespace al
