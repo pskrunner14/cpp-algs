@@ -10,7 +10,7 @@
 #include <bits/stdc++.h>
 #include <iostream>
 
-template <class T>
+template <typename T>
 int partition(T *arr, const int &lo, const int &hi) {
     int i = lo;
     int j = hi + 1;
@@ -30,7 +30,7 @@ int partition(T *arr, const int &lo, const int &hi) {
     return j;
 }
 
-template <class T>
+template <typename T>
 void qsort(T *arr, const int &lo, const int &hi) {
     if (hi <= lo)
         return;
@@ -46,7 +46,7 @@ void qsort(T *arr, const int &lo, const int &hi) {
  * @param size the size of the array.
  * @param randomize the flag that specifies whether to randomly shuffly the data array before sorting in order to ensure average case.
 */
-template <class T>
+template <typename T>
 void quickSort(T *arr, const int &size, bool randomize = true) {
     // randomize the array to make
     // worst case time O(nlogn) - has

@@ -9,7 +9,7 @@
 
 #include <iostream>
 
-template <class T>
+template <typename T>
 void sink(T *arr, int k, const int &n) {
     while (2 * k <= n) {
         int j = 2 * k;
@@ -28,7 +28,7 @@ void sink(T *arr, int k, const int &n) {
  * @param arr the array to sort (type T).
  * @param size the size of the array.
 */
-template <class T>
+template <typename T>
 void heapSort(T *arr, int size) {
     for (int k = size / 2; k >= 1; k--)
         sink(arr, k, size);

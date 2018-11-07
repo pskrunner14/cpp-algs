@@ -68,30 +68,31 @@ class Stack {
     int size() const;
 };
 
-template <class T>
+template <typename T>
 Stack<T>::Stack() {
     stack = new T[capacity];
 }
 
-template <class T>
+template <typename T>
 Stack<T>::Stack(const int &capacity) : capacity(capacity) {
     stack = new T[capacity];
 }
 
-template <class T>
+template <typename T>
 Stack<T>::Stack(const Stack &s) {
+    delete[] stack;
     stack = new T[capacity];
     for (int i = 0; i < s.size(); i++) {
         push(s[i]);
     }
 }
 
-template <class T>
+template <typename T>
 Stack<T>::~Stack() {
     delete[] stack;
 }
 
-template <class T>
+template <typename T>
 void Stack<T>::extend() {
     T *aux = new T[2 * capacity];
     for (int i = 0; i < length; i++) {
@@ -102,7 +103,7 @@ void Stack<T>::extend() {
     capacity *= 2;
 }
 
-template <class T>
+template <typename T>
 void Stack<T>::push(const T &val) {
     if (length == capacity) {
         extend();
@@ -110,7 +111,7 @@ void Stack<T>::push(const T &val) {
     stack[length++] = val;
 }
 
-template <class T>
+template <typename T>
 T Stack<T>::pop() {
     if (empty()) {
         throw std::runtime_error("stack index out of bound");
@@ -119,7 +120,7 @@ T Stack<T>::pop() {
     return stack[length];
 }
 
-template <class T>
+template <typename T>
 T Stack<T>::top() const {
     if (empty()) {
         throw std::runtime_error("stack index out of bound");
@@ -127,7 +128,7 @@ T Stack<T>::top() const {
     return stack[length - 1];
 }
 
-template <class T>
+template <typename T>
 T Stack<T>::operator+(int index) const {
     if (index >= length || index < 0) {
         throw std::runtime_error("stack index out of bound");
@@ -135,7 +136,7 @@ T Stack<T>::operator+(int index) const {
     return stack[index];
 }
 
-template <class T>
+template <typename T>
 T Stack<T>::operator[](int index) const {
     if (index >= length || index < 0) {
         throw std::runtime_error("stack index out of bound");
@@ -143,15 +144,16 @@ T Stack<T>::operator[](int index) const {
     return stack[index];
 }
 
-template <class T>
+template <typename T>
 void Stack<T>::operator=(const Stack &s) {
+    delete[] stack;
     stack = new T[capacity];
     for (int i = 0; i < s.size(); i++) {
         push(s[i]);
     }
 }
 
-template <class T>
+template <typename T>
 bool Stack<T>::empty() const {
     if (length == 0) {
         return true;
@@ -159,7 +161,7 @@ bool Stack<T>::empty() const {
     return false;
 }
 
-template <class T>
+template <typename T>
 void Stack<T>::print() const {
     for (int i = 0; i < length; i++) {
         std::cout << stack[i] << " ";
@@ -167,7 +169,7 @@ void Stack<T>::print() const {
     std::cout << std::endl;
 }
 
-template <class T>
+template <typename T>
 int Stack<T>::size() const {
     return length;
 }

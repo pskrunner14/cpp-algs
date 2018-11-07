@@ -10,27 +10,11 @@
 */
 #include <iostream>
 
+#include "node.hpp"
+
 namespace ds {
 
-template <class T>
-class SingleNode {
-  public:
-    T value;
-    SingleNode<T> *next;
-
-    SingleNode(const T &);
-
-    SingleNode(const T &, SingleNode *);
-};
-
-// Single Node implementation
-template <class T>
-SingleNode<T>::SingleNode(const T &value) : value(value) {}
-
-template <class T>
-SingleNode<T>::SingleNode(const T &value, SingleNode *next) : value(value), next(next) {}
-
-template <class T>
+template <typename T>
 class CircularSinglyLinkedList {
   private:
     SingleNode<T> *head;
@@ -66,27 +50,27 @@ class CircularSinglyLinkedList {
 };
 
 // circular singly linked list implementation
-template <class T>
+template <typename T>
 CircularSinglyLinkedList<T>::CircularSinglyLinkedList() : head(NULL), tail(NULL) {}
 
-template <class T>
+template <typename T>
 CircularSinglyLinkedList<T>::CircularSinglyLinkedList(const T &value) {
     insertNode(value);
 }
 
-template <class T>
+template <typename T>
 CircularSinglyLinkedList<T>::CircularSinglyLinkedList(T *arr, const int &size) {
     insertArray(arr, size);
 }
 
-template <class T>
+template <typename T>
 CircularSinglyLinkedList<T>::~CircularSinglyLinkedList() {
     // delete linked list when object is destroyed
     delete head;
     delete tail;
 }
 
-template <class T>
+template <typename T>
 void CircularSinglyLinkedList<T>::insertNode(const T &value) {
     if (head == NULL) {
         head = new SingleNode<T>(value);
@@ -102,13 +86,13 @@ void CircularSinglyLinkedList<T>::insertNode(const T &value) {
     size++;
 }
 
-template <class T>
+template <typename T>
 void CircularSinglyLinkedList<T>::insertArray(T *arr, const int &size) {
     for (int i = 0; i < size; i++)
         insertNode(arr[i]);
 }
 
-template <class T>
+template <typename T>
 void CircularSinglyLinkedList<T>::deleteNode(const T &value) {
     if (head->value == value) {
         SingleNode<T> *temp = head;
@@ -139,7 +123,7 @@ void CircularSinglyLinkedList<T>::deleteNode(const T &value) {
     }
 }
 
-template <class T>
+template <typename T>
 SingleNode<T> *CircularSinglyLinkedList<T>::search(const T &value) const {
     if (value == head->value) {
         return head;
@@ -154,17 +138,17 @@ SingleNode<T> *CircularSinglyLinkedList<T>::search(const T &value) const {
     return NULL;
 }
 
-template <class T>
+template <typename T>
 inline int CircularSinglyLinkedList<T>::getSize() const {
     return size;
 }
 
-template <class T>
+template <typename T>
 inline SingleNode<T> *CircularSinglyLinkedList<T>::getLinkedList() const {
     return head;
 }
 
-template <class T>
+template <typename T>
 void CircularSinglyLinkedList<T>::print() const {
     SingleNode<T> *temp = head;
     for (; temp != tail; temp = temp->next)

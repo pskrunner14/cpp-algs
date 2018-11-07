@@ -10,27 +10,11 @@
 */
 #include <iostream>
 
+#include "node.hpp"
+
 namespace ds {
 
-template <class T>
-class SingleNode {
-  public:
-    T value;
-    SingleNode<T> *next;
-
-    SingleNode(const T &);
-
-    SingleNode(const T &, SingleNode *);
-};
-
-// Single Node implementation
-template <class T>
-SingleNode<T>::SingleNode(const T &value) : value(value), next(NULL) {}
-
-template <class T>
-SingleNode<T>::SingleNode(const T &value, SingleNode *next) : value(value), next(next) {}
-
-template <class T>
+template <typename T>
 class SinglyLinkedList {
   private:
     SingleNode<T> *head;
@@ -67,20 +51,20 @@ class SinglyLinkedList {
 };
 
 // Singly Linked List implementation
-template <class T>
+template <typename T>
 SinglyLinkedList<T>::SinglyLinkedList() {}
 
-template <class T>
+template <typename T>
 SinglyLinkedList<T>::SinglyLinkedList(const T &value) {
     insertNode(value);
 }
 
-template <class T>
+template <typename T>
 SinglyLinkedList<T>::SinglyLinkedList(T *arr, const int &size) {
     insertArray(arr, size);
 }
 
-template <class T>
+template <typename T>
 SinglyLinkedList<T>::SinglyLinkedList(const SinglyLinkedList &s) {
     SingleNode<T> *temp = s.getLinkedList();
     while (temp != NULL) {
@@ -89,13 +73,13 @@ SinglyLinkedList<T>::SinglyLinkedList(const SinglyLinkedList &s) {
     }
 }
 
-template <class T>
+template <typename T>
 SinglyLinkedList<T>::~SinglyLinkedList() {
     delete head;
     delete tail;
 }
 
-template <class T>
+template <typename T>
 void SinglyLinkedList<T>::insertNode(const T &value) {
     if (head == NULL) {
         head = new SingleNode<T>(value);
@@ -110,14 +94,14 @@ void SinglyLinkedList<T>::insertNode(const T &value) {
     return;
 }
 
-template <class T>
+template <typename T>
 void SinglyLinkedList<T>::insertArray(T *arr, const int &size) {
     for (int i = 0; i < size; i++) {
         insertNode(arr[i]);
     }
 }
 
-template <class T>
+template <typename T>
 void SinglyLinkedList<T>::deleteNode(const T &value) {
     if (head->value == value) {
         head = head->next;
@@ -138,7 +122,7 @@ void SinglyLinkedList<T>::deleteNode(const T &value) {
     }
 }
 
-template <class T>
+template <typename T>
 SingleNode<T> *SinglyLinkedList<T>::search(const T &value) const {
     SingleNode<T> *temp = head;
     while (temp != NULL && temp->value != value) {
@@ -147,7 +131,7 @@ SingleNode<T> *SinglyLinkedList<T>::search(const T &value) const {
     return temp;
 }
 
-template <class T>
+template <typename T>
 void SinglyLinkedList<T>::reverse() {
     SingleNode<T> *l_node = head;
     SingleNode<T> *rev_node = l_node->next;
@@ -167,17 +151,17 @@ void SinglyLinkedList<T>::reverse() {
     head = l_node;
 }
 
-template <class T>
+template <typename T>
 inline int SinglyLinkedList<T>::getSize() const {
     return size;
 }
 
-template <class T>
+template <typename T>
 inline SingleNode<T> *SinglyLinkedList<T>::getLinkedList() const {
     return head;
 }
 
-template <class T>
+template <typename T>
 void SinglyLinkedList<T>::print() const {
     for (SingleNode<T> *temp = head; temp != NULL; temp = temp->next)
         std::cout << temp->value << " ";

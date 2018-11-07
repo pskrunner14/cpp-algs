@@ -12,7 +12,7 @@
 
 namespace ds {
 
-template <class T>
+template <typename T>
 class Deque {
   private:
     // pointer to our data deque
@@ -86,32 +86,33 @@ class Deque {
     int size() const;
 };
 
-template <class T>
+template <typename T>
 Deque<T>::Deque() {
     deque = new T[capacity];
 }
 
-template <class T>
+template <typename T>
 Deque<T>::Deque(const int &capacity) : capacity(capacity) {
     front = capacity / 2;
     back = front;
     deque = new T[capacity];
 }
 
-template <class T>
+template <typename T>
 Deque<T>::Deque(const Deque &d) {
+    delete[] deque;
     deque = new T[capacity];
     for (int i = 0; i < d.size(); i++) {
         enqueue_back(d[d.front + i]);
     }
 }
 
-template <class T>
+template <typename T>
 Deque<T>::~Deque() {
     delete[] deque;
 }
 
-template <class T>
+template <typename T>
 void Deque<T>::extend() {
     T *aux = new T[2 * capacity];
     for (int i = 0; i < length; i++) {
@@ -123,7 +124,7 @@ void Deque<T>::extend() {
     calibrate();
 }
 
-template <class T>
+template <typename T>
 void Deque<T>::calibrate() {
     T *aux = new T[capacity];
     int new_front = capacity / 4;
@@ -137,7 +138,7 @@ void Deque<T>::calibrate() {
     back = new_back;
 }
 
-template <class T>
+template <typename T>
 void Deque<T>::enqueue_front(const T &val) {
     if (front == 0) {
         extend();
@@ -150,7 +151,7 @@ void Deque<T>::enqueue_front(const T &val) {
     length++;
 }
 
-template <class T>
+template <typename T>
 void Deque<T>::enqueue_back(const T &val) {
     if (back == capacity - 1) {
         extend();
@@ -163,7 +164,7 @@ void Deque<T>::enqueue_back(const T &val) {
     length++;
 }
 
-template <class T>
+template <typename T>
 T Deque<T>::dequeue_front() {
     if (empty()) {
         throw std::runtime_error("deque index out of bound");
@@ -172,7 +173,7 @@ T Deque<T>::dequeue_front() {
     return deque[front++];
 }
 
-template <class T>
+template <typename T>
 T Deque<T>::dequeue_back() {
     if (empty()) {
         throw std::runtime_error("deque index out of bound");
@@ -181,7 +182,7 @@ T Deque<T>::dequeue_back() {
     return deque[back--];
 }
 
-template <class T>
+template <typename T>
 T Deque<T>::peek_front() const {
     if (empty()) {
         throw std::runtime_error("deque index out of bound");
@@ -189,7 +190,7 @@ T Deque<T>::peek_front() const {
     return deque[front];
 }
 
-template <class T>
+template <typename T>
 T Deque<T>::peek_back() const {
     if (empty()) {
         throw std::runtime_error("deque index out of bound");
@@ -197,7 +198,7 @@ T Deque<T>::peek_back() const {
     return deque[back];
 }
 
-template <class T>
+template <typename T>
 T Deque<T>::operator+(int index) const {
     if (index >= length || index < 0) {
         throw std::runtime_error("deque index out of bound");
@@ -205,7 +206,7 @@ T Deque<T>::operator+(int index) const {
     return deque[front + index];
 }
 
-template <class T>
+template <typename T>
 T Deque<T>::operator[](int index) const {
     if (index >= length || index < 0) {
         throw std::runtime_error("deque index out of bound");
@@ -213,15 +214,16 @@ T Deque<T>::operator[](int index) const {
     return deque[front + index];
 }
 
-template <class T>
+template <typename T>
 void Deque<T>::operator=(const Deque &q) {
+    delete[] deque;
     deque = new T[capacity];
     for (int i = 0; i < q.size(); i++) {
         enqueue_back(q[q.front + i]);
     }
 }
 
-template <class T>
+template <typename T>
 bool Deque<T>::empty() const {
     if (length == 0) {
         return true;
@@ -229,7 +231,7 @@ bool Deque<T>::empty() const {
     return false;
 }
 
-template <class T>
+template <typename T>
 void Deque<T>::print() const {
     for (int i = front; i <= back; i++) {
         std::cout << deque[i] << " ";
@@ -237,7 +239,7 @@ void Deque<T>::print() const {
     std::cout << std::endl;
 }
 
-template <class T>
+template <typename T>
 int Deque<T>::size() const {
     return length;
 }

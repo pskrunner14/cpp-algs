@@ -15,7 +15,7 @@
  * @param arr the array to sort (type T).
  * @param size the size of the array.
 */
-template <class T>
+template <typename T>
 void bubbleSort(T *arr, const int &size) {
     for (int i = 0; i < size - 1; i++) {
         for (int j = 0; j < size - i - 1; j++) {

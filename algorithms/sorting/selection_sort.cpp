@@ -15,7 +15,7 @@
  * @param arr the array to sort (type T).
  * @param size the size of the array.
 */
-template <class T>
+template <typename T>
 void selectionSort(T *arr, const int &size) {
     for (int i = 0; i < size - 1; i++) {
         int min = i;

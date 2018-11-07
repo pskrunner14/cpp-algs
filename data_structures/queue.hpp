@@ -12,7 +12,7 @@
 
 namespace ds {
 
-template <class T>
+template <typename T>
 class Queue {
   private:
     // pointer to our data queue
@@ -68,30 +68,31 @@ class Queue {
     int size() const;
 };
 
-template <class T>
+template <typename T>
 Queue<T>::Queue() {
     queue = new T[capacity];
 }
 
-template <class T>
+template <typename T>
 Queue<T>::Queue(const int &capacity) : capacity(capacity) {
     queue = new T[capacity];
 }
 
-template <class T>
+template <typename T>
 Queue<T>::Queue(const Queue &q) {
+    delete[] queue;
     queue = new T[capacity];
     for (int i = 0; i < q.size(); i++) {
         enqueue(q[i]);
     }
 }
 
-template <class T>
+template <typename T>
 Queue<T>::~Queue() {
     delete[] queue;
 }
 
-template <class T>
+template <typename T>
 void Queue<T>::extend() {
     T *aux = new T[2 * capacity];
     for (int i = 0; i < length; i++) {
@@ -102,7 +103,7 @@ void Queue<T>::extend() {
     capacity *= 2;
 }
 
-template <class T>
+template <typename T>
 void Queue<T>::enqueue(const T &val) {
     if (length == capacity) {
         extend();
@@ -110,7 +111,7 @@ void Queue<T>::enqueue(const T &val) {
     queue[length++] = val;
 }
 
-template <class T>
+template <typename T>
 T Queue<T>::dequeue() {
     if (empty()) {
         throw std::runtime_error("queue index out of bound");
@@ -121,7 +122,7 @@ T Queue<T>::dequeue() {
     return elem;
 }
 
-template <class T>
+template <typename T>
 T Queue<T>::peek() const {
     if (empty()) {
         throw std::runtime_error("queue index out of bound");
@@ -129,7 +130,7 @@ T Queue<T>::peek() const {
     return queue[0];
 }
 
-template <class T>
+template <typename T>
 T Queue<T>::operator+(int index) const {
     if (index >= length || index < 0) {
         throw std::runtime_error("queue index out of bound");
@@ -137,7 +138,7 @@ T Queue<T>::operator+(int index) const {
     return queue[index];
 }
 
-template <class T>
+template <typename T>
 T Queue<T>::operator[](int index) const {
     if (index >= length || index < 0) {
         throw std::runtime_error("queue index out of bound");
@@ -145,15 +146,16 @@ T Queue<T>::operator[](int index) const {
     return queue[index];
 }
 
-template <class T>
+template <typename T>
 void Queue<T>::operator=(const Queue &q) {
+    delete[] queue;
     queue = new T[capacity];
     for (int i = 0; i < q.size(); i++) {
         enqueue(q[i]);
     }
 }
 
-template <class T>
+template <typename T>
 bool Queue<T>::empty() const {
     if (length == 0) {
         return true;
@@ -161,7 +163,7 @@ bool Queue<T>::empty() const {
     return false;
 }
 
-template <class T>
+template <typename T>
 void Queue<T>::print() const {
     for (int i = 0; i < length; i++) {
         std::cout << queue[i] << " ";
@@ -169,7 +171,7 @@ void Queue<T>::print() const {
     std::cout << std::endl;
 }
 
-template <class T>
+template <typename T>
 int Queue<T>::size() const {
     return length;
 }

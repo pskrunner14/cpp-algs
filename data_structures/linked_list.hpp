@@ -10,12 +10,12 @@
 
 namespace ds {
 
-template <class T>
+template <typename T>
 struct LinkNode {
     T value;
 };
 
-template <class T>
+template <typename T>
 class LinkedList {
   private:
     LinkNode<T> *head;

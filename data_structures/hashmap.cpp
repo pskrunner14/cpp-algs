@@ -1,175 +1,194 @@
 /**
  * Data Structures - hashmap
  * hashmap.cpp
- * Purpose: Implementation of Hashmap
+ * Purpose: Implementation of HashMap
  *
  * @author Kailash Uniyal
  * @version 1.0 30/10/18
 */
 
 #include <iostream>
-using namespace std;
+
+#include "node.hpp"
+
+namespace ds {
 
 template <typename T>
-class MapNode {
-  public:
-    const string key;
-    T value;
-    MapNode<T> *next;
-
-    MapNode(const string &key, const T &value) : key(key) {
-        this->value = value;
-        next = NULL;
-    }
-
-    ~MapNode() {
-        delete this->next;
-    }
-};
-
-template <typename T>
-class Hashmap {
+class HashMap {
   private:
     MapNode<T> **buckets;
-    int count;
-    int numBuckets;
+    int count = 0;
+    int num_buckets = 5;
 
   public:
-    Hashmap() {
-        this->count = 0;
-        this->numBuckets = 5;
-        this->buckets = new MapNode<T> *[this->numBuckets];
-        for (int i = 0; i < this->numBuckets; i++) {
-            this->buckets[i] = NULL;
-        }
-    }
+    HashMap();
 
-    Hashmap(const Hashmap &h) {
-        this->count = h.count;
-        this->numBuckets = h.numBuckets;
-        this->buckets = new MapNode<T> *[this->numBuckets];
-        for (int i = 0; i < this->numBuckets; i++) {
-            this->buckets[i] = h.buckets[i];
-        }
-    }
+    HashMap(const HashMap &);
 
-    ~Hashmap() {
-        for (int i = 0; i < this->numBuckets; i++) {
-            delete this->buckets[i];
-        }
-        delete[] this->buckets;
-    }
+    ~HashMap();
 
-    int size() {
-        return this->count;
-    }
+    inline int size() const;
 
-  private:
-    int getBucketIndex(string key) {
-        int hashCode = 0;
-        int currentCoeff = 1;
-        for (int i = key.length(); i >= 0; i--) {
-            hashCode += key[i] * currentCoeff;
-            hashCode %= this->numBuckets;
-            currentCoeff *= 37;
-            currentCoeff %= this->numBuckets;
-        }
-        return hashCode % this->numBuckets;
-    }
+    int getBucketIndex(const std::string &) const;
 
-  public:
-    double getLoadFactor() {
-        return (1.0 * this->count) / this->numBuckets;
-    }
+    inline double getLoadFactor() const;
 
-    void rehash() {
-        MapNode<T> **temp = this->buckets;
-        buckets = new MapNode<T> *[2 * this->numBuckets];
-        for (int i = 0; i < 2 * this->numBuckets; i++) {
-            this->buckets[i] = NULL;
-        }
-        int oldBucketCount = this->numBuckets;
-        this->numBuckets *= 2;
-        this->count = 0;
-        for (int i = 0; i < oldBucketCount; i++) {
-            MapNode<T> *head = temp[i];
-            while (head != NULL) {
-                string key = head->key;
-                T value = head->value;
-                insert(key, value);
-                head = head->next;
-            }
-        }
-        for (int i = 0; i < oldBucketCount; i++) {
-            delete temp[i];
-        }
-        delete[] temp;
-    }
+    void rehash();
 
-  public:
-    void insert(const string &key, const T &value) {
-        int bucketIndex = getBucketIndex(key);
-        MapNode<T> *head = this->buckets[bucketIndex];
-        while (head != NULL) {
-            if (head->key == key) {
-                head->value = value;
-                return;
-            }
-            head = head->next;
-        }
-        head = this->buckets[bucketIndex];
-        MapNode<T> *node = new MapNode<T>(key, value);
-        node->next = head;
-        this->buckets[bucketIndex] = node;
-        this->count++;
-        double loadFactor = (1.0 * this->count) / this->numBuckets;
-        if (loadFactor > 0.7) {
-            rehash();
-        }
-    }
+    void insert(const std::string &, const T &);
 
-    T getValue(const string &key) {
-        int bucketIndex = getBucketIndex(key);
-        MapNode<T> *head = this->buckets[bucketIndex];
-        while (head != NULL) {
-            if (head->key == key) {
-                return head->value;
-            }
-            head = head->next;
-        }
-        return 0;
-    }
+    T getValue(const std::string &key) const;
 
-    T remove(const string &key) {
-        int bucketIndex = getBucketIndex(key);
-        MapNode<T> *head = this->buckets[bucketIndex];
-        MapNode<T> *prev = NULL;
-        while (head != NULL) {
-            if (head->key == key) {
-                if (prev == NULL) {
-                    buckets[bucketIndex] = head->next;
-                } else {
-                    prev->next = head->next;
-                }
-                T value = head->value;
-                head->next = NULL;
-                delete head;
-                count--;
-                return value;
-            }
-            prev = head;
-            head = head->next;
-        }
-    }
+    T remove(const std::string &);
 
-    void print() {
-        for (int i = 0; i < this->numBuckets; i++) {
-            MapNode<int> *head = this->buckets[i];
-            while (head != NULL) {
-                cout << head->key << " : ";
-                cout << head->value << endl;
-                head = head->next;
-            }
-        }
-    }
+    void print() const;
 };
+
+template <typename T>
+HashMap<T>::HashMap() {
+    buckets = new MapNode<T> *[num_buckets];
+    for (int i = 0; i < num_buckets; i++) {
+        buckets[i] = NULL;
+    }
+}
+
+template <typename T>
+HashMap<T>::HashMap(const HashMap &h) {
+    count = h.count;
+    num_buckets = h.num_buckets;
+    for (int i = 0; i < num_buckets; i++) {
+        delete[] buckets[i];
+    }
+    delete[] buckets;
+    buckets = new MapNode<T> *[num_buckets];
+    for (int i = 0; i < num_buckets; i++) {
+        buckets[i] = h.buckets[i];
+    }
+}
+
+template <typename T>
+HashMap<T>::~HashMap() {
+    for (int i = 0; i < num_buckets; i++) {
+        delete[] buckets[i];
+    }
+    delete[] buckets;
+}
+
+template <typename T>
+inline int HashMap<T>::size() const {
+    return count;
+}
+
+template <typename T>
+int HashMap<T>::getBucketIndex(const std::string &key) const {
+    int hashCode = 0;
+    int currentCoeff = 1;
+    for (int i = key.length(); i >= 0; i--) {
+        hashCode += key[i] * currentCoeff;
+        hashCode %= num_buckets;
+        currentCoeff *= 37;
+        currentCoeff %= num_buckets;
+    }
+    return hashCode % num_buckets;
+}
+
+template <typename T>
+inline double HashMap<T>::getLoadFactor() const {
+    return (1.0 * count) / num_buckets;
+}
+
+template <typename T>
+void HashMap<T>::rehash() {
+    MapNode<T> **temp = buckets;
+    buckets = new MapNode<T> *[2 * num_buckets];
+    for (int i = 0; i < 2 * num_buckets; i++) {
+        buckets[i] = NULL;
+    }
+    int oldBucketCount = num_buckets;
+    num_buckets *= 2;
+    count = 0;
+    for (int i = 0; i < oldBucketCount; i++) {
+        MapNode<T> *head = temp[i];
+        while (head != NULL) {
+            std::string key = head->key;
+            T value = head->value;
+            insert(key, value);
+            head = head->next;
+        }
+    }
+    for (int i = 0; i < oldBucketCount; i++) {
+        delete[] temp[i];
+    }
+    delete[] temp;
+}
+
+template <typename T>
+void HashMap<T>::insert(const std::string &key, const T &value) {
+    int bucketIndex = getBucketIndex(key);
+    MapNode<T> *head = buckets[bucketIndex];
+    while (head != NULL) {
+        if (head->key == key) {
+            head->value = value;
+            return;
+        }
+        head = head->next;
+    }
+    head = buckets[bucketIndex];
+    MapNode<T> *node = new MapNode<T>(key, value);
+    node->next = head;
+    buckets[bucketIndex] = node;
+    count++;
+    if (getLoadFactor() > 0.7) {
+        rehash();
+    }
+}
+
+template <typename T>
+T HashMap<T>::getValue(const std::string &key) const {
+    int bucketIndex = getBucketIndex(key);
+    MapNode<T> *head = buckets[bucketIndex];
+    while (head != NULL) {
+        if (head->key == key) {
+            return head->value;
+        }
+        head = head->next;
+    }
+    return 0;
+}
+
+template <typename T>
+T HashMap<T>::remove(const std::string &key) {
+    int bucketIndex = getBucketIndex(key);
+    MapNode<T> *head = buckets[bucketIndex];
+    MapNode<T> *prev = NULL;
+    while (head != NULL) {
+        if (head->key == key) {
+            if (prev == NULL) {
+                buckets[bucketIndex] = head->next;
+            } else {
+                prev->next = head->next;
+            }
+            T value = head->value;
+            head->next = NULL;
+            delete head;
+            count--;
+            return value;
+        }
+        prev = head;
+        head = head->next;
+    }
+    return NULL;
+}
+
+template <typename T>
+void HashMap<T>::print() const {
+    for (int i = 0; i < num_buckets; i++) {
+        MapNode<int> *head = buckets[i];
+        while (head != NULL) {
+            std::cout << head->key << " : ";
+            std::cout << head->value << std::endl;
+            head = head->next;
+        }
+    }
+}
+} // namespace ds

@@ -15,7 +15,7 @@
  * @param arr the array to sort (type T).
  * @param size the size of the array.
 */
-template <class T>
+template <typename T>
 void shellSort(T *arr, const int &size) {
     int h = 1;
     while (h < size / 3)

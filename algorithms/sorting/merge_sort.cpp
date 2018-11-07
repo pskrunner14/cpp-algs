@@ -7,7 +7,7 @@
  * @version 1.0 11/09/18
 */
 
-template <class T>
+template <typename T>
 void merge(T *arr, T *aux, const int &lo, const int &mid, const int &hi) {
     for (int k = lo; k <= hi; k++) {
         aux[k] = arr[k];
@@ -25,7 +25,7 @@ void merge(T *arr, T *aux, const int &lo, const int &mid, const int &hi) {
     }
 }
 
-template <class T>
+template <typename T>
 void msort(T *arr, T *aux, const int &lo, const int &hi) {
     if (hi <= lo)
         return;
@@ -41,7 +41,7 @@ void msort(T *arr, T *aux, const int &lo, const int &hi) {
  * @param arr the array to sort (type T).
  * @param size the size of the array.
 */
-template <class T>
+template <typename T>
 void mergeSort(T *arr, const int &size) {
     T *aux = new T[size];
     msort(arr, aux, 0, size - 1);

@@ -13,7 +13,7 @@
  * @param arr the array to sort (type T).
  * @param size the size of the array.
 */
-template <class T>
+template <typename T>
 void insertionSort(T *arr, const int &size) {
     for (int i = 1; i < size; i++) {
         T key = arr[i];

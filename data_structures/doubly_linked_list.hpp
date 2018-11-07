@@ -10,28 +10,11 @@
 */
 #include <iostream>
 
+#include "node.hpp"
+
 namespace ds {
 
-template <class T>
-class DoubleNode {
-  public:
-    T value;
-    DoubleNode<T> *prev;
-    DoubleNode<T> *next;
-
-    DoubleNode(const T &);
-
-    DoubleNode(const T &, DoubleNode *, DoubleNode *);
-};
-
-// double node implementation
-template <class T>
-DoubleNode<T>::DoubleNode(const T &value) : value(value) {}
-
-template <class T>
-DoubleNode<T>::DoubleNode(const T &value, DoubleNode *prev, DoubleNode *next) : value(value), prev(prev), next(next) {}
-
-template <class T>
+template <typename T>
 class DoublyLinkedList {
   private:
     DoubleNode<T> *head;
@@ -69,23 +52,23 @@ class DoublyLinkedList {
 };
 
 // doubly linked list implementation
-template <class T>
+template <typename T>
 DoublyLinkedList<T>::DoublyLinkedList() {
     head = NULL;
     tail = NULL;
 }
 
-template <class T>
+template <typename T>
 DoublyLinkedList<T>::DoublyLinkedList(const T &value) {
     insertNode(value);
 }
 
-template <class T>
+template <typename T>
 DoublyLinkedList<T>::DoublyLinkedList(T *arr, const int &size) {
     insertArray(arr, size);
 }
 
-template <class T>
+template <typename T>
 DoublyLinkedList<T>::DoublyLinkedList(const DoublyLinkedList &d) {
     DoubleNode<T> *temp = d.getLinkedList();
     while (temp != NULL) {
@@ -94,14 +77,14 @@ DoublyLinkedList<T>::DoublyLinkedList(const DoublyLinkedList &d) {
     }
 }
 
-template <class T>
+template <typename T>
 DoublyLinkedList<T>::~DoublyLinkedList() {
     // delete linked list when object is destroyed
     delete head;
     delete tail;
 }
 
-template <class T>
+template <typename T>
 void DoublyLinkedList<T>::insertNode(const T &value) {
     if (head == NULL) {
         head = new DoubleNode<T>(value);
@@ -116,14 +99,14 @@ void DoublyLinkedList<T>::insertNode(const T &value) {
     size++;
 }
 
-template <class T>
+template <typename T>
 void DoublyLinkedList<T>::insertArray(T *arr, const int &size) {
     for (int i = 0; i < size; i++) {
         insertNode(arr[i]);
     }
 }
 
-template <class T>
+template <typename T>
 void DoublyLinkedList<T>::deleteNode(const T &value) {
     if (head->value == value) {
         DoubleNode<T> *temp = head->next;
@@ -152,7 +135,7 @@ void DoublyLinkedList<T>::deleteNode(const T &value) {
     }
 }
 
-template <class T>
+template <typename T>
 DoubleNode<T> *DoublyLinkedList<T>::search(const T &value) const {
     DoubleNode<T> *temp_s = head;
     DoubleNode<T> *temp_e = tail;
@@ -169,7 +152,7 @@ DoubleNode<T> *DoublyLinkedList<T>::search(const T &value) const {
     return NULL;
 }
 
-template <class T>
+template <typename T>
 void DoublyLinkedList<T>::reverse() {
     DoubleNode<T> *temp = NULL;
     DoubleNode<T> *current = head;
@@ -185,17 +168,17 @@ void DoublyLinkedList<T>::reverse() {
     head->next = temp->prev;
 }
 
-template <class T>
+template <typename T>
 inline int DoublyLinkedList<T>::getSize() const {
     return size;
 }
 
-template <class T>
+template <typename T>
 inline DoubleNode<T> *DoublyLinkedList<T>::getLinkedList() const {
     return head;
 }
 
-template <class T>
+template <typename T>
 void DoublyLinkedList<T>::print() const {
     for (DoubleNode<T> *temp = head; temp != NULL; temp = temp->next)
         std::cout << temp->value << " ";

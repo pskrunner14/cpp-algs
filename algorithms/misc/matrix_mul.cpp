@@ -18,7 +18,7 @@
  * 
  * @returns the mxk output matrix.
 */
-template <class T>
+template <typename T>
 T **matmul(T **a, T **b, const int &m, const int &n, const int &k) {
     T **out = new T *[m];
     for (int i = 0; i < m; i++) {

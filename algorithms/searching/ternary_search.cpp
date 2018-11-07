@@ -15,7 +15,7 @@
  * @param key the element to search for (type T).
  * @returns The index of the key element (default: -1)
 */
-template <class T>
+template <typename T>
 int ternarySearch(T *arr, const int &n, const T &key) {
     int start = 0;
     int end = n - 1;
