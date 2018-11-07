@@ -2,19 +2,16 @@
 
 # remove build dir if present
 rm -rf build
-# create build dir
 mkdir build
 
-# step into build dir
 cd build
 # start build process and create Makefile
 cmake ..
 # build project using Makefile
 make 
-# install the shared lib
+# install the shared object file
 sudo make install
 
-# move to root
 cd ..
 # launch test program
 echo "[INSTALL] testing..."
