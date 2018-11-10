@@ -12,6 +12,6 @@ script:
     - cmake ..
     - make
     - cd ..
-    - g++ tests/catch_main.cpp -I tests/ -L build/ -l cpp_algs -I cpp_algs/ && ./a.out
+    - g++ -std=c++11 tests/catch_main.cpp -I tests/ -L build/ -l cpp_algs -I cpp_algs/ && ./a.out
     - rm a.out
     - rm -rf build
