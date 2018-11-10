@@ -56,7 +56,7 @@ class Stack {
     T operator[](int) const;
 
     // assignment operator to make deep copy
-    void operator=(const Stack &);
+    Stack &operator=(const Stack &);
 
     // helper method to print the content of stack
     void print() const;
@@ -145,12 +145,13 @@ T Stack<T>::operator[](int index) const {
 }
 
 template <typename T>
-void Stack<T>::operator=(const Stack &s) {
+Stack<T> &Stack<T>::operator=(const Stack &s) {
     delete[] stack;
     stack = new T[capacity];
     for (int i = 0; i < s.size(); i++) {
         push(s[i]);
     }
+    return *this;
 }
 
 template <typename T>
@@ -164,9 +165,9 @@ bool Stack<T>::empty() const {
 template <typename T>
 void Stack<T>::print() const {
     for (int i = 0; i < length; i++) {
-        std::cout << stack[i] << " ";
+        std::cout << stack[i] << ' ';
     }
-    std::cout << std::endl;
+    std::cout << '\n';
 }
 
 template <typename T>

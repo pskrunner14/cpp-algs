@@ -186,7 +186,7 @@ void HashMap<T>::print() const {
         MapNode<int> *head = buckets[i];
         while (head != NULL) {
             std::cout << head->key << " : ";
-            std::cout << head->value << std::endl;
+            std::cout << head->value << '\n';
             head = head->next;
         }
     }

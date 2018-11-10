@@ -152,7 +152,7 @@ template <typename T>
 void CircularSinglyLinkedList<T>::print() const {
     SingleNode<T> *temp = head;
     for (; temp != tail; temp = temp->next)
-        std::cout << temp->value << " ";
-    std::cout << temp->value << std::endl;
+        std::cout << temp->value << ' ';
+    std::cout << temp->value << '\n';
 }
 } // namespace ds

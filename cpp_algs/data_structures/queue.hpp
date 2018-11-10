@@ -56,7 +56,7 @@ class Queue {
     T operator[](int) const;
 
     // assignment operator to make deep copy
-    void operator=(const Queue &);
+    Queue &operator=(const Queue &);
 
     // helper method to print the content of queue
     void print() const;
@@ -147,12 +147,13 @@ T Queue<T>::operator[](int index) const {
 }
 
 template <typename T>
-void Queue<T>::operator=(const Queue &q) {
+Queue<T> &Queue<T>::operator=(const Queue &q) {
     delete[] queue;
     queue = new T[capacity];
     for (int i = 0; i < q.size(); i++) {
         enqueue(q[i]);
     }
+    return *this;
 }
 
 template <typename T>
@@ -166,9 +167,9 @@ bool Queue<T>::empty() const {
 template <typename T>
 void Queue<T>::print() const {
     for (int i = 0; i < length; i++) {
-        std::cout << queue[i] << " ";
+        std::cout << queue[i] << ' ';
     }
-    std::cout << std::endl;
+    std::cout << '\n';
 }
 
 template <typename T>

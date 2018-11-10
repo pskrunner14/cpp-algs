@@ -74,7 +74,7 @@ class Deque {
     T operator[](int) const;
 
     // assignment operator to make deep copy
-    void operator=(const Deque &);
+    Deque &operator=(const Deque &);
 
     // helper method to print the content of deque
     void print() const;
@@ -215,12 +215,13 @@ T Deque<T>::operator[](int index) const {
 }
 
 template <typename T>
-void Deque<T>::operator=(const Deque &q) {
+Deque<T> &Deque<T>::operator=(const Deque &q) {
     delete[] deque;
     deque = new T[capacity];
     for (int i = 0; i < q.size(); i++) {
         enqueue_back(q[q.front + i]);
     }
+    return *this;
 }
 
 template <typename T>
@@ -234,9 +235,9 @@ bool Deque<T>::empty() const {
 template <typename T>
 void Deque<T>::print() const {
     for (int i = front; i <= back; i++) {
-        std::cout << deque[i] << " ";
+        std::cout << deque[i] << ' ';
     }
-    std::cout << std::endl;
+    std::cout << '\n';
 }
 
 template <typename T>

@@ -178,7 +178,7 @@ inline DoubleNode<T> *DoublyLinkedList<T>::getLinkedList() const {
 template <typename T>
 void DoublyLinkedList<T>::print() const {
     for (DoubleNode<T> *temp = head; temp != NULL; temp = temp->next)
-        std::cout << temp->value << " ";
-    std::cout << std::endl;
+        std::cout << temp->value << ' ';
+    std::cout << '\n';
 }
 } // namespace ds

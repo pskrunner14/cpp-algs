@@ -164,7 +164,7 @@ inline SingleNode<T> *SinglyLinkedList<T>::getLinkedList() const {
 template <typename T>
 void SinglyLinkedList<T>::print() const {
     for (SingleNode<T> *temp = head; temp != NULL; temp = temp->next)
-        std::cout << temp->value << " ";
-    std::cout << std::endl;
+        std::cout << temp->value << ' ';
+    std::cout << '\n';
 }
 } // namespace ds
