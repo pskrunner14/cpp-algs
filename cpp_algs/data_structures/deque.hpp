@@ -215,11 +215,13 @@ T Deque<T>::operator[](int index) const {
 }
 
 template <typename T>
-Deque<T> &Deque<T>::operator=(const Deque &q) {
-    delete[] deque;
-    deque = new T[capacity];
-    for (int i = 0; i < q.size(); i++) {
-        enqueue_back(q[q.front + i]);
+Deque<T> &Deque<T>::operator=(const Deque &d) {
+    if (this != &d) {
+        delete[] deque;
+        deque = new T[capacity];
+        for (int i = 0; i < d.size(); i++) {
+            enqueue_back(d[d.front + i]);
+        }
     }
     return *this;
 }

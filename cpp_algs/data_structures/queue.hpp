@@ -148,10 +148,12 @@ T Queue<T>::operator[](int index) const {
 
 template <typename T>
 Queue<T> &Queue<T>::operator=(const Queue &q) {
-    delete[] queue;
-    queue = new T[capacity];
-    for (int i = 0; i < q.size(); i++) {
-        enqueue(q[i]);
+    if (this != &q) {
+        delete[] queue;
+        queue = new T[capacity];
+        for (int i = 0; i < q.size(); i++) {
+            enqueue(q[i]);
+        }
     }
     return *this;
 }

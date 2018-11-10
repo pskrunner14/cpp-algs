@@ -146,10 +146,12 @@ T Stack<T>::operator[](int index) const {
 
 template <typename T>
 Stack<T> &Stack<T>::operator=(const Stack &s) {
-    delete[] stack;
-    stack = new T[capacity];
-    for (int i = 0; i < s.size(); i++) {
-        push(s[i]);
+    if (this != &s) {
+        delete[] stack;
+        stack = new T[capacity];
+        for (int i = 0; i < s.size(); i++) {
+            push(s[i]);
+        }
     }
     return *this;
 }
