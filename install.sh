@@ -17,8 +17,9 @@ else
 fi
 
 cd ..
-# launch test program
-if g++ tests/test.cpp -l cpp_algs -I cpp_algs/; then
+# launch verification toy program
+if g++ tests/verify.cpp -l cpp_algs -I cpp_algs/; then
+    rm a.out
     echo "[INSTALL] Test toy program working!"
 else
     echo "[INSTALL] Library installed incorrectly!"
