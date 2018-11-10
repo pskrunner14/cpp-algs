@@ -1,0 +1,17 @@
+language: cpp
+sudo: false
+dist: trusty
+compiler:
+    - g++
+os:
+    - linux
+
+script:
+    - mkdir build
+    - cd build
+    - cmake ..
+    - make
+    - cd ..
+    - g++ tests/catch_main.cpp -I tests/ -L build/ -l cpp_algs -I cpp_algs/ && ./a.out
+    - rm a.out
+    - rm -rf build
