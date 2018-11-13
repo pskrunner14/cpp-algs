@@ -1,3 +1,4 @@
+#include <cassert>
 #include <iostream>
 using namespace std;
 
@@ -16,6 +17,11 @@ int main() {
     s.insertNode("world");
     s.insertNode("!");
     s.print();
+
+    int *arr = new int[5]{43, 44, 45, 46, 47};
+    sing.insertArray(arr, 5);
+
+    sing.print();
 
     cout << "Verified installation of library!" << '\n';
     return 0;
