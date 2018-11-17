@@ -24,5 +24,8 @@ int main() {
     sing.print();
 
     cout << "Verified installation of library!" << '\n';
+
+    // cleanup
+    delete[] arr;
     return 0;
 }
