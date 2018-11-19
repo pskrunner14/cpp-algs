@@ -1,7 +1,7 @@
 /**
  * Data Structures - binary search tree
  * binary_search_tree.cpp
- * Purpose: Implementation of Binary Search Tree
+ * Purpose: Binary Search Tree interface and impl.
  *
  * @author Kailash Uniyal
  * @version 1.0 28/10/18
@@ -11,24 +11,7 @@
 #include <iostream>
 #include <queue>
 
-template <typename T>
-class BinaryTreeNode {
-  public:
-    T data;
-    BinaryTreeNode *left;
-    BinaryTreeNode *right;
-
-    BinaryTreeNode(T data) {
-        this->data = data;
-        left = NULL;
-        right = NULL;
-    }
-
-    ~BinaryTreeNode() {
-        delete left;
-        delete right;
-    }
-};
+#include "node.hpp"
 
 template <typename T>
 class BST {

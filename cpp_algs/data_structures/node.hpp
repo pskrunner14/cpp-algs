@@ -3,7 +3,7 @@
 /**
  * Data Structures - node
  * node.hpp
- * Purpose: Node interface and implementation
+ * Purpose: Node interfaces and impl.
  * 
  * @author Prabhsimran Singh
  * @version 1.0 27/10/18
@@ -12,6 +12,7 @@
 
 namespace ds {
 
+// Single Node interface
 template <typename T>
 class SingleNode {
   public:
@@ -30,6 +31,7 @@ SingleNode<T>::SingleNode(const T &value) : value(value), next(NULL) {}
 template <typename T>
 SingleNode<T>::SingleNode(const T &value, SingleNode *next) : value(value), next(next) {}
 
+// Double Node interface
 template <typename T>
 class DoubleNode {
   public:
@@ -49,6 +51,27 @@ DoubleNode<T>::DoubleNode(const T &value) : value(value), prev(NULL), next(NULL)
 template <typename T>
 DoubleNode<T>::DoubleNode(const T &value, DoubleNode *prev, DoubleNode *next) : value(value), prev(prev), next(next) {}
 
+// Binary Tree Node interface
+template <typename T>
+class BinaryTreeNode {
+  public:
+    T data;
+    BinaryTreeNode *left;
+    BinaryTreeNode *right;
+
+    BinaryTreeNode(const T &);
+
+    BinaryTreeNode(const T &, BinaryTreeNode *, BinaryTreeNode *);
+};
+
+// Binary Tree Node implementation
+template <typename T>
+BinaryTreeNode<T>::BinaryTreeNode(const T &data) : data(data), left(NULL), right(NULL) {}
+
+template <typename T>
+BinaryTreeNode<T>::BinaryTreeNode(const T &, BinaryTreeNode *left, BinaryTreeNode *right) : data(data), left(left), right(right){};
+
+// Map Node interface
 template <typename T>
 class MapNode {
   public:
@@ -59,7 +82,7 @@ class MapNode {
     MapNode(const std::string &, const T &);
 };
 
-// MapNode implementation
+// Map Node implementation
 template <typename T>
 MapNode<T>::MapNode(const std::string &key, const T &value) : key(key), value(value), next(NULL) {}
 } // namespace ds

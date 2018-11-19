@@ -3,7 +3,7 @@
 /**
  * Data Structures - linked list
  * circular_linked_list.hpp
- * Purpose: Circular Linked List interface
+ * Purpose: Circular Singly Linked List interface
  * 
  * @author Prabhsimran Singh
  * @version 1.0 27/10/18
@@ -14,6 +14,7 @@
 
 namespace ds {
 
+// Circular Singly Linked List interface
 template <typename T>
 class CircularSinglyLinkedList {
   private:
@@ -49,7 +50,7 @@ class CircularSinglyLinkedList {
     void print() const;
 };
 
-// circular singly linked list implementation
+// Circular Singly Linked List implementation
 template <typename T>
 CircularSinglyLinkedList<T>::CircularSinglyLinkedList() : head(NULL), tail(NULL) {}
 
@@ -65,42 +66,43 @@ CircularSinglyLinkedList<T>::CircularSinglyLinkedList(T *arr, const int &size) {
 
 template <typename T>
 CircularSinglyLinkedList<T>::~CircularSinglyLinkedList() {
-    // delete linked list when object is destroyed
     delete head;
     delete tail;
 }
 
 template <typename T>
 void CircularSinglyLinkedList<T>::insertNode(const T &value) {
+    SingleNode<T> *new_node = new SingleNode<T>(value);
     if (head == NULL) {
         head = new SingleNode<T>(value);
-        tail = head;
+        head = new_node;
+        tail = new_node;
         tail->next = head;
-        head->next = tail; // circular
+        head->next = tail;
         size = 1;
-        return;
+    } else {
+        tail->next = new_node;
+        new_node->next = head;
+        tail = new_node;
+        size++;
     }
-    SingleNode<T> *new_node = new SingleNode<T>(value, tail->next);
-    tail->next = new_node;
-    tail = new_node;
-    size++;
 }
 
 template <typename T>
 void CircularSinglyLinkedList<T>::insertArray(T *arr, const int &size) {
-    for (int i = 0; i < size; i++)
+    for (int i = 0; i < size; i++) {
         insertNode(arr[i]);
+    }
 }
 
 template <typename T>
 void CircularSinglyLinkedList<T>::deleteNode(const T &value) {
+    SingleNode<T> *temp = head->next;
     if (head->value == value) {
-        SingleNode<T> *temp = head;
-        tail->next = temp->next;
+        tail->next = temp;
         delete head;
         head = temp;
     } else if (tail->value == value) {
-        SingleNode<T> *temp = head;
         while (temp->next != tail) {
             temp = temp->next;
         }
@@ -109,7 +111,6 @@ void CircularSinglyLinkedList<T>::deleteNode(const T &value) {
         tail = temp;
     } else {
         SingleNode<T> *p_temp = head;
-        SingleNode<T> *temp = head->next;
         while (temp != tail) {
             if (temp->value == value) {
                 p_temp->next = temp->next;
@@ -125,17 +126,20 @@ void CircularSinglyLinkedList<T>::deleteNode(const T &value) {
 
 template <typename T>
 SingleNode<T> *CircularSinglyLinkedList<T>::search(const T &value) const {
-    if (value == head->value) {
+    if (head->value == value) {
         return head;
-    }
-    SingleNode<T> *temp = head->next;
-    while (temp != head) {
-        if (temp->value == value) {
-            return temp;
+    } else if (tail->value == value) {
+        return tail;
+    } else {
+        SingleNode<T> *temp = head->next;
+        while (temp != head) {
+            if (temp->value == value) {
+                return temp;
+            }
+            temp = temp->next;
         }
-        temp = temp->next;
+        return NULL;
     }
-    return NULL;
 }
 
 template <typename T>

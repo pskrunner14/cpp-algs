@@ -3,7 +3,7 @@
 /**
  * Data Structures - deque
  * deque.hpp
- * Purpose: Deque Interface
+ * Purpose: Deque interface and impl.
  * 
  * @author Prabhsimran Singh
  * @version 1.0 27/10/18
@@ -12,11 +12,12 @@
 
 namespace ds {
 
+// Deque interface
 template <typename T>
 class Deque {
   private:
     // pointer to our data deque
-    int *deque;
+    T *deque;
 
     // current length of the deque i.e. only valid no. of elements
     int length = 0;
@@ -86,6 +87,7 @@ class Deque {
     int size() const;
 };
 
+// Deque implementation
 template <typename T>
 Deque<T>::Deque() {
     deque = new T[capacity];

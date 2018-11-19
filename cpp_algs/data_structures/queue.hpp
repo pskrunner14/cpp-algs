@@ -3,7 +3,7 @@
 /**
  * Data Structures - queue
  * queue.hpp
- * Purpose: Queue interface and implementation
+ * Purpose: Queue interface and impl.
  * 
  * @author Prabhsimran Singh
  * @version 1.0 27/10/18
@@ -12,11 +12,12 @@
 
 namespace ds {
 
+// Queue interface
 template <typename T>
 class Queue {
   private:
     // pointer to our data queue
-    int *queue;
+    T *queue;
 
     // current length of the queue i.e. only valid no. of elements
     int length = 0;
@@ -68,6 +69,7 @@ class Queue {
     int size() const;
 };
 
+// Queue implementation
 template <typename T>
 Queue<T>::Queue() {
     queue = new T[capacity];

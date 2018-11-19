@@ -18,6 +18,7 @@ template <typename T>
 class SinglyLinkedList {
   private:
     SingleNode<T> *head;
+
     SingleNode<T> *tail;
 
     int size = 0;
@@ -109,7 +110,6 @@ void SinglyLinkedList<T>::deleteNode(const T &value) {
             head = temp;
         } else {
             delete head;
-            delete tail;
             head = NULL;
             tail = NULL;
         }

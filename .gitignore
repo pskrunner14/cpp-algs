@@ -33,10 +33,7 @@
 
 # CMake files
 build/*
+cpp_algs/config.hpp.in
 
 .vscode/*
-cpp_algs/config.hpp
 practice/*
-
-# ongoing dev
-algorithms/misc/chain_matrix_mul.cpp

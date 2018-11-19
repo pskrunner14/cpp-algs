@@ -1,6 +1,6 @@
 /*
- *  Catch v2.4.2
- *  Generated: 2018-10-26 21:12:29.223927
+ *  Catch v2.4.0
+ *  Generated: 2018-09-04 11:55:01.682061
  *  ----------------------------------------------------------
  *  This file has been merged from multiple headers. Please don't edit it directly
  *  Copyright (c) 2018 Two Blue Cubes Ltd. All rights reserved.
@@ -15,7 +15,7 @@
 
 #define CATCH_VERSION_MAJOR 2
 #define CATCH_VERSION_MINOR 4
-#define CATCH_VERSION_PATCH 2
+#define CATCH_VERSION_PATCH 0
 
 #ifdef __clang__
 #    pragma clang system_header
@@ -121,11 +121,11 @@ namespace Catch {
 
 #ifdef __cplusplus
 
-#  if (__cplusplus >= 201402L) || (defined(_MSVC_LANG) && _MSVC_LANG >= 201402L)
+#  if __cplusplus >= 201402L
 #    define CATCH_CPP14_OR_GREATER
 #  endif
 
-#  if (__cplusplus >= 201703L) || (defined(_MSVC_LANG) && _MSVC_LANG >= 201703L)
+#  if __cplusplus >= 201703L
 #    define CATCH_CPP17_OR_GREATER
 #  endif
 
@@ -200,14 +200,7 @@ namespace Catch {
 // Required for some versions of Cygwin to declare gettimeofday
 // see: http://stackoverflow.com/questions/36901803/gettimeofday-not-declared-in-this-scope-cygwin
 #   define _BSD_SOURCE
-// some versions of cygwin (most) do not support std::to_string. Use the libstd check.
-// https://gcc.gnu.org/onlinedocs/gcc-4.8.2/libstdc++/api/a01053_source.html line 2812-2813
-# if !((__cplusplus >= 201103L) && defined(_GLIBCXX_USE_C99) \
-	       && !defined(_GLIBCXX_HAVE_BROKEN_VSWPRINTF))
 
-#	define CATCH_INTERNAL_CONFIG_NO_CPP11_TO_STRING
-
-# endif
 #endif // __CYGWIN__
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -251,32 +244,6 @@ namespace Catch {
     #define CATCH_INTERNAL_CONFIG_COUNTER
 #endif
 
-////////////////////////////////////////////////////////////////////////////////
-// Check if string_view is available and usable
-// The check is split apart to work around v140 (VS2015) preprocessor issue...
-#if defined(__has_include)
-#if __has_include(<string_view>) && defined(CATCH_CPP17_OR_GREATER)
-#    define CATCH_INTERNAL_CONFIG_CPP17_STRING_VIEW
-#endif
-#endif
-
-////////////////////////////////////////////////////////////////////////////////
-// Check if variant is available and usable
-#if defined(__has_include)
-#  if __has_include(<variant>) && defined(CATCH_CPP17_OR_GREATER)
-#    if defined(__clang__) && (__clang_major__ < 8)
-       // work around clang bug with libstdc++ https://bugs.llvm.org/show_bug.cgi?id=31852
-       // fix should be in clang 8, workaround in libstdc++ 8.2
-#      include <ciso646>
-#      if defined(__GLIBCXX__) && defined(_GLIBCXX_RELEASE) && (_GLIBCXX_RELEASE < 9)
-#        define CATCH_CONFIG_NO_CPP17_VARIANT
-#     else
-#        define CATCH_INTERNAL_CONFIG_CPP17_VARIANT
-#      endif // defined(__GLIBCXX__) && defined(_GLIBCXX_RELEASE) && (_GLIBCXX_RELEASE < 9)
-#    endif // defined(__clang__) && (__clang_major__ < 8)
-#  endif // __has_include(<variant>) && defined(CATCH_CPP17_OR_GREATER)
-#endif // __has_include
-
 #if defined(CATCH_INTERNAL_CONFIG_COUNTER) && !defined(CATCH_CONFIG_NO_COUNTER) && !defined(CATCH_CONFIG_COUNTER)
 #   define CATCH_CONFIG_COUNTER
 #endif
@@ -298,14 +265,6 @@ namespace Catch {
 
 #if defined(CATCH_INTERNAL_CONFIG_CPP17_UNCAUGHT_EXCEPTIONS) && !defined(CATCH_CONFIG_NO_CPP17_UNCAUGHT_EXCEPTIONS) && !defined(CATCH_CONFIG_CPP17_UNCAUGHT_EXCEPTIONS)
 #  define CATCH_CONFIG_CPP17_UNCAUGHT_EXCEPTIONS
-#endif
-
-#if defined(CATCH_INTERNAL_CONFIG_CPP17_STRING_VIEW) && !defined(CATCH_CONFIG_NO_CPP17_STRING_VIEW) && !defined(CATCH_CONFIG_CPP17_STRING_VIEW)
-#  define CATCH_CONFIG_CPP17_STRING_VIEW
-#endif
-
-#if defined(CATCH_INTERNAL_CONFIG_CPP17_VARIANT) && !defined(CATCH_CONFIG_NO_CPP17_VARIANT) && !defined(CATCH_CONFIG_CPP17_VARIANT)
-#  define CATCH_CONFIG_CPP17_VARIANT
 #endif
 
 #if defined(CATCH_CONFIG_EXPERIMENTAL_REDIRECT)
@@ -356,10 +315,6 @@ namespace Catch {
 #include <string>
 #include <cstdint>
 
-// We need a dummy global operator<< so we can bring it into Catch namespace later
-struct Catch_global_namespace_dummy {};
-std::ostream& operator<<(std::ostream&, Catch_global_namespace_dummy);
-
 namespace Catch {
 
     struct CaseSensitive { enum Choice {
@@ -400,11 +355,6 @@ namespace Catch {
     };
 
     std::ostream& operator << ( std::ostream& os, SourceLineInfo const& info );
-
-    // Bring in operator<< from global namespace into Catch namespace
-    // This is necessary because the overload of operator<< above makes
-    // lookup stop at namespace Catch
-    using ::operator<<;
 
     // Use this in variadic streaming macros to allow
     //    >> +StreamEndStop
@@ -804,10 +754,6 @@ namespace Catch {
 
 // end catch_stream.h
 
-#ifdef CATCH_CONFIG_CPP17_STRING_VIEW
-#include <string_view>
-#endif
-
 #ifdef __OBJC__
 // start catch_objc_arc.hpp
 
@@ -859,7 +805,14 @@ inline id performOptionalSelector( id obj, SEL sel ) {
 #pragma warning(disable:4180) // We attempt to stream a function (address) by const&, which MSVC complains about but is harmless
 #endif
 
+// We need a dummy global operator<< so we can bring it into Catch namespace later
+struct Catch_global_namespace_dummy {};
+std::ostream& operator<<(std::ostream&, Catch_global_namespace_dummy);
+
 namespace Catch {
+    // Bring in operator<< from global namespace into Catch namespace
+    using ::operator<<;
+
     namespace Detail {
 
         extern const std::string unprintableString;
@@ -976,11 +929,10 @@ namespace Catch {
     struct StringMaker<std::string> {
         static std::string convert(const std::string& str);
     };
-
-#ifdef CATCH_CONFIG_CPP17_STRING_VIEW
+#ifdef CATCH_CONFIG_WCHAR
     template<>
-    struct StringMaker<std::string_view> {
-        static std::string convert(std::string_view str);
+    struct StringMaker<std::wstring> {
+        static std::string convert(const std::wstring& wstr);
     };
 #endif
 
@@ -994,18 +946,6 @@ namespace Catch {
     };
 
 #ifdef CATCH_CONFIG_WCHAR
-    template<>
-    struct StringMaker<std::wstring> {
-        static std::string convert(const std::wstring& wstr);
-    };
-
-# ifdef CATCH_CONFIG_CPP17_STRING_VIEW
-    template<>
-    struct StringMaker<std::wstring_view> {
-        static std::string convert(std::wstring_view str);
-    };
-# endif
-
     template<>
     struct StringMaker<wchar_t const *> {
         static std::string convert(wchar_t const * str);
@@ -1174,7 +1114,6 @@ namespace Catch {
 #if defined(CATCH_CONFIG_ENABLE_ALL_STRINGMAKERS)
 #  define CATCH_CONFIG_ENABLE_PAIR_STRINGMAKER
 #  define CATCH_CONFIG_ENABLE_TUPLE_STRINGMAKER
-#  define CATCH_CONFIG_ENABLE_VARIANT_STRINGMAKER
 #  define CATCH_CONFIG_ENABLE_CHRONO_STRINGMAKER
 #endif
 
@@ -1237,34 +1176,6 @@ namespace Catch {
     };
 }
 #endif // CATCH_CONFIG_ENABLE_TUPLE_STRINGMAKER
-
-#if defined(CATCH_CONFIG_ENABLE_VARIANT_STRINGMAKER) && defined(CATCH_CONFIG_CPP17_VARIANT)
-#include <variant>
-namespace Catch {
-    template<>
-    struct StringMaker<std::monostate> {
-        static std::string convert(const std::monostate&) {
-            return "{ }";
-        }
-    };
-
-    template<typename... Elements>
-    struct StringMaker<std::variant<Elements...>> {
-        static std::string convert(const std::variant<Elements...>& variant) {
-            if (variant.valueless_by_exception()) {
-                return "{valueless variant}";
-            } else {
-                return std::visit(
-                    [](const auto& value) {
-                        return ::Catch::Detail::stringify(value);
-                    },
-                    variant
-                );
-            }
-        }
-    };
-}
-#endif // CATCH_CONFIG_ENABLE_VARIANT_STRINGMAKER
 
 namespace Catch {
     struct not_this_one {}; // Tag type for detecting which begin/ end are being selected
@@ -2850,7 +2761,7 @@ namespace Matchers {
                 auto lfirst = m_target.begin(), llast = m_target.end();
                 auto rfirst = vec.begin(), rlast = vec.end();
                 // Cut common prefix to optimize checking of permuted parts
-                while (lfirst != llast && *lfirst == *rfirst) {
+                while (lfirst != llast && *lfirst != *rfirst) {
                     ++lfirst; ++rfirst;
                 }
                 if (lfirst == llast) {
@@ -5123,7 +5034,6 @@ namespace Catch {
 
     struct LeakDetector {
         LeakDetector();
-        ~LeakDetector();
     };
 
 }
@@ -5775,7 +5685,7 @@ namespace Catch {
 //
 // See https://github.com/philsquared/Clara for more details
 
-// Clara v1.1.5
+// Clara v1.1.4
 
 
 #ifndef CATCH_CLARA_CONFIG_CONSOLE_WIDTH
@@ -5801,8 +5711,8 @@ namespace Catch {
 //
 // A single-header library for wrapping and laying out basic text, by Phil Nash
 //
-// Distributed under the Boost Software License, Version 1.0. (See accompanying
-// file LICENSE.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
+// This work is licensed under the BSD 2-Clause license.
+// See the accompanying LICENSE file, or the one at https://opensource.org/licenses/BSD-2-Clause
 //
 // This project is hosted at https://github.com/philsquared/textflowcpp
 
@@ -5816,324 +5726,314 @@ namespace Catch {
 #define CATCH_CLARA_TEXTFLOW_CONFIG_CONSOLE_WIDTH 80
 #endif
 
-namespace Catch {
-namespace clara {
-namespace TextFlow {
+namespace Catch { namespace clara { namespace TextFlow {
 
-inline auto isWhitespace(char c) -> bool {
-	static std::string chars = " \t\n\r";
-	return chars.find(c) != std::string::npos;
-}
-inline auto isBreakableBefore(char c) -> bool {
-	static std::string chars = "[({<|";
-	return chars.find(c) != std::string::npos;
-}
-inline auto isBreakableAfter(char c) -> bool {
-	static std::string chars = "])}>.,:;*+-=&/\\";
-	return chars.find(c) != std::string::npos;
-}
+    inline auto isWhitespace( char c ) -> bool {
+        static std::string chars = " \t\n\r";
+        return chars.find( c ) != std::string::npos;
+    }
+    inline auto isBreakableBefore( char c ) -> bool {
+        static std::string chars = "[({<|";
+        return chars.find( c ) != std::string::npos;
+    }
+    inline auto isBreakableAfter( char c ) -> bool {
+        static std::string chars = "])}>.,:;*+-=&/\\";
+        return chars.find( c ) != std::string::npos;
+    }
 
-class Columns;
+    class Columns;
 
-class Column {
-	std::vector<std::string> m_strings;
-	size_t m_width = CATCH_CLARA_TEXTFLOW_CONFIG_CONSOLE_WIDTH;
-	size_t m_indent = 0;
-	size_t m_initialIndent = std::string::npos;
+    class Column {
+        std::vector<std::string> m_strings;
+        size_t m_width = CATCH_CLARA_TEXTFLOW_CONFIG_CONSOLE_WIDTH;
+        size_t m_indent = 0;
+        size_t m_initialIndent = std::string::npos;
 
-public:
-	class iterator {
-		friend Column;
+    public:
+        class iterator {
+            friend Column;
 
-		Column const& m_column;
-		size_t m_stringIndex = 0;
-		size_t m_pos = 0;
+            Column const& m_column;
+            size_t m_stringIndex = 0;
+            size_t m_pos = 0;
 
-		size_t m_len = 0;
-		size_t m_end = 0;
-		bool m_suffix = false;
+            size_t m_len = 0;
+            size_t m_end = 0;
+            bool m_suffix = false;
 
-		iterator(Column const& column, size_t stringIndex)
-			: m_column(column),
-			m_stringIndex(stringIndex) {}
+            iterator( Column const& column, size_t stringIndex )
+            :   m_column( column ),
+                m_stringIndex( stringIndex )
+            {}
 
-		auto line() const -> std::string const& { return m_column.m_strings[m_stringIndex]; }
+            auto line() const -> std::string const& { return m_column.m_strings[m_stringIndex]; }
 
-		auto isBoundary(size_t at) const -> bool {
-			assert(at > 0);
-			assert(at <= line().size());
+            auto isBoundary( size_t at ) const -> bool {
+                assert( at > 0 );
+                assert( at <= line().size() );
 
-			return at == line().size() ||
-				(isWhitespace(line()[at]) && !isWhitespace(line()[at - 1])) ||
-				isBreakableBefore(line()[at]) ||
-				isBreakableAfter(line()[at - 1]);
-		}
+                return at == line().size() ||
+                       ( isWhitespace( line()[at] ) && !isWhitespace( line()[at-1] ) ) ||
+                       isBreakableBefore( line()[at] ) ||
+                       isBreakableAfter( line()[at-1] );
+            }
 
-		void calcLength() {
-			assert(m_stringIndex < m_column.m_strings.size());
+            void calcLength() {
+                assert( m_stringIndex < m_column.m_strings.size() );
 
-			m_suffix = false;
-			auto width = m_column.m_width - indent();
-			m_end = m_pos;
-			while (m_end < line().size() && line()[m_end] != '\n')
-				++m_end;
+                m_suffix = false;
+                auto width = m_column.m_width-indent();
+                m_end = m_pos;
+                while( m_end < line().size() && line()[m_end] != '\n' )
+                    ++m_end;
 
-			if (m_end < m_pos + width) {
-				m_len = m_end - m_pos;
-			} else {
-				size_t len = width;
-				while (len > 0 && !isBoundary(m_pos + len))
-					--len;
-				while (len > 0 && isWhitespace(line()[m_pos + len - 1]))
-					--len;
+                if( m_end < m_pos + width ) {
+                    m_len = m_end - m_pos;
+                }
+                else {
+                    size_t len = width;
+                    while (len > 0 && !isBoundary(m_pos + len))
+                        --len;
+                    while (len > 0 && isWhitespace( line()[m_pos + len - 1] ))
+                        --len;
 
-				if (len > 0) {
-					m_len = len;
-				} else {
-					m_suffix = true;
-					m_len = width - 1;
-				}
-			}
-		}
+                    if (len > 0) {
+                        m_len = len;
+                    } else {
+                        m_suffix = true;
+                        m_len = width - 1;
+                    }
+                }
+            }
 
-		auto indent() const -> size_t {
-			auto initial = m_pos == 0 && m_stringIndex == 0 ? m_column.m_initialIndent : std::string::npos;
-			return initial == std::string::npos ? m_column.m_indent : initial;
-		}
+            auto indent() const -> size_t {
+                auto initial = m_pos == 0 && m_stringIndex == 0 ? m_column.m_initialIndent : std::string::npos;
+                return initial == std::string::npos ? m_column.m_indent : initial;
+            }
 
-		auto addIndentAndSuffix(std::string const &plain) const -> std::string {
-			return std::string(indent(), ' ') + (m_suffix ? plain + "-" : plain);
-		}
+            auto addIndentAndSuffix(std::string const &plain) const -> std::string {
+                return std::string( indent(), ' ' ) + (m_suffix ? plain + "-" : plain);
+            }
 
-	public:
-		using difference_type = std::ptrdiff_t;
-		using value_type = std::string;
-		using pointer = value_type * ;
-		using reference = value_type & ;
-		using iterator_category = std::forward_iterator_tag;
+        public:
+            explicit iterator( Column const& column ) : m_column( column ) {
+                assert( m_column.m_width > m_column.m_indent );
+                assert( m_column.m_initialIndent == std::string::npos || m_column.m_width > m_column.m_initialIndent );
+                calcLength();
+                if( m_len == 0 )
+                    m_stringIndex++; // Empty string
+            }
 
-		explicit iterator(Column const& column) : m_column(column) {
-			assert(m_column.m_width > m_column.m_indent);
-			assert(m_column.m_initialIndent == std::string::npos || m_column.m_width > m_column.m_initialIndent);
-			calcLength();
-			if (m_len == 0)
-				m_stringIndex++; // Empty string
-		}
+            auto operator *() const -> std::string {
+                assert( m_stringIndex < m_column.m_strings.size() );
+                assert( m_pos <= m_end );
+                if( m_pos + m_column.m_width < m_end )
+                    return addIndentAndSuffix(line().substr(m_pos, m_len));
+                else
+                    return addIndentAndSuffix(line().substr(m_pos, m_end - m_pos));
+            }
 
-		auto operator *() const -> std::string {
-			assert(m_stringIndex < m_column.m_strings.size());
-			assert(m_pos <= m_end);
-			return addIndentAndSuffix(line().substr(m_pos, m_len));
-		}
+            auto operator ++() -> iterator& {
+                m_pos += m_len;
+                if( m_pos < line().size() && line()[m_pos] == '\n' )
+                    m_pos += 1;
+                else
+                    while( m_pos < line().size() && isWhitespace( line()[m_pos] ) )
+                        ++m_pos;
 
-		auto operator ++() -> iterator& {
-			m_pos += m_len;
-			if (m_pos < line().size() && line()[m_pos] == '\n')
-				m_pos += 1;
-			else
-				while (m_pos < line().size() && isWhitespace(line()[m_pos]))
-					++m_pos;
+                if( m_pos == line().size() ) {
+                    m_pos = 0;
+                    ++m_stringIndex;
+                }
+                if( m_stringIndex < m_column.m_strings.size() )
+                    calcLength();
+                return *this;
+            }
+            auto operator ++(int) -> iterator {
+                iterator prev( *this );
+                operator++();
+                return prev;
+            }
 
-			if (m_pos == line().size()) {
-				m_pos = 0;
-				++m_stringIndex;
-			}
-			if (m_stringIndex < m_column.m_strings.size())
-				calcLength();
-			return *this;
-		}
-		auto operator ++(int) -> iterator {
-			iterator prev(*this);
-			operator++();
-			return prev;
-		}
+            auto operator ==( iterator const& other ) const -> bool {
+                return
+                    m_pos == other.m_pos &&
+                    m_stringIndex == other.m_stringIndex &&
+                    &m_column == &other.m_column;
+            }
+            auto operator !=( iterator const& other ) const -> bool {
+                return !operator==( other );
+            }
+        };
+        using const_iterator = iterator;
 
-		auto operator ==(iterator const& other) const -> bool {
-			return
-				m_pos == other.m_pos &&
-				m_stringIndex == other.m_stringIndex &&
-				&m_column == &other.m_column;
-		}
-		auto operator !=(iterator const& other) const -> bool {
-			return !operator==(other);
-		}
-	};
-	using const_iterator = iterator;
+        explicit Column( std::string const& text ) { m_strings.push_back( text ); }
 
-	explicit Column(std::string const& text) { m_strings.push_back(text); }
+        auto width( size_t newWidth ) -> Column& {
+            assert( newWidth > 0 );
+            m_width = newWidth;
+            return *this;
+        }
+        auto indent( size_t newIndent ) -> Column& {
+            m_indent = newIndent;
+            return *this;
+        }
+        auto initialIndent( size_t newIndent ) -> Column& {
+            m_initialIndent = newIndent;
+            return *this;
+        }
 
-	auto width(size_t newWidth) -> Column& {
-		assert(newWidth > 0);
-		m_width = newWidth;
-		return *this;
-	}
-	auto indent(size_t newIndent) -> Column& {
-		m_indent = newIndent;
-		return *this;
-	}
-	auto initialIndent(size_t newIndent) -> Column& {
-		m_initialIndent = newIndent;
-		return *this;
-	}
+        auto width() const -> size_t { return m_width; }
+        auto begin() const -> iterator { return iterator( *this ); }
+        auto end() const -> iterator { return { *this, m_strings.size() }; }
 
-	auto width() const -> size_t { return m_width; }
-	auto begin() const -> iterator { return iterator(*this); }
-	auto end() const -> iterator { return { *this, m_strings.size() }; }
+        inline friend std::ostream& operator << ( std::ostream& os, Column const& col ) {
+            bool first = true;
+            for( auto line : col ) {
+                if( first )
+                    first = false;
+                else
+                    os << "\n";
+                os <<  line;
+            }
+            return os;
+        }
 
-	inline friend std::ostream& operator << (std::ostream& os, Column const& col) {
-		bool first = true;
-		for (auto line : col) {
-			if (first)
-				first = false;
-			else
-				os << "\n";
-			os << line;
-		}
-		return os;
-	}
+        auto operator + ( Column const& other ) -> Columns;
 
-	auto operator + (Column const& other)->Columns;
+        auto toString() const -> std::string {
+            std::ostringstream oss;
+            oss << *this;
+            return oss.str();
+        }
+    };
 
-	auto toString() const -> std::string {
-		std::ostringstream oss;
-		oss << *this;
-		return oss.str();
-	}
-};
+    class Spacer : public Column {
 
-class Spacer : public Column {
+    public:
+        explicit Spacer( size_t spaceWidth ) : Column( "" ) {
+            width( spaceWidth );
+        }
+    };
 
-public:
-	explicit Spacer(size_t spaceWidth) : Column("") {
-		width(spaceWidth);
-	}
-};
+    class Columns {
+        std::vector<Column> m_columns;
 
-class Columns {
-	std::vector<Column> m_columns;
+    public:
 
-public:
+        class iterator {
+            friend Columns;
+            struct EndTag {};
 
-	class iterator {
-		friend Columns;
-		struct EndTag {};
+            std::vector<Column> const& m_columns;
+            std::vector<Column::iterator> m_iterators;
+            size_t m_activeIterators;
 
-		std::vector<Column> const& m_columns;
-		std::vector<Column::iterator> m_iterators;
-		size_t m_activeIterators;
+            iterator( Columns const& columns, EndTag )
+            :   m_columns( columns.m_columns ),
+                m_activeIterators( 0 )
+            {
+                m_iterators.reserve( m_columns.size() );
 
-		iterator(Columns const& columns, EndTag)
-			: m_columns(columns.m_columns),
-			m_activeIterators(0) {
-			m_iterators.reserve(m_columns.size());
+                for( auto const& col : m_columns )
+                    m_iterators.push_back( col.end() );
+            }
 
-			for (auto const& col : m_columns)
-				m_iterators.push_back(col.end());
-		}
+        public:
+            explicit iterator( Columns const& columns )
+            :   m_columns( columns.m_columns ),
+                m_activeIterators( m_columns.size() )
+            {
+                m_iterators.reserve( m_columns.size() );
 
-	public:
-		using difference_type = std::ptrdiff_t;
-		using value_type = std::string;
-		using pointer = value_type * ;
-		using reference = value_type & ;
-		using iterator_category = std::forward_iterator_tag;
+                for( auto const& col : m_columns )
+                    m_iterators.push_back( col.begin() );
+            }
 
-		explicit iterator(Columns const& columns)
-			: m_columns(columns.m_columns),
-			m_activeIterators(m_columns.size()) {
-			m_iterators.reserve(m_columns.size());
+            auto operator ==( iterator const& other ) const -> bool {
+                return m_iterators == other.m_iterators;
+            }
+            auto operator !=( iterator const& other ) const -> bool {
+                return m_iterators != other.m_iterators;
+            }
+            auto operator *() const -> std::string {
+                std::string row, padding;
 
-			for (auto const& col : m_columns)
-				m_iterators.push_back(col.begin());
-		}
+                for( size_t i = 0; i < m_columns.size(); ++i ) {
+                    auto width = m_columns[i].width();
+                    if( m_iterators[i] != m_columns[i].end() ) {
+                        std::string col = *m_iterators[i];
+                        row += padding + col;
+                        if( col.size() < width )
+                            padding = std::string( width - col.size(), ' ' );
+                        else
+                            padding = "";
+                    }
+                    else {
+                        padding += std::string( width, ' ' );
+                    }
+                }
+                return row;
+            }
+            auto operator ++() -> iterator& {
+                for( size_t i = 0; i < m_columns.size(); ++i ) {
+                    if (m_iterators[i] != m_columns[i].end())
+                        ++m_iterators[i];
+                }
+                return *this;
+            }
+            auto operator ++(int) -> iterator {
+                iterator prev( *this );
+                operator++();
+                return prev;
+            }
+        };
+        using const_iterator = iterator;
 
-		auto operator ==(iterator const& other) const -> bool {
-			return m_iterators == other.m_iterators;
-		}
-		auto operator !=(iterator const& other) const -> bool {
-			return m_iterators != other.m_iterators;
-		}
-		auto operator *() const -> std::string {
-			std::string row, padding;
+        auto begin() const -> iterator { return iterator( *this ); }
+        auto end() const -> iterator { return { *this, iterator::EndTag() }; }
 
-			for (size_t i = 0; i < m_columns.size(); ++i) {
-				auto width = m_columns[i].width();
-				if (m_iterators[i] != m_columns[i].end()) {
-					std::string col = *m_iterators[i];
-					row += padding + col;
-					if (col.size() < width)
-						padding = std::string(width - col.size(), ' ');
-					else
-						padding = "";
-				} else {
-					padding += std::string(width, ' ');
-				}
-			}
-			return row;
-		}
-		auto operator ++() -> iterator& {
-			for (size_t i = 0; i < m_columns.size(); ++i) {
-				if (m_iterators[i] != m_columns[i].end())
-					++m_iterators[i];
-			}
-			return *this;
-		}
-		auto operator ++(int) -> iterator {
-			iterator prev(*this);
-			operator++();
-			return prev;
-		}
-	};
-	using const_iterator = iterator;
+        auto operator += ( Column const& col ) -> Columns& {
+            m_columns.push_back( col );
+            return *this;
+        }
+        auto operator + ( Column const& col ) -> Columns {
+            Columns combined = *this;
+            combined += col;
+            return combined;
+        }
 
-	auto begin() const -> iterator { return iterator(*this); }
-	auto end() const -> iterator { return { *this, iterator::EndTag() }; }
+        inline friend std::ostream& operator << ( std::ostream& os, Columns const& cols ) {
 
-	auto operator += (Column const& col) -> Columns& {
-		m_columns.push_back(col);
-		return *this;
-	}
-	auto operator + (Column const& col) -> Columns {
-		Columns combined = *this;
-		combined += col;
-		return combined;
-	}
+            bool first = true;
+            for( auto line : cols ) {
+                if( first )
+                    first = false;
+                else
+                    os << "\n";
+                os << line;
+            }
+            return os;
+        }
 
-	inline friend std::ostream& operator << (std::ostream& os, Columns const& cols) {
+        auto toString() const -> std::string {
+            std::ostringstream oss;
+            oss << *this;
+            return oss.str();
+        }
+    };
 
-		bool first = true;
-		for (auto line : cols) {
-			if (first)
-				first = false;
-			else
-				os << "\n";
-			os << line;
-		}
-		return os;
-	}
-
-	auto toString() const -> std::string {
-		std::ostringstream oss;
-		oss << *this;
-		return oss.str();
-	}
-};
-
-inline auto Column::operator + (Column const& other) -> Columns {
-	Columns cols;
-	cols += *this;
-	cols += other;
-	return cols;
-}
-}
-
-}
-}
+    inline auto Column::operator + ( Column const& other ) -> Columns {
+        Columns cols;
+        cols += *this;
+        cols += other;
+        return cols;
+    }
+}}} // namespace Catch::clara::TextFlow
 
 // ----------- end of #include from clara_textflow.hpp -----------
 // ........... back in clara.hpp
 
-#include <string>
 #include <memory>
 #include <set>
 #include <algorithm>
@@ -7132,18 +7032,6 @@ namespace Catch {
                 return ParserResult::runtimeError( "Unrecognised verbosity, '" + verbosity + "'" );
             return ParserResult::ok( ParseResultType::Matched );
         };
-        auto const setReporter = [&]( std::string const& reporter ) {
-            IReporterRegistry::FactoryMap const& factories = getRegistryHub().getReporterRegistry().getFactories();
-
-            auto lcReporter = toLower( reporter );
-            auto result = factories.find( lcReporter );
-
-            if( factories.end() != result )
-                config.reporterName = lcReporter;
-            else
-                return ParserResult::runtimeError( "Unrecognized reporter, '" + reporter + "'. Check available with --list-reporters" );
-            return ParserResult::ok( ParseResultType::Matched );
-        };
 
         auto cli
             = ExeName( config.processName )
@@ -7169,7 +7057,7 @@ namespace Catch {
             | Opt( config.outputFilename, "filename" )
                 ["-o"]["--out"]
                 ( "output filename" )
-            | Opt( setReporter, "name" )
+            | Opt( config.reporterName, "name" )
                 ["-r"]["--reporter"]
                 ( "reporter to use (defaults to console)" )
             | Opt( config.name, "name" )
@@ -8317,10 +8205,6 @@ namespace Catch {
     Catch::LeakDetector::LeakDetector() {}
 
 #endif
-
-Catch::LeakDetector::~LeakDetector() {
-    Catch::cleanUp();
-}
 // end catch_leak_detector.cpp
 // start catch_list.cpp
 
@@ -8344,7 +8228,7 @@ namespace Catch {
 
     std::size_t listTags( Config const& config );
 
-    std::size_t listReporters();
+    std::size_t listReporters( Config const& /*config*/ );
 
     Option<std::size_t> list( Config const& config );
 
@@ -8462,7 +8346,7 @@ namespace Catch {
         return tagCounts.size();
     }
 
-    std::size_t listReporters() {
+    std::size_t listReporters( Config const& /*config*/ ) {
         Catch::cout() << "Available reporters:\n";
         IReporterRegistry::FactoryMap const& factories = getRegistryHub().getReporterRegistry().getFactories();
         std::size_t maxNameLen = 0;
@@ -8493,7 +8377,7 @@ namespace Catch {
         if( config.listTags() )
             listedCount = listedCount.valueOr(0) + listTags( config );
         if( config.listReporters() )
-            listedCount = listedCount.valueOr(0) + listReporters();
+            listedCount = listedCount.valueOr(0) + listReporters( config );
         return listedCount;
     }
 
@@ -9713,7 +9597,7 @@ namespace Catch {
     }
 
     bool RunContext::aborting() const {
-        return m_totals.assertions.failed >= static_cast<std::size_t>(m_config->abortAfter());
+        return m_totals.assertions.failed == static_cast<std::size_t>(m_config->abortAfter());
     }
 
     void RunContext::runCurrentTest(std::string & redirectedCout, std::string & redirectedCerr) {
@@ -9959,22 +9843,13 @@ namespace Catch {
         void libIdentify();
 
         int applyCommandLine( int argc, char const * const * argv );
-    #if defined(CATCH_CONFIG_WCHAR) && defined(WIN32) && defined(UNICODE)
-        int applyCommandLine( int argc, wchar_t const * const * argv );
-    #endif
 
         void useConfigData( ConfigData const& configData );
 
-        template<typename CharT>
-        int run(int argc, CharT const * const argv[]) {
-            if (m_startupExceptions)
-                return 1;
-            int returnCode = applyCommandLine(argc, argv);
-            if (returnCode == 0)
-                returnCode = run();
-            return returnCode;
-        }
-
+        int run( int argc, char* argv[] );
+    #if defined(CATCH_CONFIG_WCHAR) && defined(WIN32) && defined(UNICODE)
+        int run( int argc, wchar_t* const argv[] );
+    #endif
         int run();
 
         clara::Parser const& cli() const;
@@ -10186,8 +10061,22 @@ namespace Catch {
         return 0;
     }
 
+    void Session::useConfigData( ConfigData const& configData ) {
+        m_configData = configData;
+        m_config.reset();
+    }
+
+    int Session::run( int argc, char* argv[] ) {
+        if( m_startupExceptions )
+            return 1;
+        int returnCode = applyCommandLine( argc, argv );
+        if( returnCode == 0 )
+            returnCode = run();
+        return returnCode;
+    }
+
 #if defined(CATCH_CONFIG_WCHAR) && defined(WIN32) && defined(UNICODE)
-    int Session::applyCommandLine( int argc, wchar_t const * const * argv ) {
+    int Session::run( int argc, wchar_t* const argv[] ) {
 
         char **utf8Argv = new char *[ argc ];
 
@@ -10199,7 +10088,7 @@ namespace Catch {
             WideCharToMultiByte( CP_UTF8, 0, argv[i], -1, utf8Argv[i], bufSize, NULL, NULL );
         }
 
-        int returnCode = applyCommandLine( argc, utf8Argv );
+        int returnCode = run( argc, utf8Argv );
 
         for ( int i = 0; i < argc; ++i )
             delete [] utf8Argv[ i ];
@@ -10209,12 +10098,6 @@ namespace Catch {
         return returnCode;
     }
 #endif
-
-    void Session::useConfigData( ConfigData const& configData ) {
-        m_configData = configData;
-        m_config.reset();
-    }
-
     int Session::run() {
         if( ( m_configData.waitForKeypress & WaitForKeypress::BeforeStart ) != 0 ) {
             Catch::cout() << "...waiting for enter/ return before starting" << std::endl;
@@ -11629,9 +11512,14 @@ std::string StringMaker<std::string>::convert(const std::string& str) {
     return s;
 }
 
-#ifdef CATCH_CONFIG_CPP17_STRING_VIEW
-std::string StringMaker<std::string_view>::convert(std::string_view str) {
-    return ::Catch::Detail::stringify(std::string{ str });
+#ifdef CATCH_CONFIG_WCHAR
+std::string StringMaker<std::wstring>::convert(const std::wstring& wstr) {
+    std::string s;
+    s.reserve(wstr.size());
+    for (auto c : wstr) {
+        s += (c <= 0xff) ? static_cast<char>(c) : '?';
+    }
+    return ::Catch::Detail::stringify(s);
 }
 #endif
 
@@ -11649,23 +11537,7 @@ std::string StringMaker<char*>::convert(char* str) {
         return{ "{null string}" };
     }
 }
-
 #ifdef CATCH_CONFIG_WCHAR
-std::string StringMaker<std::wstring>::convert(const std::wstring& wstr) {
-    std::string s;
-    s.reserve(wstr.size());
-    for (auto c : wstr) {
-        s += (c <= 0xff) ? static_cast<char>(c) : '?';
-    }
-    return ::Catch::Detail::stringify(s);
-}
-
-# ifdef CATCH_CONFIG_CPP17_STRING_VIEW
-std::string StringMaker<std::wstring_view>::convert(std::wstring_view str) {
-    return StringMaker<std::wstring>::convert(std::wstring(str));
-}
-# endif
-
 std::string StringMaker<wchar_t const*>::convert(wchar_t const * str) {
     if (str) {
         return ::Catch::Detail::stringify(std::wstring{ str });
@@ -11716,7 +11588,7 @@ std::string StringMaker<bool>::convert(bool b) {
     return b ? "true" : "false";
 }
 
-std::string StringMaker<signed char>::convert(signed char value) {
+std::string StringMaker<char>::convert(char value) {
     if (value == '\r') {
         return "'\\r'";
     } else if (value == '\f') {
@@ -11733,8 +11605,8 @@ std::string StringMaker<signed char>::convert(signed char value) {
         return chstr;
     }
 }
-std::string StringMaker<char>::convert(char c) {
-    return ::Catch::Detail::stringify(static_cast<signed char>(c));
+std::string StringMaker<signed char>::convert(signed char c) {
+    return ::Catch::Detail::stringify(static_cast<char>(c));
 }
 std::string StringMaker<unsigned char>::convert(unsigned char c) {
     return ::Catch::Detail::stringify(static_cast<char>(c));
@@ -11866,7 +11738,7 @@ namespace Catch {
     }
 
     Version const& libraryVersion() {
-        static Version version( 2, 4, 2, "", 0 );
+        static Version version( 2, 4, 0, "", 0 );
         return version;
     }
 
@@ -13547,9 +13419,6 @@ namespace Catch {
         m_xml.startElement( "Catch" );
         if( !m_config->name().empty() )
             m_xml.writeAttribute( "name", m_config->name() );
-        if( m_config->rngSeed() != 0 )
-            m_xml.scopedElement( "Randomness" )
-                .writeAttribute( "seed", m_config->rngSeed() );
     }
 
     void XmlReporter::testGroupStarting( GroupInfo const& groupInfo ) {
@@ -13825,14 +13694,6 @@ int main (int argc, char * const argv[]) {
 
 #define CATCH_ANON_TEST_CASE() INTERNAL_CATCH_TESTCASE()
 
-#if !defined(CATCH_CONFIG_RUNTIME_STATIC_REQUIRE)
-#define CATCH_STATIC_REQUIRE( ... )       static_assert(   __VA_ARGS__ ,      #__VA_ARGS__ );     CATCH_SUCCEED( #__VA_ARGS__ )
-#define CATCH_STATIC_REQUIRE_FALSE( ... ) static_assert( !(__VA_ARGS__), "!(" #__VA_ARGS__ ")" ); CATCH_SUCCEED( #__VA_ARGS__ )
-#else
-#define CATCH_STATIC_REQUIRE( ... )       CATCH_REQUIRE( __VA_ARGS__ )
-#define CATCH_STATIC_REQUIRE_FALSE( ... ) CATCH_REQUIRE_FALSE( __VA_ARGS__ )
-#endif
-
 // "BDD-style" convenience wrappers
 #define CATCH_SCENARIO( ... ) CATCH_TEST_CASE( "Scenario: " __VA_ARGS__ )
 #define CATCH_SCENARIO_METHOD( className, ... ) INTERNAL_CATCH_TEST_CASE_METHOD( className, "Scenario: " __VA_ARGS__ )
@@ -13891,14 +13752,6 @@ int main (int argc, char * const argv[]) {
 #define FAIL_CHECK( ... ) INTERNAL_CATCH_MSG( "FAIL_CHECK", Catch::ResultWas::ExplicitFailure, Catch::ResultDisposition::ContinueOnFailure, __VA_ARGS__ )
 #define SUCCEED( ... ) INTERNAL_CATCH_MSG( "SUCCEED", Catch::ResultWas::Ok, Catch::ResultDisposition::ContinueOnFailure, __VA_ARGS__ )
 #define ANON_TEST_CASE() INTERNAL_CATCH_TESTCASE()
-
-#if !defined(CATCH_CONFIG_RUNTIME_STATIC_REQUIRE)
-#define STATIC_REQUIRE( ... )       static_assert(   __VA_ARGS__,  #__VA_ARGS__ ); SUCCEED( #__VA_ARGS__ )
-#define STATIC_REQUIRE_FALSE( ... ) static_assert( !(__VA_ARGS__), "!(" #__VA_ARGS__ ")" ); SUCCEED( "!(" #__VA_ARGS__ ")" )
-#else
-#define STATIC_REQUIRE( ... )       REQUIRE( __VA_ARGS__ )
-#define STATIC_REQUIRE_FALSE( ... ) REQUIRE_FALSE( __VA_ARGS__ )
-#endif
 
 #endif
 
@@ -13980,9 +13833,6 @@ using Catch::Detail::Approx;
 #define CATCH_THEN( desc )
 #define CATCH_AND_THEN( desc )
 
-#define CATCH_STATIC_REQUIRE( ... )       (void)(0)
-#define CATCH_STATIC_REQUIRE_FALSE( ... ) (void)(0)
-
 // If CATCH_CONFIG_PREFIX_ALL is not defined then the CATCH_ prefix is not required
 #else
 
@@ -14031,9 +13881,6 @@ using Catch::Detail::Approx;
 #define FAIL_CHECK( ... ) (void)(0)
 #define SUCCEED( ... ) (void)(0)
 #define ANON_TEST_CASE() INTERNAL_CATCH_TESTCASE_NO_REGISTRATION(INTERNAL_CATCH_UNIQUE_NAME( ____C_A_T_C_H____T_E_S_T____ ))
-
-#define STATIC_REQUIRE( ... )       (void)(0)
-#define STATIC_REQUIRE_FALSE( ... ) (void)(0)
 
 #endif
 

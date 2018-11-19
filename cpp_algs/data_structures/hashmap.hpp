@@ -1,9 +1,9 @@
 /**
  * Data Structures - hashmap
- * hashmap.cpp
- * Purpose: Implementation of HashMap
+ * hashmap.hpp
+ * Purpose: Hash Map interface and impl.
  *
- * @author Kailash Uniyal
+ * @author Kailash Uniyal, Prabhsimran Singh
  * @version 1.0 30/10/18
 */
 
@@ -13,11 +13,14 @@
 
 namespace ds {
 
+// Hash Map interface
 template <typename T>
 class HashMap {
   private:
     MapNode<T> **buckets;
+
     int count = 0;
+
     int num_buckets = 5;
 
   public:
@@ -44,6 +47,7 @@ class HashMap {
     void print() const;
 };
 
+// Hash Map impementation
 template <typename T>
 HashMap<T>::HashMap() {
     buckets = new MapNode<T> *[num_buckets];

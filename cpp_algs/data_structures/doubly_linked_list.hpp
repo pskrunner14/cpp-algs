@@ -3,7 +3,7 @@
 /**
  * Data Structures - linked list
  * doubly_linked_list.hpp
- * Purpose: Doubly Linked List interface and implementation
+ * Purpose: Doubly Linked List interface and impl.
  * 
  * @author Prabhsimran Singh
  * @version 1.0 27/10/18
@@ -14,6 +14,7 @@
 
 namespace ds {
 
+// Doubly Linked List interface
 template <typename T>
 class DoublyLinkedList {
   private:
@@ -51,7 +52,7 @@ class DoublyLinkedList {
     void print() const;
 };
 
-// doubly linked list implementation
+// Doubly Linked List implementation
 template <typename T>
 DoublyLinkedList<T>::DoublyLinkedList() : head(NULL), tail(NULL) {}
 
@@ -76,24 +77,23 @@ DoublyLinkedList<T>::DoublyLinkedList(const DoublyLinkedList &d) {
 
 template <typename T>
 DoublyLinkedList<T>::~DoublyLinkedList() {
-    // delete linked list when object is destroyed
     delete head;
     delete tail;
 }
 
 template <typename T>
 void DoublyLinkedList<T>::insertNode(const T &value) {
+    DoubleNode<T> *new_node = new DoubleNode<T>(value);
     if (head == NULL) {
-        head = new DoubleNode<T>(value);
+        head = new_node;
         tail = head;
         size = 1;
-        return;
+    } else {
+        tail->next = new_node;
+        new_node->prev = tail;
+        tail = new_node;
+        size++;
     }
-    DoubleNode<T> *new_node = new DoubleNode<T>(value);
-    tail->next = new_node;
-    new_node->prev = tail;
-    tail = new_node;
-    size++;
 }
 
 template <typename T>
@@ -105,27 +105,25 @@ void DoublyLinkedList<T>::insertArray(T *arr, const int &size) {
 
 template <typename T>
 void DoublyLinkedList<T>::deleteNode(const T &value) {
+    DoubleNode<T> *temp = head->next;
     if (head->value == value) {
-        DoubleNode<T> *temp = head->next;
         delete head;
         head = temp;
         head->prev = NULL;
         size--;
     } else if (tail->value == value) {
-        DoubleNode<T> *temp = tail->prev;
+        temp = tail->prev;
         delete tail;
+        temp->next = NULL;
         tail = temp;
-        tail->next = NULL;
         size--;
     } else {
-        DoubleNode<T> *temp = head->next;
         while (temp != NULL) {
             if (temp->value == value) {
-                DoubleNode<T> *p_temp = temp->prev;
-                p_temp->next = temp->next;
+                temp->prev->next = temp->next;
                 delete temp;
                 size--;
-                return;
+                break;
             }
             temp = temp->next;
         }
@@ -134,19 +132,25 @@ void DoublyLinkedList<T>::deleteNode(const T &value) {
 
 template <typename T>
 DoubleNode<T> *DoublyLinkedList<T>::search(const T &value) const {
-    DoubleNode<T> *temp_s = head;
-    DoubleNode<T> *temp_e = tail;
-    while (temp_s != NULL && temp_e != NULL) {
-        if (temp_s->value == value)
-            return temp_s;
-        temp_s = temp_s->next;
-        if (temp_e->value == value)
-            return temp_e;
-        if (temp_s == temp_e)
-            return NULL;
-        temp_e = temp_e->prev;
+    if (head->value == value) {
+        return head;
+    } else if (tail->value == value) {
+        return tail;
+    } else {
+        DoubleNode<T> *temp_s = head->next;
+        DoubleNode<T> *temp_e = tail->prev;
+        while (temp_s != NULL && temp_e != NULL) {
+            if (temp_s->value == value)
+                return temp_s;
+            temp_s = temp_s->next;
+            if (temp_e->value == value)
+                return temp_e;
+            if (temp_s == temp_e)
+                return NULL;
+            temp_e = temp_e->prev;
+        }
+        return NULL;
     }
-    return NULL;
 }
 
 template <typename T>

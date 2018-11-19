@@ -3,7 +3,7 @@
 /**
  * Data Structures - stack
  * stack.hpp
- * Purpose: Stack Interface
+ * Purpose: Stack interface and impl.
  * 
  * @author Prabhsimran Singh
  * @version 1.0 27/10/18
@@ -12,11 +12,12 @@
 
 namespace ds {
 
+// Stack interface
 template <typename T>
 class Stack {
   private:
     // pointer to our data stack
-    int *stack;
+    T *stack;
 
     // current length of the stack i.e. only valid no. of elements
     int length = 0;
@@ -68,6 +69,7 @@ class Stack {
     int size() const;
 };
 
+// Stack implementation
 template <typename T>
 Stack<T>::Stack() {
     stack = new T[capacity];
