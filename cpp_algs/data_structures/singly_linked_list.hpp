@@ -81,17 +81,16 @@ SinglyLinkedList<T>::~SinglyLinkedList() {
 
 template <typename T>
 void SinglyLinkedList<T>::insertNode(const T &value) {
-    if (head == NULL) {
-        head = new SingleNode<T>(value);
-        tail = head;
-        size = 1;
-        return;
-    }
     SingleNode<T> *new_node = new SingleNode<T>(value);
-    tail->next = new_node;
-    tail = new_node;
-    size++;
-    return;
+    if (head == NULL) {
+        head = new_node;
+        tail = new_node;
+        size = 1;
+    } else {
+        tail->next = new_node;
+        tail = new_node;
+        size++;
+    }
 }
 
 template <typename T>
@@ -103,32 +102,53 @@ void SinglyLinkedList<T>::insertArray(T *arr, const int &size) {
 
 template <typename T>
 void SinglyLinkedList<T>::deleteNode(const T &value) {
-    if (head->value == value) {
-        head = head->next;
-        size--;
-        return;
-    }
-    SingleNode<T> *p_temp = head;
     SingleNode<T> *temp = head->next;
-    while (temp != NULL) {
-        if (temp->value == value) {
-            p_temp->next = temp->next;
-            delete temp;
-            size--;
-            return;
+    if (head->value == value) {
+        if (temp != NULL) {
+            delete head;
+            head = temp;
+        } else {
+            delete head;
+            delete tail;
+            head = NULL;
+            tail = NULL;
         }
-        p_temp = temp;
-        temp = temp->next;
+        size--;
+    } else if (tail->value == value) {
+        while (temp->next != tail) {
+            temp = temp->next;
+        }
+        temp->next = NULL;
+        delete tail;
+        tail = temp;
+    } else {
+        SingleNode<T> *p_temp = head;
+        while (temp != NULL) {
+            if (temp->value == value) {
+                p_temp->next = temp->next;
+                delete temp;
+                size--;
+                break;
+            }
+            p_temp = temp;
+            temp = temp->next;
+        }
     }
 }
 
 template <typename T>
 SingleNode<T> *SinglyLinkedList<T>::search(const T &value) const {
-    SingleNode<T> *temp = head;
-    while (temp != NULL && temp->value != value) {
-        temp = temp->next;
+    if (head->value == value) {
+        return head;
+    } else if (tail->value == value) {
+        return tail;
+    } else {
+        SingleNode<T> *temp = head;
+        while (temp != NULL && temp->value != value) {
+            temp = temp->next;
+        }
+        return temp;
     }
-    return temp;
 }
 
 template <typename T>

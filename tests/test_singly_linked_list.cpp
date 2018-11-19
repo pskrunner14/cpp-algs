@@ -4,22 +4,39 @@ using namespace std;
 #include <catch2/catch.hpp>
 #include <cpp_algs.hpp>
 
-TEST_CASE("Singly Linked List test", "[DS]") {
-    ds::SinglyLinkedList<int> *sing = new ds::SinglyLinkedList<int>();
-    REQUIRE(sing->getSize() == 0);
+TEST_CASE("Singly Linked List test") {
+    ds::SinglyLinkedList<int> s = ds::SinglyLinkedList<int>();
+    REQUIRE(s.getSize() == 0);
 
-    sing->insertNode(101);
-    sing->insertNode(432);
-    REQUIRE(sing->getSize() == 2);
+    SECTION("adding nodes to singly linked list") {
+        s.insertNode(101);
+        s.insertNode(432);
+        s.insertNode(123);
+        REQUIRE(s.getSize() == 3);
+    }
 
-    sing->deleteNode(432);
-    REQUIRE(sing->getSize() == 1);
+    SECTION("deleting nodes from singly linked list") {
+        s.insertNode(101);
+        s.insertNode(432);
+        s.insertNode(123);
+        REQUIRE(s.getSize() == 3);
 
-    int *arr = new int[5]{43, 44, 45, 46, 47};
-    sing->insertArray(arr, 5);
-    REQUIRE(sing->getSize() == 6);
+        s.deleteNode(432);
+        REQUIRE(s.getSize() == 2);
+    }
 
-    // cleanup
-    delete[] arr;
-    delete sing;
+    SECTION("adding array of nodes to singly linked list") {
+        int *arr = new int[5]{43, 44, 45, 46, 47};
+        s.insertArray(arr, 5);
+        delete[] arr;
+
+        REQUIRE(s.getSize() == 5);
+    }
+
+    SECTION("searching a node in singly linked list") {
+        s.insertNode(44);
+        REQUIRE(s.search(44)->value == 44);
+
+        REQUIRE(s.search(103) == NULL);
+    }
 }
