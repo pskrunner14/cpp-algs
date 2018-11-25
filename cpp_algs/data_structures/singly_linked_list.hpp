@@ -13,6 +13,16 @@
 
 #include "node.hpp"
 
+#ifndef SAFE_DELETE
+#define SAFE_DELETE(p)  \
+    {                   \
+        if (p) {        \
+            delete (p); \
+            (p) = NULL; \
+        }               \
+    }
+#endif
+
 namespace ds {
 
 // Singly Linked List interface
@@ -71,8 +81,8 @@ SinglyLinkedList<T>::SinglyLinkedList(const SinglyLinkedList &s) {
 
 template <typename T>
 SinglyLinkedList<T>::~SinglyLinkedList() {
-    delete head;
-    delete tail;
+    SAFE_DELETE(head);
+    SAFE_DELETE(tail);
 }
 
 template <typename T>
