@@ -1,4 +1,5 @@
 #include <iostream>
+#include <vector>
 using namespace std;
 
 #include <catch2/catch.hpp>
@@ -26,9 +27,8 @@ TEST_CASE("Singly Linked List test") {
     }
 
     SECTION("adding array of nodes to singly linked list") {
-        int *arr = new int[5]{43, 44, 45, 46, 47};
-        s.insertArray(arr, 5);
-        delete[] arr;
+        vector<int> vec = {43, 44, 45, 46, 47};
+        s.insertArray(vec);
 
         REQUIRE(s.getSize() == 5);
     }

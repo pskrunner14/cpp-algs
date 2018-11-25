@@ -30,7 +30,7 @@
 #include "data_structures/stack.hpp"
 
 // Trees
-// #include "data_structures/binary_search_tree.hpp"
+#include "data_structures/binary_search_tree.hpp"
 
 // Linked Lists
 #include "data_structures/circular_singly_linked_list.hpp"

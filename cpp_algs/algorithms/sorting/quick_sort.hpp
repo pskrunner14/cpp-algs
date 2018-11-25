@@ -26,7 +26,7 @@ void qsort(T *, const int &, const int &);
  * @param size the size of the array.
 */
 template <typename T>
-void quickSort(T *, const int &, bool = true);
+void quickSort(T *, const int &);
 
 template <typename T>
 int partition(T *arr, const int &lo, const int &hi) {

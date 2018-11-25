@@ -9,26 +9,24 @@
  * @version 2.0 27/10/18
 */
 #include <iostream>
+#include <vector>
 
 #include "node.hpp"
 
 namespace ds {
 
+// Singly Linked List interface
 template <typename T>
 class SinglyLinkedList {
   private:
     SingleNode<T> *head;
-
     SingleNode<T> *tail;
-
     int size = 0;
 
   public:
     SinglyLinkedList();
 
-    SinglyLinkedList(const T &);
-
-    SinglyLinkedList(T *, const int &);
+    SinglyLinkedList(const vector<T> &);
 
     SinglyLinkedList(const SinglyLinkedList &);
 
@@ -36,7 +34,7 @@ class SinglyLinkedList {
 
     void insertNode(const T &);
 
-    void insertArray(T *, const int &);
+    void insertArray(const vector<T> &);
 
     void deleteNode(const T &);
 
@@ -56,13 +54,8 @@ template <typename T>
 SinglyLinkedList<T>::SinglyLinkedList() : head(NULL), tail(NULL) {}
 
 template <typename T>
-SinglyLinkedList<T>::SinglyLinkedList(const T &value) {
-    insertNode(value);
-}
-
-template <typename T>
-SinglyLinkedList<T>::SinglyLinkedList(T *arr, const int &size) {
-    insertArray(arr, size);
+SinglyLinkedList<T>::SinglyLinkedList(const vector<T> &vec) {
+    insertArray(vec);
 }
 
 template <typename T>
@@ -95,9 +88,9 @@ void SinglyLinkedList<T>::insertNode(const T &value) {
 }
 
 template <typename T>
-void SinglyLinkedList<T>::insertArray(T *arr, const int &size) {
-    for (int i = 0; i < size; i++) {
-        insertNode(arr[i]);
+void SinglyLinkedList<T>::insertArray(const vector<T> &vec) {
+    for (const auto &elem : vec) {
+        insertNode(elem);
     }
 }
 

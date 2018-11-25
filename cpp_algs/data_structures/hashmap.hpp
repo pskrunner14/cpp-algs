@@ -1,3 +1,5 @@
+#pragma once
+
 /**
  * Data Structures - hashmap
  * hashmap.hpp
@@ -6,7 +8,6 @@
  * @author Kailash Uniyal, Prabhsimran Singh
  * @version 1.0 30/10/18
 */
-
 #include <iostream>
 
 #include "node.hpp"

@@ -9,6 +9,7 @@
  * @version 1.0 27/10/18
 */
 #include <iostream>
+#include <vector>
 
 #include "node.hpp"
 
@@ -19,17 +20,13 @@ template <typename T>
 class DoublyLinkedList {
   private:
     DoubleNode<T> *head;
-
     DoubleNode<T> *tail;
-
     int size = 0;
 
   public:
     DoublyLinkedList();
 
-    DoublyLinkedList(const T &);
-
-    DoublyLinkedList(T *arr, const int &);
+    DoublyLinkedList(const vector<T> &);
 
     DoublyLinkedList(const DoublyLinkedList &);
 
@@ -37,7 +34,7 @@ class DoublyLinkedList {
 
     void insertNode(const T &);
 
-    void insertArray(T *, const int &);
+    void insertArray(const vector<T> &);
 
     void deleteNode(const T &);
 
@@ -57,13 +54,8 @@ template <typename T>
 DoublyLinkedList<T>::DoublyLinkedList() : head(NULL), tail(NULL) {}
 
 template <typename T>
-DoublyLinkedList<T>::DoublyLinkedList(const T &value) {
-    insertNode(value);
-}
-
-template <typename T>
-DoublyLinkedList<T>::DoublyLinkedList(T *arr, const int &size) {
-    insertArray(arr, size);
+DoublyLinkedList<T>::DoublyLinkedList(const vector<T> &vec) {
+    insertArray(vec);
 }
 
 template <typename T>
@@ -97,9 +89,9 @@ void DoublyLinkedList<T>::insertNode(const T &value) {
 }
 
 template <typename T>
-void DoublyLinkedList<T>::insertArray(T *arr, const int &size) {
-    for (int i = 0; i < size; i++) {
-        insertNode(arr[i]);
+void DoublyLinkedList<T>::insertArray(const vector<T> &vec) {
+    for (const auto &elem : vec) {
+        insertNode(elem);
     }
 }
 

@@ -1,5 +1,6 @@
 #include <cassert>
 #include <iostream>
+#include <vector>
 using namespace std;
 
 #include "cpp_algs.hpp"
@@ -20,14 +21,13 @@ int main() {
     s.print();
     cout << s.getSize() << endl;
 
-    int *arr = new int[5]{43, 44, 45, 46, 47};
-    sing.insertArray(arr, 5);
+    vector<int> vec = {43, 44, 45, 46, 47};
+    sing.insertArray(vec);
     sing.print();
     cout << sing.getSize() << endl;
 
     cout << "Verified installation of library!" << '\n';
 
     // cleanup
-    delete[] arr;
     return 0;
 }

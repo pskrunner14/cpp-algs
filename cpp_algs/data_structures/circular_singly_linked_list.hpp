@@ -9,6 +9,7 @@
  * @version 1.0 27/10/18
 */
 #include <iostream>
+#include <vector>
 
 #include "node.hpp"
 
@@ -19,17 +20,13 @@ template <typename T>
 class CircularSinglyLinkedList {
   private:
     SingleNode<T> *head;
-
     SingleNode<T> *tail;
-
     int size = 0;
 
   public:
     CircularSinglyLinkedList();
 
-    CircularSinglyLinkedList(const T &);
-
-    CircularSinglyLinkedList(T *, const int &);
+    CircularSinglyLinkedList(const vector<T> &);
 
     CircularSinglyLinkedList(const CircularSinglyLinkedList &);
 
@@ -37,7 +34,7 @@ class CircularSinglyLinkedList {
 
     void insertNode(const T &);
 
-    void insertArray(T *, const int &);
+    void insertArray(const vector<T> &);
 
     void deleteNode(const T &);
 
@@ -55,13 +52,8 @@ template <typename T>
 CircularSinglyLinkedList<T>::CircularSinglyLinkedList() : head(NULL), tail(NULL) {}
 
 template <typename T>
-CircularSinglyLinkedList<T>::CircularSinglyLinkedList(const T &value) {
-    insertNode(value);
-}
-
-template <typename T>
-CircularSinglyLinkedList<T>::CircularSinglyLinkedList(T *arr, const int &size) {
-    insertArray(arr, size);
+CircularSinglyLinkedList<T>::CircularSinglyLinkedList(const vector<T> &vec) {
+    insertArray(vec);
 }
 
 template <typename T>
@@ -89,9 +81,9 @@ void CircularSinglyLinkedList<T>::insertNode(const T &value) {
 }
 
 template <typename T>
-void CircularSinglyLinkedList<T>::insertArray(T *arr, const int &size) {
-    for (int i = 0; i < size; i++) {
-        insertNode(arr[i]);
+void CircularSinglyLinkedList<T>::insertArray(const vector<T> &vec) {
+    for (const auto &elem : vec) {
+        insertNode(elem);
     }
 }
 

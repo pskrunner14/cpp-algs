@@ -9,6 +9,7 @@
  * @version 1.0 27/10/18
 */
 #include <iostream>
+#include <vector>
 
 namespace ds {
 
@@ -50,6 +51,20 @@ DoubleNode<T>::DoubleNode(const T &value) : value(value), prev(NULL), next(NULL)
 
 template <typename T>
 DoubleNode<T>::DoubleNode(const T &value, DoubleNode *prev, DoubleNode *next) : value(value), prev(prev), next(next) {}
+
+// Tree Node interface
+template <typename T>
+class TreeNode {
+  public:
+    T data;
+    vector<TreeNode<T> *> children;
+
+    TreeNode(const T &);
+};
+
+// Tree Node implementation
+template <typename T>
+TreeNode<T>::TreeNode(const T &data) : data(data) {}
 
 // Binary Tree Node interface
 template <typename T>
