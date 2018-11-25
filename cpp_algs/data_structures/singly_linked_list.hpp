@@ -32,6 +32,8 @@ class SinglyLinkedList {
 
     ~SinglyLinkedList();
 
+    SinglyLinkedList &operator=(const SinglyLinkedList &);
+
     void insertNode(const T &);
 
     void insertArray(const vector<T> &);
@@ -71,6 +73,18 @@ template <typename T>
 SinglyLinkedList<T>::~SinglyLinkedList() {
     delete head;
     delete tail;
+}
+
+template <typename T>
+SinglyLinkedList<T> &SinglyLinkedList<T>::operator=(const SinglyLinkedList &s) {
+    if (this != s) {
+        SingleNode<T> *temp = s.getLinkedList();
+        while (temp != NULL) {
+            insertNode(temp->value);
+            temp = temp->next;
+        }
+    }
+    return *this;
 }
 
 template <typename T>
