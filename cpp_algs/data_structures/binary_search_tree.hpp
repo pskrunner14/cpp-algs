@@ -11,6 +11,7 @@
 #include <climits>
 #include <iostream>
 #include <queue>
+#include <vector>
 
 #include "node.hpp"
 
@@ -27,15 +28,15 @@ class BinarySearchTree {
 
     BinarySearchTree(const T &);
 
-    BinarySearchTree(T *, const int &);
+    BinarySearchTree(const vector<T> &);
 
     ~BinarySearchTree();
 
   private:
-    BinaryTreeNode<T> *constructTreeHelper(T *, const T &, const T &);
+    BinaryTreeNode<T> *constructTreeHelper(const vector<T> &, const T &, const T &);
 
   public:
-    void constructTree(T *, const int &);
+    void constructTree(const vector<T> &);
 
   private:
     BinaryTreeNode<T> *takeInputLevelWiseHelper();
@@ -128,8 +129,8 @@ BinarySearchTree<T>::BinarySearchTree(const T &rootData) {
 }
 
 template <typename T>
-BinarySearchTree<T>::BinarySearchTree(T *arr, const int &n) {
-    constructTree(arr, n);
+BinarySearchTree<T>::BinarySearchTree(const vector<T> &vec) {
+    constructTree(vec);
 }
 
 template <typename T>
@@ -138,7 +139,7 @@ BinarySearchTree<T>::~BinarySearchTree() {
 }
 
 template <typename T>
-BinaryTreeNode<T> *BinarySearchTree<T>::constructTreeHelper(T *input, const T &start, const T &end) {
+BinaryTreeNode<T> *BinarySearchTree<T>::constructTreeHelper(const vector<T> &input, const T &start, const T &end) {
     if (end < start) {
         return NULL;
     }
@@ -150,8 +151,8 @@ BinaryTreeNode<T> *BinarySearchTree<T>::constructTreeHelper(T *input, const T &s
 }
 
 template <typename T>
-void BinarySearchTree<T>::constructTree(T *input, const int &n) {
-    al::heapSort(input, n);
+void BinarySearchTree<T>::constructTree(const vector<T> &vec) {
+    sort(begin(vec), end(vec));
     root = constructTreeHelper(input, 0, n - 1);
 }
 
