@@ -8,6 +8,7 @@
  * @author Prabhsimran Singh
  * @version 1.0 27/10/18
 */
+#include <algorithm>
 #include <iostream>
 #include <vector>
 
@@ -57,7 +58,7 @@ template <typename T>
 class TreeNode {
   public:
     T data;
-    vector<TreeNode<T> *> children;
+    std::vector<TreeNode<T> *> children;
 
     TreeNode(const T &);
 };
@@ -85,6 +86,64 @@ BinaryTreeNode<T>::BinaryTreeNode(const T &data) : data(data), left(NULL), right
 
 template <typename T>
 BinaryTreeNode<T>::BinaryTreeNode(const T &, BinaryTreeNode *left, BinaryTreeNode *right) : data(data), left(left), right(right){};
+
+// Trie Node interface
+class TrieNode {
+  public:
+    char data;
+    bool isTerminal;
+    std::vector<TrieNode *> children;
+
+    TrieNode(const char &);
+
+    TrieNode(const char &, const bool &);
+
+    bool contains(const char &) const;
+
+    TrieNode *getChild(const char &) const;
+
+    void addChild(TrieNode *const &);
+};
+
+// Trie Node comparator
+class TrieNodeCompare {
+  public:
+    bool operator()(TrieNode *const &first, const char &data) const {
+        return (first->data < data);
+    }
+
+    bool operator()(const char &data, TrieNode *const &second) const {
+        return (data < second->data);
+    }
+
+    bool operator()(TrieNode *const &first, TrieNode *const &second) const {
+        return (first->data < second->data);
+    }
+};
+
+// Trie Node implementation
+TrieNode::TrieNode(const char &data) : data(data) {
+    isTerminal = false;
+}
+
+TrieNode::TrieNode(const char &data, const bool &term) : data(data) {
+    isTerminal = term;
+}
+
+bool TrieNode::contains(const char &data) const {
+    return (std::binary_search(std::begin(children), std::end(children), data, TrieNodeCompare()));
+}
+
+TrieNode *TrieNode::getChild(const char &data) const {
+    auto where = std::lower_bound(std::begin(children), std::end(children), data, TrieNodeCompare());
+    bool success = where != std::end(children) && !(TrieNodeCompare()(data, *where));
+    return (success) ? children.at(where - std::begin(children)) : NULL;
+}
+
+void TrieNode::addChild(TrieNode *const &node) {
+    auto where = std::lower_bound(std::begin(children), std::end(children), node, TrieNodeCompare());
+    children.insert(where, node);
+}
 
 // Map Node interface
 template <typename T>

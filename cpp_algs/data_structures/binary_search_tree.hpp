@@ -2,12 +2,13 @@
 
 /**
  * Data Structures - binary search tree
- * binary_search_tree.cpp
+ * binary_search_tree.hpp
  * Purpose: Binary Search Tree interface
  *
  * @author Kailash Uniyal, Prabhsimran Singh
- * @version 1.0 28/10/18
+ * @version 2.0 26/11/18
 */
+#include <algorithm>
 #include <climits>
 #include <iostream>
 #include <queue>
@@ -152,8 +153,8 @@ BinaryTreeNode<T> *BinarySearchTree<T>::constructTreeHelper(const vector<T> &inp
 
 template <typename T>
 void BinarySearchTree<T>::constructTree(const vector<T> &vec) {
-    sort(begin(vec), end(vec));
-    root = constructTreeHelper(input, 0, n - 1);
+    std::sort(std::begin(vec), std::end(vec));
+    root = constructTreeHelper(vec, 0, vec.size() - 1);
 }
 
 template <typename T>
