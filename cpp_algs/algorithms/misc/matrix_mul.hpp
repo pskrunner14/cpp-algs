@@ -8,36 +8,42 @@
  * @author Prabhsimran Singh
  * @version 1.0 28/10/18 
 */
+#include <cassert>
 #include <iostream>
+#include <vector>
 
 namespace al {
+
+template <typename T>
+std::vector<std::vector<T>> matmul(const std::vector<std::vector<T>> &, const std::vector<std::vector<T>> &);
 
 /**
  * Performs matrix multiplication and returns the output matrix.
  * 
  * @param a first mxn matrix.
  * @param b second nxk matrix.
- * @param m the no. of rows in a.
- * @param n the no. of cols in a/rows in b.
- * @param k the no. of col in b.
  * 
  * @returns the mxk output matrix.
 */
 template <typename T>
-T **matmul(T **, T **, const int &, const int &, const int &);
+std::vector<std::vector<T>> matmul(const std::vector<std::vector<T>> &a, const std::vector<std::vector<T>> &b) {
+    std::vector<std::vector<T>> out;
+    int m = a.size();
+    int n = a[0].size();
+    int k = b[0].size();
 
-template <typename T>
-T **matmul(T **a, T **b, const int &m, const int &n, const int &k) {
-    T **out = new T *[m];
+    assert(n == b.size());
+
     for (int i = 0; i < m; i++) {
-        out[i] = new T[k];
+        std::vector<T> current;
         for (int j = 0; j < k; j++) {
             T sum = 0;
             for (int c = 0; c < n; c++) {
                 sum += a[i][c] * b[c][j];
             }
-            out[i][j] = sum;
+            current.push_back(sum);
         }
+        out.push_back(current);
     }
     return out;
 }

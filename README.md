@@ -1,6 +1,7 @@
 # C++ Algorithms & Data Structures
 
-[![Build Status](https://travis-ci.org/pskrunner14/cpp-algs.svg?branch=master)](https://travis-ci.org/pskrunner14/cpp-algs) [![Codacy Badge](https://api.codacy.com/project/badge/Grade/daf097a7fe524ddcaeb8dc005755cdb4)](https://www.codacy.com/app/pskrunner14/cpp-practice?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=pskrunner14/cpp-practice&amp;utm_campaign=Badge_Grade)
+<!-- [![Build Status](https://travis-ci.org/pskrunner14/cpp-algs.svg?branch=master)](https://travis-ci.org/pskrunner14/cpp-algs)  -->
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/daf097a7fe524ddcaeb8dc005755cdb4)](https://www.codacy.com/app/pskrunner14/cpp-practice?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=pskrunner14/cpp-practice&amp;utm_campaign=Badge_Grade)
 
 These are C++ implementations of various algorithms and data structures optimized and modularized for peak performance and extensibility.
 
@@ -27,7 +28,7 @@ The following algorithms have been implemented in this project.
 ### Miscellaneous
 
 * Matrix Multiplication
-<!-- * Matrix Chain Multiplication -->
+* Matrix Chain Multiplication
 
 ## Data Structures
 
@@ -41,7 +42,11 @@ The following data structures have been implemented in this project.
 * Doubly Linked List
 * Circular Singly Linked List
 * Circular Doubly Linked List
+* Tree
+<!-- * B Tree
+* B+ Tree -->
 * Binary Search Tree
+* Trie
 
 ## References
 

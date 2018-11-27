@@ -21,6 +21,8 @@
 // Graphs
 
 // Misc
+#include "algorithms/misc/chain_matrix_mul.hpp"
+#include "algorithms/misc/matrix_mul.hpp"
 
 // Data Structures
 

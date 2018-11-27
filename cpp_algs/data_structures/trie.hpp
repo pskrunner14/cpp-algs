@@ -25,6 +25,8 @@ class Trie {
   public:
     Trie();
 
+    Trie(const Trie &);
+
     void insertWord(const string &);
 
     void print() const;
@@ -33,6 +35,9 @@ class Trie {
 // Trie implementation
 Trie::Trie() {
     root = new TrieNode('\0');
+}
+
+Trie::Trie(const Trie &t) {
 }
 
 void Trie::insertWord(const string &str) {
