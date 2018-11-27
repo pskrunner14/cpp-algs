@@ -8,6 +8,7 @@
  * @author Prabhsimran Singh
  * @version 1.0 28/11/18 
 */
+#include <cassert>
 #include <climits>
 #include <cstring>
 #include <iostream>
@@ -18,23 +19,20 @@
 
 namespace al {
 
+// interface
 template <typename T>
 std::vector<std::vector<T>> matrix_chain_order(const std::vector<int> &);
 
 template <typename T>
-void get_optimal_parans(const std::vector<std::vector<T>> &s, std::string &str, int &, int &);
+void get_optimal_parans(const std::vector<std::vector<T>> &, std::string &, int &, int &);
 
 template <typename T>
 std::vector<std::vector<T>> parse_and_compute(const std::string &, const std::vector<std::vector<std::vector<T>>> &);
 
-/**
- * Performs chain matrix multiplication and returns the output matrix.
- *
- * @returns the final output matrix after computing optimal paranthesizations.
-*/
 template <typename T>
 std::vector<std::vector<T>> chain_matmul(const std::vector<std::vector<std::vector<T>>> &, const std::vector<int> &);
 
+// implementation
 template <typename T>
 std::vector<std::vector<T>> matrix_chain_order(const std::vector<int> &p) {
     int n = p.size() - 1;
@@ -90,6 +88,7 @@ template <typename T>
 std::vector<std::vector<T>> parse_and_compute(const std::string &exp, const std::vector<std::vector<std::vector<T>>> &matrices) {
     std::vector<std::vector<T>> out;
     std::stack<char> pending;
+
     pending.push('(');
     int i = 1;
     while (!pending.empty()) {
@@ -100,12 +99,15 @@ std::vector<std::vector<T>> parse_and_compute(const std::string &exp, const std:
                 pending.pop();
             }
             if (current.size() == 1) {
-                out = al::matmul<int>(out, current[0]);
+                if (current[0][0].size() == out.size()) {
+                    out = al::matmul<int>(current[0], out);
+                } else {
+                    out = al::matmul<int>(out, current[0]);
+                }
             } else if (current.size() == 2) {
                 out = al::matmul<int>(current[1], current[0]);
             }
             pending.pop();
-            i++;
         } else if (exp[i] == '.') {
             string num = "";
             i++;
@@ -114,19 +116,30 @@ std::vector<std::vector<T>> parse_and_compute(const std::string &exp, const std:
                 i++;
             }
             pending.push(std::stoi(num));
-            i++;
         } else if (exp[i] == '(') {
             pending.push('(');
-            i++;
         }
+        i++;
     }
     return out;
 }
 
+/**
+ * Performs chain matrix multiplication and returns the output matrix.
+ *
+ * @param matrices the vector of matrices in correct order of multiplication.
+ * @param dims the vector of dimensions for the said matrices.
+ * 
+ * @returns the final output matrix after computing optimal paranthesizations.
+*/
 template <typename T>
 std::vector<std::vector<T>> chain_matmul(const std::vector<std::vector<std::vector<T>>> &matrices, const std::vector<int> &dims) {
-    std::vector<std::vector<T>> s = matrix_chain_order<T>(dims);
+    assert(matrices.size() > 2);
+    assert(dims.size() > 3);
+
     string str;
+
+    std::vector<std::vector<T>> s = matrix_chain_order<T>(dims);
     get_optimal_parans<T>(s, str, 1, dims.size() - 1);
     return parse_and_compute<T>(str, matrices);
 }

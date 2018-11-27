@@ -51,7 +51,7 @@ int main() {
         matrices.push_back(matrix);
     }
 
-    vector<vector<int>> out = al::chain_matmul(matrices, dims);
+    vector<vector<int>> out = al::chain_matmul<int>(matrices, dims);
 
     for (int i = 0; i < out.size(); i++) {
         for (int j = 0; j < out[0].size(); j++) {

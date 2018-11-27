@@ -6,7 +6,7 @@
  * Purpose: Performs matrix multiplication
  * 
  * @author Prabhsimran Singh
- * @version 1.0 28/10/18 
+ * @version 2.0 28/11/18 
 */
 #include <cassert>
 #include <iostream>
@@ -14,8 +14,11 @@
 
 namespace al {
 
+// interface
 template <typename T>
 std::vector<std::vector<T>> matmul(const std::vector<std::vector<T>> &, const std::vector<std::vector<T>> &);
+
+// implementation
 
 /**
  * Performs matrix multiplication and returns the output matrix.
