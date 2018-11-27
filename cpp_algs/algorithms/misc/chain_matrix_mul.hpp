@@ -20,11 +20,9 @@
 namespace al {
 
 // interface
-template <typename T>
-std::vector<std::vector<T>> matrix_chain_order(const std::vector<int> &);
+std::vector<std::vector<int>> matrix_chain_order(const std::vector<int> &);
 
-template <typename T>
-void get_optimal_parans(const std::vector<std::vector<T>> &, std::string &, int &, int &);
+void get_optimal_parans(const std::vector<std::vector<int>> &, std::string &, int &, int &);
 
 template <typename T>
 std::vector<std::vector<T>> parse_and_compute(const std::string &, const std::vector<std::vector<std::vector<T>>> &);
@@ -33,8 +31,7 @@ template <typename T>
 std::vector<std::vector<T>> chain_matmul(const std::vector<std::vector<std::vector<T>>> &, const std::vector<int> &);
 
 // implementation
-template <typename T>
-std::vector<std::vector<T>> matrix_chain_order(const std::vector<int> &p) {
+std::vector<std::vector<int>> matrix_chain_order(const std::vector<int> &p) {
     int n = p.size() - 1;
     vector<vector<int>> m;
     vector<vector<int>> s;
@@ -72,14 +69,13 @@ std::vector<std::vector<T>> matrix_chain_order(const std::vector<int> &p) {
     return s;
 }
 
-template <typename T>
-void get_optimal_parans(const std::vector<std::vector<T>> &s, std::string &str, const int &i, const int &j) {
+void get_optimal_parans(const std::vector<std::vector<int>> &s, std::string &str, const int &i, const int &j) {
     if (i == j) {
         str += '.' + std::to_string(i - 1) + '.';
     } else {
         str += '(';
-        get_optimal_parans<T>(s, str, i, s[i][j]);
-        get_optimal_parans<T>(s, str, s[i][j] + 1, j);
+        get_optimal_parans(s, str, i, s[i][j]);
+        get_optimal_parans(s, str, s[i][j] + 1, j);
         str += ')';
     }
 }
@@ -100,12 +96,12 @@ std::vector<std::vector<T>> parse_and_compute(const std::string &exp, const std:
             }
             if (current.size() == 1) {
                 if (current[0][0].size() == out.size()) {
-                    out = al::matmul<int>(current[0], out);
+                    out = al::matmul<T>(current[0], out);
                 } else {
-                    out = al::matmul<int>(out, current[0]);
+                    out = al::matmul<T>(out, current[0]);
                 }
             } else if (current.size() == 2) {
-                out = al::matmul<int>(current[1], current[0]);
+                out = al::matmul<T>(current[1], current[0]);
             }
             pending.pop();
         } else if (exp[i] == '.') {
@@ -139,8 +135,8 @@ std::vector<std::vector<T>> chain_matmul(const std::vector<std::vector<std::vect
 
     string str;
 
-    std::vector<std::vector<T>> s = matrix_chain_order<T>(dims);
-    get_optimal_parans<T>(s, str, 1, dims.size() - 1);
+    std::vector<std::vector<int>> s = matrix_chain_order(dims);
+    get_optimal_parans(s, str, 1, dims.size() - 1);
     return parse_and_compute<T>(str, matrices);
 }
 } // namespace al

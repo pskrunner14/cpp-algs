@@ -36,22 +36,22 @@ int main() {
         cin >> dim;
     }
 
-    vector<vector<vector<int>>> matrices;
+    vector<vector<vector<float>>> matrices;
     for (int i = 0; i < dims.size() - 1; i++) {
         int m = dims[i];
         int n = dims[i + 1];
-        vector<vector<int>> matrix;
+        vector<vector<float>> matrix;
         for (int j = 0; j < m; j++) {
-            vector<int> row;
+            vector<float> row;
             for (int k = 0; k < n; k++) {
-                row.push_back(1);
+                row.push_back(1.0f);
             }
             matrix.push_back(row);
         }
         matrices.push_back(matrix);
     }
 
-    vector<vector<int>> out = al::chain_matmul<int>(matrices, dims);
+    vector<vector<float>> out = al::chain_matmul<float>(matrices, dims);
 
     for (int i = 0; i < out.size(); i++) {
         for (int j = 0; j < out[0].size(); j++) {
