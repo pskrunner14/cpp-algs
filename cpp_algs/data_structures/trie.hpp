@@ -91,14 +91,14 @@ bool Trie::contains(const std::string &str) const {
     return false;
 }
 
-void Trie::remove(TrieNode *const &node, const std::string &str) {
+void Trie::remove(TrieNode *const &node, const string &str) {
     if (str.empty()) {
         node->isTerminal = false;
         return;
     }
     if (node->contains(str[0])) {
-        TrieNode *child = node->getChild(str[0]);
         auto where = node->getChildPosition(str[0]);
+        TrieNode *child = node->children.at(where - std::begin(node->children));
         remove(child, str.substr(1));
         if (child->children.empty() && !child->isTerminal) {
             node->children.erase(where);
@@ -107,10 +107,16 @@ void Trie::remove(TrieNode *const &node, const std::string &str) {
     }
 }
 
-void Trie::removeWord(const std::string &str) {
+void Trie::removeWord(const string &str) {
     if (root->contains(str[0])) {
+        auto where = root->getChildPosition(str[0]);
+        TrieNode *child = root->children.at(where - std::begin(root->children));
+        remove(child, str.substr(1));
         // keep root safe
-        remove(root->getChild(str[0]), str.substr(1));
+        if (child->children.empty() && !child->isTerminal) {
+            root->children.erase(where);
+            delete child;
+        }
     }
 }
 
