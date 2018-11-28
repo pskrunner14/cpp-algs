@@ -10,9 +10,7 @@
 */
 #include <iostream>
 #include <queue>
-#include <stdexcept>
 #include <string>
-#include <vector>
 
 #include "node.hpp"
 
@@ -58,7 +56,7 @@ void Trie::insertWord(const std::string &str) {
     TrieNode *temp = root;
     size_t i = 0;
     while (i < str.size() && temp->contains(str[i])) {
-        temp = temp->getChild(str[i]);
+        temp = temp->children[str[i]];
         i++;
     }
     if (i == str.size() && temp->data == str[i - 1]) {
@@ -67,12 +65,12 @@ void Trie::insertWord(const std::string &str) {
     }
     for (; i < str.size() - 1; i++) {
         TrieNode *child = new TrieNode(str[i]);
-        temp->addChild(child);
-        temp = temp->getChild(str[i]);
+        temp->children[str[i]] = child;
+        temp = child;
     }
     if (i < str.size()) {
         TrieNode *child = new TrieNode(str[i], true);
-        temp->addChild(child);
+        temp->children[str[i]] = child;
     }
 }
 
@@ -80,7 +78,7 @@ bool Trie::contains(const std::string &str) const {
     TrieNode *temp = root;
     size_t i = 0;
     while (i < str.size() && temp->contains(str[i])) {
-        temp = temp->getChild(str[i]);
+        temp = temp->children[str[i]];
         i++;
     }
     if (i == str.size()) {
@@ -97,11 +95,10 @@ void Trie::remove(TrieNode *const &node, const string &str) {
         return;
     }
     if (node->contains(str[0])) {
-        auto where = node->getChildPosition(str[0]);
-        TrieNode *child = node->children.at(where - std::begin(node->children));
+        TrieNode *child = node->children[str[0]];
         remove(child, str.substr(1));
         if (child->children.empty() && !child->isTerminal) {
-            node->children.erase(where);
+            node->remove(str[0]);
             delete child;
         }
     }
@@ -109,12 +106,11 @@ void Trie::remove(TrieNode *const &node, const string &str) {
 
 void Trie::removeWord(const string &str) {
     if (root->contains(str[0])) {
-        auto where = root->getChildPosition(str[0]);
-        TrieNode *child = root->children.at(where - std::begin(root->children));
-        remove(child, str.substr(1));
+        TrieNode *child = root->children[str[0]];
         // keep root safe
+        remove(child, str.substr(1));
         if (child->children.empty() && !child->isTerminal) {
-            root->children.erase(where);
+            root->remove(str[0]);
             delete child;
         }
     }
@@ -136,9 +132,9 @@ void Trie::print() const {
         } else {
             cout << current->data << ':' << ' ';
         }
-        for (TrieNode *const &child : current->children) {
-            pending.push(child);
-            cout << child->data << ' ';
+        for (const auto &child : current->children) {
+            pending.push(child.second);
+            cout << child.second->data << ' ';
         }
         cout << '\n';
     }

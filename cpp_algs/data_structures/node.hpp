@@ -10,6 +10,7 @@
 */
 #include <algorithm>
 #include <iostream>
+#include <unordered_map>
 #include <vector>
 
 #ifndef SAFE_DELETE
@@ -102,7 +103,7 @@ class TrieNode {
   public:
     char data;
     bool isTerminal;
-    std::vector<TrieNode *> children;
+    std::unordered_map<char, TrieNode *> children;
 
     TrieNode(const char &);
 
@@ -110,27 +111,7 @@ class TrieNode {
 
     bool contains(const char &) const;
 
-    auto getChildPosition(const char &) const;
-
-    TrieNode *getChild(const char &) const;
-
-    void addChild(TrieNode *const &);
-};
-
-// Trie Node comparator
-class TrieNodeCompare {
-  public:
-    bool operator()(TrieNode *const &first, const char &data) const {
-        return (first->data < data);
-    }
-
-    bool operator()(const char &data, TrieNode *const &second) const {
-        return (data < second->data);
-    }
-
-    bool operator()(TrieNode *const &first, TrieNode *const &second) const {
-        return (first->data < second->data);
-    }
+    void remove(const char &);
 };
 
 // Trie Node implementation
@@ -143,22 +124,11 @@ TrieNode::TrieNode(const char &data, const bool &term) : data(data) {
 }
 
 bool TrieNode::contains(const char &data) const {
-    return (std::binary_search(std::begin(children), std::end(children), data, TrieNodeCompare()));
+    return (children.find(data) != std::end(children));
 }
 
-auto TrieNode::getChildPosition(const char &data) const {
-    return lower_bound(begin(children), end(children), data, TrieNodeCompare());
-}
-
-TrieNode *TrieNode::getChild(const char &data) const {
-    auto where = getChildPosition(data);
-    bool success = where != std::end(children) && !(TrieNodeCompare()(data, *where));
-    return (success) ? children.at(where - begin(children)) : NULL;
-}
-
-void TrieNode::addChild(TrieNode *const &node) {
-    auto where = std::lower_bound(std::begin(children), std::end(children), node, TrieNodeCompare());
-    children.insert(where, node);
+void TrieNode::remove(const char &data) {
+    children.erase(children.find(data), std::end(children));
 }
 
 // Map Node interface
