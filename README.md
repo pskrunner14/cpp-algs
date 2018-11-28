@@ -1,55 +1,23 @@
 # C++ Algorithms & Data Structures
 
-<!-- [![Build Status](https://travis-ci.org/pskrunner14/cpp-algs.svg?branch=master)](https://travis-ci.org/pskrunner14/cpp-algs)  -->
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/daf097a7fe524ddcaeb8dc005755cdb4)](https://www.codacy.com/app/pskrunner14/cpp-practice?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=pskrunner14/cpp-practice&amp;utm_campaign=Badge_Grade)
+[![Under Development](https://github.com/pskrunner14/cpp-algs/extra/under-development.svg)](https://github.com/pskrunner14/cpp-algs/wiki) [![Build Status](https://travis-ci.org/pskrunner14/cpp-algs.svg?branch=master)](https://travis-ci.org/pskrunner14/cpp-algs) [![C++ Standards](https://github.com/pskrunner14/cpp-algs/extra/cpp_status.svg)](https://github.com/pskrunner14/cpp-algs/wiki) [![Codacy Badge](https://api.codacy.com/project/badge/Grade/daf097a7fe524ddcaeb8dc005755cdb4)](https://www.codacy.com/app/pskrunner14/cpp-practice?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=pskrunner14/cpp-practice&amp;utm_campaign=Badge_Grade)
 
-These are C++ implementations of various algorithms and data structures optimized and modularized for peak performance and extensibility.
+These are C++ implementations of various algorithms and data structures optimized and modularized for peak performance and extensibility. This project includes support for C++11 std and can currently only be built on Linux.
 
-## Algorithms
+**[See Wiki for more details](https://github.com/pskrunner14/cpp-algs/wiki)**
 
-The following algorithms have been implemented in this project.
+## Getting Started
 
-### Sorting
+You need to have any recent C++ compiler with C++11 support and [CMAKE](https://cmake.org/) installed on your system.
 
-* Bubble Sort
-* Selection Sort
-* Insertion Sort
-* Shell Sort
-* Merge Sort
-* Quick Sort
-* Heap Sort
-
-### Searching
-
-* Linear Search
-* Binary Search
-* Ternary Search
-
-### Miscellaneous
-
-* Matrix Multiplication
-* Matrix Chain Multiplication
-
-## Data Structures
-
-The following data structures have been implemented in this project.
-
-* Stack
-* Queue
-* Deque
-* Hashmap
-* Singly Linked List
-* Doubly Linked List
-* Circular Singly Linked List
-* Circular Doubly Linked List
-* Tree
-<!-- * B Tree
-* B+ Tree -->
-* Binary Search Tree
-* Trie
+```bash
+git clone https://github.com/pskrunner14/cpp-algs.git
+cd cpp-algs/
+./install.sh
+```
 
 ## References
 
-* [Introduction to Algorithms](https://mitpress.mit.edu/books/introduction-algorithms-third-edition) by Cormen et al.
-* [Algs4 Algorithms and Clients Library](https://algs4.cs.princeton.edu/home/) by Robert Sedgewick and Kevin Wayne.
+* [Introduction to Algorithms](https://mitpress.mit.edu/books/introduction-algorithms-third-edition)
+* [Algs4 Algorithms Library](https://algs4.cs.princeton.edu/home/)
 * [Stanford CS Education Library](http://cslibrary.stanford.edu/)
