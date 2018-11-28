@@ -8,9 +8,10 @@
  * @author Prabhsimran Singh
  * @version 1.0 27/11/18
 */
-#include <cstring>
 #include <iostream>
 #include <queue>
+#include <stdexcept>
+#include <string>
 #include <vector>
 
 #include "node.hpp"
@@ -22,12 +23,20 @@ class Trie {
   private:
     TrieNode *root;
 
+    void remove(TrieNode *const &, const std::string &);
+
   public:
     Trie();
 
     Trie(const Trie &);
 
-    void insertWord(const string &);
+    ~Trie();
+
+    void insertWord(const std::string &);
+
+    void removeWord(const std::string &);
+
+    bool contains(const std::string &) const;
 
     void print() const;
 };
@@ -38,14 +47,23 @@ Trie::Trie() {
 }
 
 Trie::Trie(const Trie &t) {
+    throw NotImplementedError();
 }
 
-void Trie::insertWord(const string &str) {
+Trie::~Trie() {
+    SAFE_DELETE(root);
+}
+
+void Trie::insertWord(const std::string &str) {
     TrieNode *temp = root;
-    int i = 0;
+    size_t i = 0;
     while (i < str.size() && temp->contains(str[i])) {
         temp = temp->getChild(str[i]);
         i++;
+    }
+    if (i == str.size() && temp->data == str[i - 1]) {
+        temp->isTerminal = true;
+        return;
     }
     for (; i < str.size() - 1; i++) {
         TrieNode *child = new TrieNode(str[i]);
@@ -58,8 +76,46 @@ void Trie::insertWord(const string &str) {
     }
 }
 
+bool Trie::contains(const std::string &str) const {
+    TrieNode *temp = root;
+    size_t i = 0;
+    while (i < str.size() && temp->contains(str[i])) {
+        temp = temp->getChild(str[i]);
+        i++;
+    }
+    if (i == str.size()) {
+        if (temp->isTerminal) {
+            return true;
+        }
+    }
+    return false;
+}
+
+void Trie::remove(TrieNode *const &node, const std::string &str) {
+    if (str.empty()) {
+        node->isTerminal = false;
+        return;
+    }
+    if (node->contains(str[0])) {
+        TrieNode *child = node->getChild(str[0]);
+        auto where = node->getChildPosition(str[0]);
+        remove(child, str.substr(1));
+        if (child->children.empty() && !child->isTerminal) {
+            node->children.erase(where);
+            delete child;
+        }
+    }
+}
+
+void Trie::removeWord(const std::string &str) {
+    if (root->contains(str[0])) {
+        // keep root safe
+        remove(root->getChild(str[0]), str.substr(1));
+    }
+}
+
 void Trie::print() const {
-    queue<TrieNode *> pending;
+    std::queue<TrieNode *> pending;
     pending.push(root);
 
     while (!pending.empty()) {
@@ -81,5 +137,4 @@ void Trie::print() const {
         cout << '\n';
     }
 }
-
 } // namespace ds

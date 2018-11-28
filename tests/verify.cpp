@@ -6,6 +6,7 @@ using namespace std;
 
 int main() {
 
+    cout << "Singly Linked List: " << endl;
     ds::SinglyLinkedList<int> sing = ds::SinglyLinkedList<int>();
     sing.insertNode(10);
     sing.insertNode(20);
@@ -25,15 +26,8 @@ int main() {
     sing.print();
     cout << sing.getSize() << endl;
 
-    vector<int> dims;
-    int dim;
-
-    cout << "Please enter the dims: (-1 for termination)" << endl;
-    cin >> dim;
-    while (dim != -1) {
-        dims.push_back(dim);
-        cin >> dim;
-    }
+    cout << "Matrix Chain Multiplication: " << endl;
+    vector<int> dims = {6, 43, 12, 5, 1};
 
     vector<vector<vector<float>>> matrices;
     for (int i = 0; i < dims.size() - 1; i++) {
@@ -58,6 +52,28 @@ int main() {
         }
         cout << endl;
     }
+
+    cout << "Trie dictionary: " << endl;
+    ds::Trie trie;
+
+    trie.insertWord("hello");
+    trie.insertWord("ShiT");
+    trie.insertWord("Ships");
+    trie.insertWord("help");
+    trie.insertWord("hell");
+
+    char c[] = {'a', 'b', 'c', '\0'};
+    trie.insertWord(c);
+    trie.print();
+
+    cout << trie.contains("hello") << endl;
+    cout << trie.contains("woah") << endl;
+
+    trie.removeWord("hello");
+    cout << trie.contains("hello") << endl;
+    cout << trie.contains("hell") << endl;
+    cout << trie.contains("help") << endl;
+    trie.print();
 
     cout << "Verified installation of library!" << '\n';
 

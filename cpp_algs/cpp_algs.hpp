@@ -2,6 +2,13 @@
 
 // project wide includes
 #include <boost/assert.hpp>
+#include <stdexcept>
+
+// project wide members
+class NotImplementedError : public std::logic_error {
+  public:
+    NotImplementedError() : std::logic_error("Function not yet implemented"){};
+};
 
 // Algorithms
 

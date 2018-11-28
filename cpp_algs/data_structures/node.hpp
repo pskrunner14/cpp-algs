@@ -110,6 +110,8 @@ class TrieNode {
 
     bool contains(const char &) const;
 
+    auto getChildPosition(const char &) const;
+
     TrieNode *getChild(const char &) const;
 
     void addChild(TrieNode *const &);
@@ -144,10 +146,14 @@ bool TrieNode::contains(const char &data) const {
     return (std::binary_search(std::begin(children), std::end(children), data, TrieNodeCompare()));
 }
 
+auto TrieNode::getChildPosition(const char &data) const {
+    return lower_bound(begin(children), end(children), data, TrieNodeCompare());
+}
+
 TrieNode *TrieNode::getChild(const char &data) const {
-    auto where = std::lower_bound(std::begin(children), std::end(children), data, TrieNodeCompare());
+    auto where = getChildPosition(data);
     bool success = where != std::end(children) && !(TrieNodeCompare()(data, *where));
-    return (success) ? children.at(where - std::begin(children)) : NULL;
+    return (success) ? children.at(where - begin(children)) : NULL;
 }
 
 void TrieNode::addChild(TrieNode *const &node) {
