@@ -8,7 +8,6 @@
  * @author Prabhsimran Singh
  * @version 2.0 28/11/18 
 */
-#include <cassert>
 #include <iostream>
 #include <vector>
 
@@ -35,7 +34,7 @@ std::vector<std::vector<T>> matmul(const std::vector<std::vector<T>> &a, const s
     int n = a[0].size();
     int k = b[0].size();
 
-    assert(n == b.size());
+    BOOST_ASSERT_MSG(n == b.size(), "No. of columns in first matrix don't match no. of rows in second.");
 
     for (int i = 0; i < m; i++) {
         std::vector<T> current;

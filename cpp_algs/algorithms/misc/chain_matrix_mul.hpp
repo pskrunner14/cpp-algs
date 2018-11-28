@@ -8,11 +8,10 @@
  * @author Prabhsimran Singh
  * @version 1.0 28/11/18 
 */
-#include <cassert>
-#include <climits>
-#include <cstring>
 #include <iostream>
+#include <limits>
 #include <stack>
+#include <string>
 #include <vector>
 
 #include "matrix_mul.hpp"
@@ -56,7 +55,7 @@ std::vector<std::vector<int>> matrix_chain_order(const std::vector<int> &p) {
     for (int l = 2; l <= n; l++) {
         for (int i = 1; i <= n - l + 1; i++) {
             int j = i + l - 1;
-            m[i][j] = INT_MAX;
+            m[i][j] = std::numeric_limits<int>::max();
             for (int k = i; k <= j - 1; k++) {
                 int q = m[i][k] + m[k + 1][j] + (p[i - 1] * p[k] * p[j]);
                 if (q < m[i][j]) {
@@ -130,10 +129,10 @@ std::vector<std::vector<T>> parse_and_compute(const std::string &exp, const std:
 */
 template <typename T>
 std::vector<std::vector<T>> chain_matmul(const std::vector<std::vector<std::vector<T>>> &matrices, const std::vector<int> &dims) {
-    assert(matrices.size() > 2);
-    assert(dims.size() > 3);
+    BOOST_ASSERT_MSG(matrices.size() > 2, "Minimum 3 matrices required for Matrix Chain Multiplication");
+    BOOST_ASSERT_MSG(dims.size() > 3, "Minimum 4 dimensions required for Matrix Chain Multiplication");
 
-    string str;
+    std::string str;
 
     std::vector<std::vector<int>> s = matrix_chain_order(dims);
     get_optimal_parans(s, str, 1, dims.size() - 1);

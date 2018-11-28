@@ -1,5 +1,8 @@
 #pragma once
 
+// project wide includes
+#include <boost/assert.hpp>
+
 // Algorithms
 
 // Searching
