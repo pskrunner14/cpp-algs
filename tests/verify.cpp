@@ -64,16 +64,16 @@ int main() {
 
     char c[] = {'a', 'b', 'c', '\0'};
     trie.insertWord(c);
-    trie.print();
+    trie.printWords();
 
-    cout << trie.contains("hello") << endl;
-    cout << trie.contains("woah") << endl;
+    cout << trie.containsWord("hello") << endl;
+    cout << trie.containsWord("woah") << endl;
 
     trie.removeWord("hello");
-    cout << trie.contains("hello") << endl;
-    cout << trie.contains("hell") << endl;
-    cout << trie.contains("help") << endl;
-    trie.print();
+    cout << trie.containsWord("hello") << endl;
+    cout << trie.containsWord("hell") << endl;
+    cout << trie.containsWord("help") << endl;
+    trie.printWords();
 
     cout << "Verified installation of library!" << '\n';
 

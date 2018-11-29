@@ -23,6 +23,8 @@ class Trie {
 
     void remove(TrieNode *const &, const std::string &);
 
+    void print(TrieNode *, string) const;
+
   public:
     Trie();
 
@@ -34,9 +36,9 @@ class Trie {
 
     void removeWord(const std::string &);
 
-    bool contains(const std::string &) const;
+    bool containsWord(const std::string &) const;
 
-    void print() const;
+    void printWords() const;
 };
 
 // Trie implementation
@@ -74,7 +76,7 @@ void Trie::insertWord(const std::string &str) {
     }
 }
 
-bool Trie::contains(const std::string &str) const {
+bool Trie::containsWord(const std::string &str) const {
     TrieNode *temp = root;
     size_t i = 0;
     while (i < str.size() && temp->contains(str[i])) {
@@ -116,27 +118,20 @@ void Trie::removeWord(const string &str) {
     }
 }
 
-void Trie::print() const {
-    std::queue<TrieNode *> pending;
-    pending.push(root);
+void Trie::print(TrieNode *node, string str) const {
+    str += node->data;
+    if (node->isTerminal) {
+        cout << str << endl;
+    }
+    for (const auto &child : node->children) {
+        print(child.second, str);
+    }
+}
 
-    while (!pending.empty()) {
-        TrieNode *current = pending.front();
-        pending.pop();
-
-        if (current->isTerminal) {
-            cout << '*';
-        }
-        if (current == root) {
-            cout << "root: ";
-        } else {
-            cout << current->data << ':' << ' ';
-        }
-        for (const auto &child : current->children) {
-            pending.push(child.second);
-            cout << child.second->data << ' ';
-        }
-        cout << '\n';
+void Trie::printWords() const {
+    string str = "";
+    for (const auto &child : root->children) {
+        print(child.second, str);
     }
 }
 } // namespace ds
