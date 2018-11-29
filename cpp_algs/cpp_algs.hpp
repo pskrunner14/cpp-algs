@@ -1,3 +1,26 @@
+/**
+ * MIT License
+ *
+ * Copyright (c) 2018 Prabhsimran Singh
+ * 
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ * 
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
 #pragma once
 
 // project wide includes
@@ -13,26 +36,17 @@ class NotImplementedError : public std::logic_error {
 // Algorithms
 
 // Searching
-#include "algorithms/searching/binary_search.hpp"
-#include "algorithms/searching/linear_search.hpp"
-#include "algorithms/searching/ternary_search.hpp"
+#include "algorithms/search.hpp"
 
 // Sorting
-#include "algorithms/sorting/bubble_sort.hpp"
-#include "algorithms/sorting/heap_sort.hpp"
-#include "algorithms/sorting/insertion_sort.hpp"
-#include "algorithms/sorting/merge_sort.hpp"
-#include "algorithms/sorting/quick_sort.hpp"
-#include "algorithms/sorting/selection_sort.hpp"
-#include "algorithms/sorting/shell_sort.hpp"
+#include "algorithms/sort.hpp"
 
 // String Matching
 
 // Graphs
 
 // Misc
-#include "algorithms/misc/chain_matrix_mul.hpp"
-#include "algorithms/misc/matrix_mul.hpp"
+#include "algorithms/misc.hpp"
 
 // Data Structures
 

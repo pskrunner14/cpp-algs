@@ -1,22 +1,49 @@
+/**
+ * MIT License
+ *
+ * Copyright (c) 2018 Prabhsimran Singh
+ * 
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ * 
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
 #pragma once
 
 /**
  * Algorithms - miscellaneous
- * chain_matrix_mul.cpp
- * Purpose: Performs chain matrix multiplication
+ * misc.cpp
+ * Purpose: Miscelaneous collection of algorithms
  * 
  * @author Prabhsimran Singh
- * @version 1.0 28/11/18 
+ * @version 2.0 29/11/18 
 */
 #include <iostream>
 #include <limits>
 #include <vector>
 
-#include "matrix_mul.hpp"
-
 namespace al {
 
-// interface
+// ---------------------------------------------- Interface ---------------------------------------------------//
+
+// matrix multiplication
+template <typename T>
+std::vector<std::vector<T>> matmul(const std::vector<std::vector<T>> &, const std::vector<std::vector<T>> &);
+
+// chain matrix multiplication
 template <typename T>
 std::vector<std::vector<T>> _chain_matmul_recurse(const std::vector<std::vector<std::vector<T>>> &, const std::vector<std::vector<int>> &, const int &, const int &);
 
@@ -26,7 +53,40 @@ std::vector<std::vector<T>> _matrix_chain_order(const std::vector<std::vector<st
 template <typename T>
 std::vector<std::vector<T>> chain_matmul(const std::vector<std::vector<std::vector<T>>> &);
 
-// implementation
+// -------------------------------------------- Implementation --------------------------------------------------//
+
+// matrix multiplication
+/**
+ * Performs matrix multiplication and returns the output matrix.
+ * 
+ * @param a first mxn matrix.
+ * @param b second nxk matrix.
+ * 
+ * @returns the mxk output matrix.
+*/
+template <typename T>
+std::vector<std::vector<T>> matmul(const std::vector<std::vector<T>> &a, const std::vector<std::vector<T>> &b) {
+    int m = a.size();
+    int n = a[0].size();
+    int k = b[0].size();
+
+    BOOST_ASSERT_MSG(n == b.size(), "No. of columns in first matrix don't match no. of rows in second.");
+
+    std::vector<std::vector<T>> out(m, std::vector<T>(k));
+
+    for (int i = 0; i < m; i++) {
+        for (int j = 0; j < k; j++) {
+            T sum = 0;
+            for (int c = 0; c < n; c++) {
+                sum += a[i][c] * b[c][j];
+            }
+            out[i][j] = sum;
+        }
+    }
+    return out;
+}
+
+// chain matrix multiplication
 template <typename T>
 std::vector<std::vector<T>> _chain_matmul_recurse(const std::vector<std::vector<std::vector<T>>> &matrices, const std::vector<std::vector<int>> &order, const int &i, const int &j) {
     if (i == j) {
@@ -73,7 +133,6 @@ std::vector<std::vector<T>> _matrix_chain_order(const std::vector<std::vector<st
  * Performs chain matrix multiplication and returns the output matrix.
  *
  * @param matrices the vector of matrices in correct order of multiplication.
- * @param dims the vector of dimensions for the said matrices.
  * 
  * @returns the final output matrix after computing optimal paranthesizations.
 */
