@@ -1,6 +1,7 @@
 language: cpp
 sudo: false
 dist: trusty
+os: linux
 compiler:
     - g++
 addons:

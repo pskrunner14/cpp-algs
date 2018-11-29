@@ -51,6 +51,9 @@ template <typename T>
 std::vector<std::vector<T>> _matrix_chain_order(const std::vector<std::vector<std::vector<T>>> &);
 
 template <typename T>
+std::vector<std::vector<T>> _chain_matmul_three(const std::vector<std::vector<std::vector<T>>> &);
+
+template <typename T>
 std::vector<std::vector<T>> chain_matmul(const std::vector<std::vector<std::vector<T>>> &);
 
 // -------------------------------------------- Implementation --------------------------------------------------//
@@ -129,11 +132,32 @@ std::vector<std::vector<T>> _matrix_chain_order(const std::vector<std::vector<st
     return _chain_matmul_recurse(matrices, s, 0, n - 1);
 }
 
+template <typename T>
+std::vector<std::vector<T>> _chain_matmul_three(const std::vector<std::vector<std::vector<T>>> &matrices) {
+    int a = matrices[0].size();
+    int b = matrices[1].size();
+    int c = matrices[2].size();
+    int d = matrices[2][0].size();
+
+    // matrices of size (a x b) (b x c) (c x d)
+    // cost_l is (a x b x c) + (a x c x d)
+    int cost_l = (a * c) * (b + d);
+    // cost_l is (a x b x d) + (b x c x d)
+    int cost_r = (b * d) * (a + c);
+
+    if (cost_l > cost_r) {
+        return matmul(matrices[0], matmul(matrices[1], matrices[2]));
+    } else {
+        return matmul(matmul(matrices[0], matrices[1]), matrices[2]);
+    }
+}
+
 /**
  * Performs chain matrix multiplication and returns the output matrix.
+ * 
+ * Reference: Introduction to Algorithms [https://mitpress.mit.edu/books/introduction-algorithms-third-edition]
  *
  * @param matrices the vector of matrices in correct order of multiplication.
- * 
  * @returns the final output matrix after computing optimal paranthesizations.
 */
 template <typename T>
@@ -143,22 +167,8 @@ std::vector<std::vector<T>> chain_matmul(const std::vector<std::vector<std::vect
     if (matrices.size() == 2) {
         return matmul(matrices[0], matrices[1]);
     } else if (matrices.size() == 3) {
-        int a = matrices[0].size();
-        int b = matrices[1].size();
-        int c = matrices[2].size();
-        int d = matrices[2][0].size();
-
-        // matrices of size (a x b) (b x c) (c x d)
-        // cost_l is (a x b x c) + (a x c x d)
-        int cost_l = (a * c) * (b + d);
-        // cost_l is (a x b x d) + (b x c x d)
-        int cost_r = (b * d) * (a + c);
-
-        if (cost_l > cost_r) {
-            return matmul(matrices[0], matmul(matrices[1], matrices[2]));
-        } else {
-            return matmul(matmul(matrices[0], matrices[1]), matrices[2]);
-        }
+        // faster than general chain matmul
+        return _chain_matmul_three(matrices);
     } else {
         return _matrix_chain_order(matrices);
     }

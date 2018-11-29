@@ -32,11 +32,11 @@ configure_file(
 find_package(Boost 1.67)
     if(Boost_FOUND)
         include_directories(${Boost_INCLUDE_DIRS})
-        add_library(cpp_algs SHARED "cpp_algs/cpp_algs.hpp")
-        set_target_properties(cpp_algs PROPERTIES LINKER_LANGUAGE CXX)
-    
-        install(TARGETS cpp_algs  DESTINATION /usr/lib)
     endif()
 
+add_library(cpp_algs SHARED "cpp_algs/cpp_algs.hpp")
+set_target_properties(cpp_algs PROPERTIES LINKER_LANGUAGE CXX)
+
+install(TARGETS cpp_algs  DESTINATION /usr/lib)
 set(CONFIGURED_ONCE TRUE CACHE INTERNAL
     "A flag showing that CMake has configured at least once.")
