@@ -6,9 +6,11 @@ compiler:
 addons:
   apt:
     sources:
+      - ppa:mhier/libboost-latest
       - ubuntu-toolchain-r-test
     packages:
       - g++-7
+      - boost1.67
 
 script:
     - mkdir build && cd build
