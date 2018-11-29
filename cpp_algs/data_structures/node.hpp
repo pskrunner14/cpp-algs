@@ -96,7 +96,7 @@ template <typename T>
 BinaryTreeNode<T>::BinaryTreeNode(const T &data) : data(data), left(NULL), right(NULL) {}
 
 template <typename T>
-BinaryTreeNode<T>::BinaryTreeNode(const T &, BinaryTreeNode *left, BinaryTreeNode *right) : data(data), left(left), right(right){};
+BinaryTreeNode<T>::BinaryTreeNode(const T &data, BinaryTreeNode *left, BinaryTreeNode *right) : data(data), left(left), right(right){};
 
 // Trie Node interface
 class TrieNode {

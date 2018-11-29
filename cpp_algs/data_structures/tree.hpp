@@ -22,8 +22,20 @@ template <typename T>
 class Tree {
   private:
     TreeNode<T> *root;
+
+  public:
+    Tree();
+
+    ~Tree();
 };
 
 // Tree implementation
+template <typename T>
+Tree<T>::Tree() : root(NULL) {}
+
+template <typename T>
+Tree<T>::~Tree() {
+    SAFE_DELETE(root);
+}
 
 } // namespace ds
