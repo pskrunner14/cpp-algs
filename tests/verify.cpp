@@ -27,7 +27,7 @@ int main() {
     cout << sing.getSize() << endl;
 
     cout << "Matrix Chain Multiplication: " << endl;
-    vector<int> dims = {6, 43, 12, 5, 1};
+    vector<int> dims = {6, 4, 2, 1};
 
     vector<vector<vector<float>>> matrices;
     for (int i = 0; i < dims.size() - 1; i++) {
@@ -44,7 +44,7 @@ int main() {
         matrices.push_back(matrix);
     }
 
-    vector<vector<float>> out = al::chain_matmul<float>(matrices, dims);
+    vector<vector<float>> out = al::chain_matmul<float>(matrices);
 
     for (int i = 0; i < out.size(); i++) {
         for (int j = 0; j < out[0].size(); j++) {
