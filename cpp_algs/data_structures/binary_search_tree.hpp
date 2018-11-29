@@ -1,3 +1,26 @@
+/**
+ * MIT License
+ *
+ * Copyright (c) 2018 Prabhsimran Singh
+ * 
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ * 
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
 #pragma once
 
 /**
@@ -18,43 +41,56 @@
 
 namespace ds {
 
-// Binary Search Tree interface
+// ---------------------------------------------- Interface ---------------------------------------------------//
+
 template <typename T>
 class BinarySearchTree {
   private:
+    // pointer to root node
     BinaryTreeNode<T> *root;
 
   public:
+    // BST default constructor
     BinarySearchTree();
 
+    // BST copy constructor
     BinarySearchTree(const T &);
 
+    // BST constructor to create tree with vector of elements
     BinarySearchTree(const vector<T> &);
 
+    // BST destructor
     ~BinarySearchTree();
 
   private:
+    // recursive construct tree helper func.
     BinaryTreeNode<T> *constructTreeHelper(const vector<T> &, const T &, const T &);
 
   public:
+    // constructs the BST using vector
     void constructTree(const vector<T> &);
 
   private:
     BinaryTreeNode<T> *takeInputLevelWiseHelper();
 
   public:
+    // takes level wise input to create BST
     void takeInputLevelWise();
 
   private:
+    // recursive insert node func.
     BinaryTreeNode<T> *insertNode(BinaryTreeNode<T> *, const T &);
 
   public:
+    // inserts a node into BST
     void insert(const T &);
 
   private:
+    // recursive search tree func.
     BinaryTreeNode<T> *searchTree(BinaryTreeNode<T> *, const T &) const;
 
   public:
+    // searches the BST for data
     BinaryTreeNode<T> *search(const T &) const;
 
   private:
@@ -118,7 +154,8 @@ class BinarySearchTree {
     void print() const;
 };
 
-// Binary Search Tree implementation
+// -------------------------------------------- Implementation --------------------------------------------------//
+
 template <typename T>
 BinarySearchTree<T>::BinarySearchTree() : root(NULL) {
     takeInputLevelWise();

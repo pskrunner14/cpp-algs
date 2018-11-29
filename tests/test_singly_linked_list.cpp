@@ -1,4 +1,5 @@
 #include <iostream>
+#include <memory>
 #include <vector>
 using namespace std;
 
@@ -37,6 +38,7 @@ TEST_CASE("Singly Linked List test") {
         s.insertNode(44);
         REQUIRE(s.search(44)->value == 44);
 
-        REQUIRE(s.search(103) == NULL);
+        shared_ptr<ds::SingleNode<int>> node = s.search(103);
+        REQUIRE(node.get() == NULL);
     }
 }

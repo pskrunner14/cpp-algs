@@ -1,3 +1,26 @@
+/**
+ * MIT License
+ *
+ * Copyright (c) 2018 Prabhsimran Singh
+ * 
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ * 
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
 #pragma once
 
 /**
@@ -16,32 +39,44 @@
 
 namespace ds {
 
-// Trie interface
+// ---------------------------------------------- Interface ---------------------------------------------------//
+
 class Trie {
   private:
+    // pointer to root
     TrieNode *root;
 
+    // recursive remove func.
     void remove(TrieNode *const &, const std::string &);
 
+    // recursive print func.
     void print(TrieNode *, string) const;
 
   public:
+    // trie default constructor
     Trie();
 
+    // trie copy constructor
     Trie(const Trie &);
 
+    // trie destructor
     ~Trie();
 
+    // inserts word into trie
     void insertWord(const std::string &);
 
+    // removes the word from trie if present
     void removeWord(const std::string &);
 
+    // checks if trie contains the given word
     bool containsWord(const std::string &) const;
 
+    // prints all the words in the trie
     void printWords() const;
 };
 
-// Trie implementation
+// -------------------------------------------- Implementation --------------------------------------------------//
+
 Trie::Trie() {
     root = new TrieNode('\0');
 }
