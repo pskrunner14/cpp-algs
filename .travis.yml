@@ -6,7 +6,7 @@ compiler:
 addons:
   apt:
     sources:
-      - ppa:mhier/libboost-latest
+      - sourceline: 'ppa:mhier/libboost-latest'
       - ubuntu-toolchain-r-test
     packages:
       - g++-7
