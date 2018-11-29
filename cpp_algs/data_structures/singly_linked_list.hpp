@@ -77,7 +77,7 @@ class SinglyLinkedList {
 // -------------------------------------------- Implementation --------------------------------------------------//
 
 template <typename T>
-SinglyLinkedList<T>::SinglyLinkedList() : head(NULL), tail(NULL) {}
+SinglyLinkedList<T>::SinglyLinkedList() {}
 
 template <typename T>
 SinglyLinkedList<T>::SinglyLinkedList(const vector<T> &vec) {
