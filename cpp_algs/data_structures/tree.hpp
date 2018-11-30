@@ -33,6 +33,7 @@
 */
 #include <climits>
 #include <iostream>
+#include <memory>
 #include <queue>
 #include <vector>
 
@@ -45,22 +46,15 @@ namespace ds {
 template <typename T>
 class Tree {
   private:
-    TreeNode<T> *root;
+    std::shared_ptr<TreeNode<T>> root;
 
   public:
     Tree();
-
-    ~Tree();
 };
 
 // -------------------------------------------- Implementation --------------------------------------------------//
 
 template <typename T>
-Tree<T>::Tree() : root(NULL) {}
-
-template <typename T>
-Tree<T>::~Tree() {
-    SAFE_DELETE(root);
-}
+Tree<T>::Tree() {}
 
 } // namespace ds

@@ -32,6 +32,7 @@
  * @version 1.0 27/10/18
 */
 #include <iostream>
+#include <memory>
 #include <vector>
 
 #include "node.hpp"
@@ -43,8 +44,8 @@ namespace ds {
 template <typename T>
 class DoublyLinkedList {
   private:
-    DoubleNode<T> *head;
-    DoubleNode<T> *tail;
+    std::shared_ptr<DoubleNode<T>> head;
+    std::shared_ptr<DoubleNode<T>> tail;
     int size = 0;
 
   public:
@@ -54,21 +55,21 @@ class DoublyLinkedList {
 
     DoublyLinkedList(const DoublyLinkedList &);
 
-    ~DoublyLinkedList();
-
     void insertNode(const T &);
 
     void insertArray(const vector<T> &);
 
     void deleteNode(const T &);
 
-    DoubleNode<T> *search(const T &) const;
+    std::shared_ptr<DoubleNode<T>> search(const T &) const;
+
+    bool contains(const T &) const;
 
     void reverse();
 
     inline int getSize() const;
 
-    inline DoubleNode<T> *getLinkedList() const;
+    inline std::shared_ptr<DoubleNode<T>> getLinkedList() const;
 
     void print() const;
 };
@@ -76,7 +77,7 @@ class DoublyLinkedList {
 // -------------------------------------------- Implementation --------------------------------------------------//
 
 template <typename T>
-DoublyLinkedList<T>::DoublyLinkedList() : head(NULL), tail(NULL) {}
+DoublyLinkedList<T>::DoublyLinkedList() {}
 
 template <typename T>
 DoublyLinkedList<T>::DoublyLinkedList(const vector<T> &vec) {
@@ -85,7 +86,7 @@ DoublyLinkedList<T>::DoublyLinkedList(const vector<T> &vec) {
 
 template <typename T>
 DoublyLinkedList<T>::DoublyLinkedList(const DoublyLinkedList &d) {
-    DoubleNode<T> *temp = d.getLinkedList();
+    std::shared_ptr<DoubleNode<T>> temp = d.getLinkedList();
     while (temp != NULL) {
         insertNode(temp->value);
         temp = temp->next;
@@ -93,17 +94,11 @@ DoublyLinkedList<T>::DoublyLinkedList(const DoublyLinkedList &d) {
 }
 
 template <typename T>
-DoublyLinkedList<T>::~DoublyLinkedList() {
-    delete head;
-    delete tail;
-}
-
-template <typename T>
 void DoublyLinkedList<T>::insertNode(const T &value) {
-    DoubleNode<T> *new_node = new DoubleNode<T>(value);
+    std::shared_ptr<DoubleNode<T>> new_node(new DoubleNode<T>(value));
     if (head == NULL) {
         head = new_node;
-        tail = head;
+        tail = new_node;
         size = 1;
     } else {
         tail->next = new_node;
@@ -122,15 +117,13 @@ void DoublyLinkedList<T>::insertArray(const vector<T> &vec) {
 
 template <typename T>
 void DoublyLinkedList<T>::deleteNode(const T &value) {
-    DoubleNode<T> *temp = head->next;
+    std::shared_ptr<DoubleNode<T>> temp = head->next;
     if (head->value == value) {
-        delete head;
         head = temp;
         head->prev = NULL;
         size--;
     } else if (tail->value == value) {
         temp = tail->prev;
-        delete tail;
         temp->next = NULL;
         tail = temp;
         size--;
@@ -138,7 +131,6 @@ void DoublyLinkedList<T>::deleteNode(const T &value) {
         while (temp != NULL) {
             if (temp->value == value) {
                 temp->prev->next = temp->next;
-                delete temp;
                 size--;
                 break;
             }
@@ -148,14 +140,14 @@ void DoublyLinkedList<T>::deleteNode(const T &value) {
 }
 
 template <typename T>
-DoubleNode<T> *DoublyLinkedList<T>::search(const T &value) const {
+std::shared_ptr<DoubleNode<T>> DoublyLinkedList<T>::search(const T &value) const {
     if (head->value == value) {
         return head;
     } else if (tail->value == value) {
         return tail;
     } else {
-        DoubleNode<T> *temp_s = head->next;
-        DoubleNode<T> *temp_e = tail->prev;
+        std::shared_ptr<DoubleNode<T>> temp_s = head->next;
+        std::shared_ptr<DoubleNode<T>> temp_e = tail->prev;
         while (temp_s != NULL && temp_e != NULL) {
             if (temp_s->value == value)
                 return temp_s;
@@ -171,9 +163,32 @@ DoubleNode<T> *DoublyLinkedList<T>::search(const T &value) const {
 }
 
 template <typename T>
+bool DoublyLinkedList<T>::contains(const T &value) const {
+    if (head->value == value) {
+        return true;
+    } else if (tail->value == value) {
+        return true;
+    } else {
+        std::shared_ptr<DoubleNode<T>> temp_s = head->next;
+        std::shared_ptr<DoubleNode<T>> temp_e = tail->prev;
+        while (temp_s != NULL && temp_e != NULL) {
+            if (temp_s->value == value)
+                return true;
+            temp_s = temp_s->next;
+            if (temp_e->value == value)
+                return true;
+            if (temp_s == temp_e)
+                return false;
+            temp_e = temp_e->prev;
+        }
+    }
+    return false;
+}
+
+template <typename T>
 void DoublyLinkedList<T>::reverse() {
-    DoubleNode<T> *temp = NULL;
-    DoubleNode<T> *current = head;
+    std::shared_ptr<DoubleNode<T>> temp = NULL;
+    std::shared_ptr<DoubleNode<T>> current = head;
     while (current != NULL) {
         temp = current->prev;
         current->prev = current->next;
@@ -192,13 +207,13 @@ inline int DoublyLinkedList<T>::getSize() const {
 }
 
 template <typename T>
-inline DoubleNode<T> *DoublyLinkedList<T>::getLinkedList() const {
+inline std::shared_ptr<DoubleNode<T>> DoublyLinkedList<T>::getLinkedList() const {
     return head;
 }
 
 template <typename T>
 void DoublyLinkedList<T>::print() const {
-    for (DoubleNode<T> *temp = head; temp != NULL; temp = temp->next)
+    for (std::shared_ptr<DoubleNode<T>> temp = head; temp != NULL; temp = temp->next)
         std::cout << temp->value << ' ';
     std::cout << '\n';
 }

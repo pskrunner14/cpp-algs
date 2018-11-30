@@ -32,6 +32,7 @@
  * @version 1.0 27/11/18
 */
 #include <iostream>
+#include <memory>
 #include <queue>
 #include <string>
 
@@ -44,13 +45,13 @@ namespace ds {
 class Trie {
   private:
     // pointer to root
-    TrieNode *root;
+    std::shared_ptr<TrieNode> root;
 
     // recursive remove func.
-    void remove(TrieNode *const &, const std::string &);
+    void remove(std::shared_ptr<TrieNode> const &, const std::string &);
 
     // recursive print func.
-    void print(TrieNode *, string) const;
+    void print(std::shared_ptr<TrieNode>, string) const;
 
   public:
     // trie default constructor
@@ -58,9 +59,6 @@ class Trie {
 
     // trie copy constructor
     Trie(const Trie &);
-
-    // trie destructor
-    ~Trie();
 
     // inserts word into trie
     void insertWord(const std::string &);
@@ -78,19 +76,15 @@ class Trie {
 // -------------------------------------------- Implementation --------------------------------------------------//
 
 Trie::Trie() {
-    root = new TrieNode('\0');
+    root = std::shared_ptr<TrieNode>(new TrieNode('\0'));
 }
 
 Trie::Trie(const Trie &t) {
     throw NotImplementedError();
 }
 
-Trie::~Trie() {
-    SAFE_DELETE(root);
-}
-
 void Trie::insertWord(const std::string &str) {
-    TrieNode *temp = root;
+    std::shared_ptr<TrieNode> temp = root;
     size_t i = 0;
     while (i < str.size() && temp->contains(str[i])) {
         temp = temp->children[str[i]];
@@ -101,18 +95,18 @@ void Trie::insertWord(const std::string &str) {
         return;
     }
     for (; i < str.size() - 1; i++) {
-        TrieNode *child = new TrieNode(str[i]);
+        std::shared_ptr<TrieNode> child(new TrieNode(str[i]));
         temp->children[str[i]] = child;
         temp = child;
     }
     if (i < str.size()) {
-        TrieNode *child = new TrieNode(str[i], true);
+        std::shared_ptr<TrieNode> child(new TrieNode(str[i], true));
         temp->children[str[i]] = child;
     }
 }
 
 bool Trie::containsWord(const std::string &str) const {
-    TrieNode *temp = root;
+    std::shared_ptr<TrieNode> temp = root;
     size_t i = 0;
     while (i < str.size() && temp->contains(str[i])) {
         temp = temp->children[str[i]];
@@ -126,34 +120,32 @@ bool Trie::containsWord(const std::string &str) const {
     return false;
 }
 
-void Trie::remove(TrieNode *const &node, const string &str) {
+void Trie::remove(std::shared_ptr<TrieNode> const &node, const string &str) {
     if (str.empty()) {
         node->isTerminal = false;
         return;
     }
     if (node->contains(str[0])) {
-        TrieNode *child = node->children[str[0]];
+        std::shared_ptr<TrieNode> child = node->children[str[0]];
         remove(child, str.substr(1));
         if (child->children.empty() && !child->isTerminal) {
             node->remove(str[0]);
-            delete child;
         }
     }
 }
 
 void Trie::removeWord(const string &str) {
     if (root->contains(str[0])) {
-        TrieNode *child = root->children[str[0]];
+        std::shared_ptr<TrieNode> child = root->children[str[0]];
         // keep root safe
         remove(child, str.substr(1));
         if (child->children.empty() && !child->isTerminal) {
             root->remove(str[0]);
-            delete child;
         }
     }
 }
 
-void Trie::print(TrieNode *node, string str) const {
+void Trie::print(std::shared_ptr<TrieNode> node, string str) const {
     str += node->data;
     if (node->isTerminal) {
         cout << str << endl;

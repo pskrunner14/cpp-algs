@@ -37,16 +37,6 @@
 #include <memory>
 #include <vector>
 
-#ifndef SAFE_DELETE
-#define SAFE_DELETE(p)  \
-    {                   \
-        if (p) {        \
-            delete (p); \
-            (p) = NULL; \
-        }               \
-    }
-#endif
-
 namespace ds {
 
 // Single Node interface
@@ -73,27 +63,27 @@ template <typename T>
 class DoubleNode {
   public:
     T value;
-    DoubleNode<T> *prev;
-    DoubleNode<T> *next;
+    std::shared_ptr<DoubleNode<T>> prev;
+    std::shared_ptr<DoubleNode<T>> next;
 
     DoubleNode(const T &);
 
-    DoubleNode(const T &, DoubleNode *, DoubleNode *);
+    DoubleNode(const T &, std::shared_ptr<DoubleNode<T>>, std::shared_ptr<DoubleNode<T>>);
 };
 
 // Double Node implementation
 template <typename T>
-DoubleNode<T>::DoubleNode(const T &value) : value(value), prev(NULL), next(NULL) {}
+DoubleNode<T>::DoubleNode(const T &value) : value(value) {}
 
 template <typename T>
-DoubleNode<T>::DoubleNode(const T &value, DoubleNode *prev, DoubleNode *next) : value(value), prev(prev), next(next) {}
+DoubleNode<T>::DoubleNode(const T &value, std::shared_ptr<DoubleNode<T>> prev, std::shared_ptr<DoubleNode<T>> next) : value(value), prev(prev), next(next) {}
 
 // Tree Node interface
 template <typename T>
 class TreeNode {
   public:
     T data;
-    std::vector<TreeNode<T> *> children;
+    std::vector<std::shared_ptr<TreeNode<T>>> children;
 
     TreeNode(const T &);
 };
@@ -127,7 +117,7 @@ class TrieNode {
   public:
     char data;
     bool isTerminal;
-    std::map<char, TrieNode *> children;
+    std::map<char, std::shared_ptr<TrieNode>> children;
 
     TrieNode(const char &);
 

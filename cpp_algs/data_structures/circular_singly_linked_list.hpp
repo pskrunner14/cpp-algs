@@ -32,6 +32,7 @@
  * @version 1.0 27/10/18
 */
 #include <iostream>
+#include <memory>
 #include <vector>
 
 #include "node.hpp"
@@ -43,8 +44,8 @@ namespace ds {
 template <typename T>
 class CircularSinglyLinkedList {
   private:
-    SingleNode<T> *head;
-    SingleNode<T> *tail;
+    std::shared_ptr<SingleNode<T>> head;
+    std::shared_ptr<SingleNode<T>> tail;
     int size = 0;
 
   public:
@@ -54,19 +55,19 @@ class CircularSinglyLinkedList {
 
     CircularSinglyLinkedList(const CircularSinglyLinkedList &);
 
-    ~CircularSinglyLinkedList();
-
     void insertNode(const T &);
 
     void insertArray(const vector<T> &);
 
     void deleteNode(const T &);
 
-    SingleNode<T> *search(const T &) const;
+    std::shared_ptr<SingleNode<T>> search(const T &) const;
+
+    bool contains(const T &) const;
 
     inline int getSize() const;
 
-    inline SingleNode<T> *getLinkedList() const;
+    inline std::shared_ptr<SingleNode<T>> getLinkedList() const;
 
     void print() const;
 };
@@ -82,16 +83,9 @@ CircularSinglyLinkedList<T>::CircularSinglyLinkedList(const vector<T> &vec) {
 }
 
 template <typename T>
-CircularSinglyLinkedList<T>::~CircularSinglyLinkedList() {
-    delete head;
-    delete tail;
-}
-
-template <typename T>
 void CircularSinglyLinkedList<T>::insertNode(const T &value) {
-    SingleNode<T> *new_node = new SingleNode<T>(value);
+    std::shared_ptr<SingleNode<T>> new_node(new SingleNode<T>(value));
     if (head == NULL) {
-        head = new SingleNode<T>(value);
         head = new_node;
         tail = new_node;
         tail->next = head;
@@ -114,24 +108,21 @@ void CircularSinglyLinkedList<T>::insertArray(const vector<T> &vec) {
 
 template <typename T>
 void CircularSinglyLinkedList<T>::deleteNode(const T &value) {
-    SingleNode<T> *temp = head->next;
+    std::shared_ptr<SingleNode<T>> temp = head->next;
     if (head->value == value) {
         tail->next = temp;
-        delete head;
         head = temp;
     } else if (tail->value == value) {
         while (temp->next != tail) {
             temp = temp->next;
         }
         temp->next = head;
-        delete tail;
         tail = temp;
     } else {
-        SingleNode<T> *p_temp = head;
+        std::shared_ptr<SingleNode<T>> p_temp = head;
         while (temp != tail) {
             if (temp->value == value) {
                 p_temp->next = temp->next;
-                delete temp;
                 size--;
                 return;
             }
@@ -142,13 +133,13 @@ void CircularSinglyLinkedList<T>::deleteNode(const T &value) {
 }
 
 template <typename T>
-SingleNode<T> *CircularSinglyLinkedList<T>::search(const T &value) const {
+std::shared_ptr<SingleNode<T>> CircularSinglyLinkedList<T>::search(const T &value) const {
     if (head->value == value) {
         return head;
     } else if (tail->value == value) {
         return tail;
     } else {
-        SingleNode<T> *temp = head->next;
+        std::shared_ptr<SingleNode<T>> temp = head->next;
         while (temp != head) {
             if (temp->value == value) {
                 return temp;
@@ -160,18 +151,36 @@ SingleNode<T> *CircularSinglyLinkedList<T>::search(const T &value) const {
 }
 
 template <typename T>
+bool CircularSinglyLinkedList<T>::contains(const T &value) const {
+    if (head->value == value) {
+        return true;
+    } else if (tail->value == value) {
+        return true;
+    } else {
+        std::shared_ptr<SingleNode<T>> temp = head->next;
+        while (temp != head) {
+            if (temp->value == value) {
+                return true;
+            }
+            temp = temp->next;
+        }
+    }
+    return false;
+}
+
+template <typename T>
 inline int CircularSinglyLinkedList<T>::getSize() const {
     return size;
 }
 
 template <typename T>
-inline SingleNode<T> *CircularSinglyLinkedList<T>::getLinkedList() const {
+inline std::shared_ptr<SingleNode<T>> CircularSinglyLinkedList<T>::getLinkedList() const {
     return head;
 }
 
 template <typename T>
 void CircularSinglyLinkedList<T>::print() const {
-    SingleNode<T> *temp = head;
+    std::shared_ptr<SingleNode<T>> temp = head;
     for (; temp != tail; temp = temp->next)
         std::cout << temp->value << ' ';
     std::cout << temp->value << '\n';
