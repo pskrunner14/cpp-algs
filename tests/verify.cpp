@@ -5,28 +5,36 @@ using namespace std;
 #include "cpp_algs.hpp"
 
 int main() {
-
-    cout << "Singly Linked List: " << endl;
+    // Singly Linked List
     ds::SinglyLinkedList<int> sing = ds::SinglyLinkedList<int>();
+    BOOST_ASSERT_MSG(sing.getSize() == 0, "Singly linked list getSize() is buggy");
     sing.insertNode(10);
+    BOOST_ASSERT_MSG(sing.contains(10), "Singly linked list insertion is buggy");
     sing.insertNode(20);
-    sing.print();
-    cout << sing.getSize() << endl;
-
-    ds::SinglyLinkedList<string> s = ds::SinglyLinkedList<string>();
-    s.insertNode("hello");
-    s.insertNode(", ");
-    s.insertNode("world");
-    s.insertNode("!");
-    s.print();
-    cout << s.getSize() << endl;
+    BOOST_ASSERT_MSG(sing.contains(20), "Singly linked list search is buggy");
+    sing.deleteNode(20);
+    BOOST_ASSERT_MSG(!sing.contains(20), "Singly linked list deletion is buggy");
 
     vector<int> vec = {43, 44, 45, 46, 47};
     sing.insertArray(vec);
-    sing.print();
-    cout << sing.getSize() << endl;
+    for (const auto &v : vec) {
+        BOOST_ASSERT_MSG(sing.contains(v), "Singly linked list insertion of std::vector<int> is buggy");
+    }
+    BOOST_ASSERT_MSG(sing.getSize() == 6, "Singly linked list getSize() is buggy");
 
-    cout << "Matrix Chain Multiplication: " << endl;
+    ds::SinglyLinkedList<string> s = ds::SinglyLinkedList<string>();
+    BOOST_ASSERT_MSG(s.getSize() == 0, "Singly linked list getSize() is buggy");
+    s.insertNode("hello");
+    BOOST_ASSERT_MSG(s.contains("hello"), "Singly linked list std::string insertion is buggy");
+    s.insertNode("world");
+    BOOST_ASSERT_MSG(s.contains("world"), "Singly linked list std::string contains is buggy");
+    s.deleteNode("hello");
+    BOOST_ASSERT_MSG(!s.contains("hello"), "Singly linked list std::string deletion is buggy");
+    s.insertNode("!");
+    BOOST_ASSERT_MSG(s.search("!")->value == "!", "Singly linked list std::string search is buggy");
+    BOOST_ASSERT_MSG(s.getSize() == 2, "Singly linked list getSize() is buggy");
+
+    // Matrix Chain Multiplication
     vector<int> dims = {6, 4, 2, 1};
 
     vector<vector<vector<float>>> matrices;
@@ -48,32 +56,28 @@ int main() {
 
     for (int i = 0; i < out.size(); i++) {
         for (int j = 0; j < out[0].size(); j++) {
-            cout << out[i][j] << " ";
+            BOOST_ASSERT_MSG(out[i][j] == 8, "Matrix chain multiplication is buggy");
         }
-        cout << endl;
     }
 
-    cout << "Trie dictionary: " << endl;
+    // Trie dictionary
     ds::Trie trie;
 
     trie.insertWord("hello");
-    trie.insertWord("ShiT");
-    trie.insertWord("Ships");
+    BOOST_ASSERT_MSG(trie.containsWord("hello"), "Trie std::string insertion is buggy");
     trie.insertWord("help");
+    BOOST_ASSERT_MSG(trie.containsWord("help"), "Trie std::string insertion is buggy");
     trie.insertWord("hell");
+    BOOST_ASSERT_MSG(trie.containsWord("hell"), "Trie std::string insertion is buggy");
 
     char c[] = {'a', 'b', 'c', '\0'};
     trie.insertWord(c);
-    trie.printWords();
-
-    cout << trie.containsWord("hello") << endl;
-    cout << trie.containsWord("woah") << endl;
+    BOOST_ASSERT_MSG(trie.containsWord("abc"), "Trie (char *) insertion is buggy");
 
     trie.removeWord("hello");
-    cout << trie.containsWord("hello") << endl;
-    cout << trie.containsWord("hell") << endl;
-    cout << trie.containsWord("help") << endl;
-    trie.printWords();
+    BOOST_ASSERT_MSG(!trie.containsWord("hello"), "Trie std::string removal is buggy");
+    trie.removeWord(c);
+    BOOST_ASSERT_MSG(!trie.containsWord(c), "Trie (char *) removal is buggy");
 
     cout << "Verified installation of library!" << '\n';
 

@@ -41,11 +41,13 @@ namespace al {
 
 // matrix multiplication
 template <typename T>
-std::vector<std::vector<T>> matmul(const std::vector<std::vector<T>> &, const std::vector<std::vector<T>> &);
+std::vector<std::vector<T>> matmul(const std::vector<std::vector<T>> &,
+                                   const std::vector<std::vector<T>> &);
 
 // chain matrix multiplication
 template <typename T>
-std::vector<std::vector<T>> _chain_matmul_recurse(const std::vector<std::vector<std::vector<T>>> &, const std::vector<std::vector<int>> &, const int &, const int &);
+std::vector<std::vector<T>> _chain_matmul_recurse(const std::vector<std::vector<std::vector<T>>> &,
+                                                  const std::vector<std::vector<int>> &, const int &, const int &);
 
 template <typename T>
 std::vector<std::vector<T>> _matrix_chain_order(const std::vector<std::vector<std::vector<T>>> &);
@@ -68,7 +70,8 @@ std::vector<std::vector<T>> chain_matmul(const std::vector<std::vector<std::vect
  * @returns the mxk output matrix.
 */
 template <typename T>
-std::vector<std::vector<T>> matmul(const std::vector<std::vector<T>> &a, const std::vector<std::vector<T>> &b) {
+std::vector<std::vector<T>> matmul(const std::vector<std::vector<T>> &a,
+                                   const std::vector<std::vector<T>> &b) {
     int m = a.size();
     int n = a[0].size();
     int k = b[0].size();
@@ -91,16 +94,21 @@ std::vector<std::vector<T>> matmul(const std::vector<std::vector<T>> &a, const s
 
 // chain matrix multiplication
 template <typename T>
-std::vector<std::vector<T>> _chain_matmul_recurse(const std::vector<std::vector<std::vector<T>>> &matrices, const std::vector<std::vector<int>> &order, const int &i, const int &j) {
+std::vector<std::vector<T>> _chain_matmul_recurse(const std::vector<std::vector<std::vector<T>>> &matrices,
+                                                  const std::vector<std::vector<int>> &order, const int &i, const int &j) {
+
     if (i == j) {
         return matrices[i];
     } else {
-        return matmul(_chain_matmul_recurse(matrices, order, i, order[i][j]), _chain_matmul_recurse(matrices, order, order[i][j] + 1, j));
+        return matmul(_chain_matmul_recurse(matrices, order, i, order[i][j]),
+                      _chain_matmul_recurse(matrices, order, order[i][j] + 1, j));
     }
 }
 
 template <typename T>
-std::vector<std::vector<T>> _matrix_chain_order(const std::vector<std::vector<std::vector<T>>> &matrices) {
+std::vector<std::vector<T>> _matrix_chain_order(
+    const std::vector<std::vector<std::vector<T>>> &matrices) {
+
     // dimensions
     std::vector<int> dims;
     dims.push_back(matrices[0].size());
@@ -111,29 +119,32 @@ std::vector<std::vector<T>> _matrix_chain_order(const std::vector<std::vector<st
     int n = matrices.size();
 
     // initialization
-    std::vector<std::vector<int>> m(n, std::vector<int>(n, 0));
-    std::vector<std::vector<int>> s(n, std::vector<int>(n, 0));
+    std::vector<std::vector<int>> cost(n, std::vector<int>(n, 0));
+    std::vector<std::vector<int>> order(n, std::vector<int>(n, 0));
 
     // calulate costs
     for (int l = 1; l < n; l++) {
         for (int i = 0; i < n - l; i++) {
             int j = i + l;
-            m[i][j] = std::numeric_limits<int>::max();
+            cost[i][j] = std::numeric_limits<int>::max();
             for (int k = i; k < j; k++) {
-                int q = m[i][k] + m[k + 1][j] + (dims[i] * dims[k + 1] * dims[j + 1]);
-                if (q < m[i][j]) {
-                    m[i][j] = q;
-                    s[i][j] = k;
+                int q = cost[i][k] + cost[k + 1][j] + (dims[i] * dims[k + 1] * dims[j + 1]);
+                if (q < cost[i][j]) {
+                    cost[i][j] = q;
+                    order[i][j] = k;
                 }
             }
         }
     }
+
     // recursive chain matmul product computation
-    return _chain_matmul_recurse(matrices, s, 0, n - 1);
+    return _chain_matmul_recurse(matrices, order, 0, n - 1);
 }
 
 template <typename T>
-std::vector<std::vector<T>> _chain_matmul_three(const std::vector<std::vector<std::vector<T>>> &matrices) {
+std::vector<std::vector<T>> _chain_matmul_three(
+    const std::vector<std::vector<std::vector<T>>> &matrices) {
+
     int a = matrices[0].size();
     int b = matrices[1].size();
     int c = matrices[2].size();
@@ -142,7 +153,7 @@ std::vector<std::vector<T>> _chain_matmul_three(const std::vector<std::vector<st
     // matrices of size (a x b) (b x c) (c x d)
     // cost_l is (a x b x c) + (a x c x d)
     int cost_l = (a * c) * (b + d);
-    // cost_l is (a x b x d) + (b x c x d)
+    // cost_r is (a x b x d) + (b x c x d)
     int cost_r = (b * d) * (a + c);
 
     if (cost_l > cost_r) {
@@ -161,7 +172,9 @@ std::vector<std::vector<T>> _chain_matmul_three(const std::vector<std::vector<st
  * @returns the final output matrix after computing optimal paranthesizations.
 */
 template <typename T>
-std::vector<std::vector<T>> chain_matmul(const std::vector<std::vector<std::vector<T>>> &matrices) {
+std::vector<std::vector<T>> chain_matmul(
+    const std::vector<std::vector<std::vector<T>>> &matrices) {
+
     BOOST_ASSERT_MSG(matrices.size() > 1, "Minimum 2 matrices required for Matrix Multiplication");
 
     if (matrices.size() == 2) {

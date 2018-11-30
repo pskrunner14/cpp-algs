@@ -65,6 +65,8 @@ class SinglyLinkedList {
 
     std::shared_ptr<SingleNode<T>> search(const T &) const;
 
+    bool contains(const T &) const;
+
     void reverse();
 
     inline int64_t getSize() const;
@@ -138,11 +140,16 @@ void SinglyLinkedList<T>::deleteNode(const T &value) {
         }
         size--;
     } else if (tail->value == value) {
-        while (temp->next != tail) {
-            temp = temp->next;
+        if (temp != tail) {
+            while (temp->next != tail) {
+                temp = temp->next;
+            }
+        } else {
+            temp = head;
         }
         temp->next = NULL;
         tail = temp;
+        size--;
     } else {
         std::shared_ptr<SingleNode<T>> p_temp = head;
         while (temp != NULL) {
@@ -170,6 +177,24 @@ std::shared_ptr<SingleNode<T>> SinglyLinkedList<T>::search(const T &value) const
         }
         return temp;
     }
+}
+
+template <typename T>
+bool SinglyLinkedList<T>::contains(const T &value) const {
+    if (head->value == value) {
+        return true;
+    } else if (tail->value == value) {
+        return true;
+    } else {
+        std::shared_ptr<SingleNode<T>> temp = head;
+        while (temp != NULL && temp->value != value) {
+            temp = temp->next;
+        }
+        if (temp != NULL) {
+            return true;
+        }
+    }
+    return false;
 }
 
 template <typename T>

@@ -33,8 +33,8 @@
 */
 #include <algorithm>
 #include <iostream>
+#include <map>
 #include <memory>
-#include <unordered_map>
 #include <vector>
 
 #ifndef SAFE_DELETE
@@ -127,7 +127,7 @@ class TrieNode {
   public:
     char data;
     bool isTerminal;
-    std::unordered_map<char, TrieNode *> children;
+    std::map<char, TrieNode *> children;
 
     TrieNode(const char &);
 
