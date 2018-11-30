@@ -2,7 +2,16 @@
 #include <vector>
 using namespace std;
 
+#include <boost/generator_iterator.hpp>
+#include <boost/random.hpp>
+#include <boost/timer/timer.hpp>
+
 #include "cpp_algs.hpp"
+
+template <typename T>
+void init_matrices(vector<vector<vector<T>>> &, const vector<int> &, const T &, bool = false);
+
+void time_test(const vector<int> &);
 
 int main() {
     // Singly Linked List
@@ -38,19 +47,7 @@ int main() {
     vector<int> dims = {6, 4, 2, 1};
 
     vector<vector<vector<float>>> matrices;
-    for (int i = 0; i < dims.size() - 1; i++) {
-        int m = dims[i];
-        int n = dims[i + 1];
-        vector<vector<float>> matrix;
-        for (int j = 0; j < m; j++) {
-            vector<float> row;
-            for (int k = 0; k < n; k++) {
-                row.push_back(1.0f);
-            }
-            matrix.push_back(row);
-        }
-        matrices.push_back(matrix);
-    }
+    init_matrices<float>(matrices, dims, 1.0f);
 
     vector<vector<float>> out = al::chain_matmul<float>(matrices);
 
@@ -81,6 +78,53 @@ int main() {
 
     cout << "Verified installation of library!" << '\n';
 
+    dims = {1000, 1234, 13, 542, 122, 11};
+    time_test(dims);
+
     // cleanup
     return 0;
+}
+
+template <typename T>
+void init_matrices(vector<vector<vector<T>>> &matrices, const vector<int> &dims, const T &value, bool random) {
+    typedef boost::mt19937 RNGType;
+    RNGType rng;
+    boost::uniform_int<> random_iter(1, 10);
+    boost::variate_generator<RNGType, boost::uniform_int<>> dice(rng, random_iter);
+
+    for (int i = 0; i < dims.size() - 1; i++) {
+        if (random) {
+            vector<vector<T>> matrix(dims[i], vector<T>(dims[i + 1], dice()));
+            matrices.push_back(matrix);
+        } else {
+            vector<vector<T>> matrix(dims[i], vector<T>(dims[i + 1], value));
+            matrices.push_back(matrix);
+        }
+    }
+}
+
+void time_test(const vector<int> &dims) {
+    vector<vector<vector<int>>> matrices;
+    init_matrices<int>(matrices, dims, 1, true);
+    vector<vector<int>> out;
+    boost::timer::cpu_timer t;
+
+    // matrix chain using DP
+    t.start();
+    out = al::chain_matmul<int>(matrices);
+    t.stop();
+    boost::timer::cpu_times const et1(t.elapsed());
+    cout << boost::timer::format(et1) << endl;
+
+    out.clear();
+
+    // naive matrix chain
+    out = matrices[0];
+    t.start();
+    for (int i = 1; i < matrices.size(); i++) {
+        out = al::matmul(out, matrices[i]);
+    }
+    t.stop();
+    boost::timer::cpu_times const et2(t.elapsed());
+    cout << boost::timer::format(et2);
 }

@@ -18,7 +18,7 @@ fi
 
 cd ..
 # launch verification toy program
-g++ tests/verify.cpp -l cpp_algs -I cpp_algs/
+g++ tests/verify.cpp -l boost_timer -l cpp_algs -I cpp_algs/
 
 if ./a.out; then
     echo "[INSTALL] Test toy program working!"
