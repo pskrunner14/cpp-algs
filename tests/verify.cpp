@@ -14,8 +14,13 @@ void init_matrices(vector<vector<vector<T>>> &, const vector<int> &, const T &, 
 void time_test(const vector<int> &);
 
 int main() {
+    ds::DoublyLinkedList<int> d;
+    d.insertNode(1);
+    d.insertNode(2);
+    d.print();
+
     // Singly Linked List
-    ds::SinglyLinkedList<int> sing = ds::SinglyLinkedList<int>();
+    ds::SinglyLinkedList<int> sing;
     BOOST_ASSERT_MSG(sing.getSize() == 0, "Singly linked list getSize() is buggy");
     sing.insertNode(10);
     BOOST_ASSERT_MSG(sing.contains(10), "Singly linked list insertion is buggy");
