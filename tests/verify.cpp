@@ -14,11 +14,6 @@ void init_matrices(vector<vector<vector<T>>> &, const vector<int> &, const T &, 
 void time_test(const vector<int> &);
 
 int main() {
-    ds::DoublyLinkedList<int> d;
-    d.insertNode(1);
-    d.insertNode(2);
-    d.print();
-
     // Singly Linked List
     ds::SinglyLinkedList<int> sing;
     BOOST_ASSERT_MSG(sing.getSize() == 0, "Singly linked list getSize() is buggy");
@@ -45,7 +40,7 @@ int main() {
     s.deleteNode("hello");
     BOOST_ASSERT_MSG(!s.contains("hello"), "Singly linked list std::string deletion is buggy");
     s.insertNode("!");
-    BOOST_ASSERT_MSG(s.search("!")->value == "!", "Singly linked list std::string search is buggy");
+    BOOST_ASSERT_MSG(s.search("!")->data == "!", "Singly linked list std::string search is buggy");
     BOOST_ASSERT_MSG(s.getSize() == 2, "Singly linked list getSize() is buggy");
 
     // Matrix Chain Multiplication
@@ -91,7 +86,7 @@ int main() {
 }
 
 template <typename T>
-void init_matrices(vector<vector<vector<T>>> &matrices, const vector<int> &dims, const T &value, bool random) {
+void init_matrices(vector<vector<vector<T>>> &matrices, const vector<int> &dims, const T &data, bool random) {
     typedef boost::mt19937 RNGType;
     RNGType rng;
     boost::uniform_int<> random_iter(1, 10);
@@ -102,7 +97,7 @@ void init_matrices(vector<vector<vector<T>>> &matrices, const vector<int> &dims,
             vector<vector<T>> matrix(dims[i], vector<T>(dims[i + 1], dice()));
             matrices.push_back(matrix);
         } else {
-            vector<vector<T>> matrix(dims[i], vector<T>(dims[i + 1], value));
+            vector<vector<T>> matrix(dims[i], vector<T>(dims[i + 1], data));
             matrices.push_back(matrix);
         }
     }
