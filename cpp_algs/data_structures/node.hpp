@@ -42,7 +42,7 @@ namespace ds {
 // Single Node interface
 template <typename T>
 struct SingleNode {
-    T value;
+    T data;
     std::shared_ptr<SingleNode<T>> next;
 
     SingleNode(const T &);
@@ -52,15 +52,15 @@ struct SingleNode {
 
 // Single Node implementation
 template <typename T>
-SingleNode<T>::SingleNode(const T &value) : value(value) {}
+SingleNode<T>::SingleNode(const T &data) : data(data) {}
 
 template <typename T>
-SingleNode<T>::SingleNode(const T &value, std::shared_ptr<SingleNode<T>>) : value(value), next(next) {}
+SingleNode<T>::SingleNode(const T &data, std::shared_ptr<SingleNode<T>>) : data(data), next(next) {}
 
 // Double Node interface
 template <typename T>
 struct DoubleNode {
-    T value;
+    T data;
     std::shared_ptr<DoubleNode<T>> prev;
     std::shared_ptr<DoubleNode<T>> next;
 
@@ -71,10 +71,10 @@ struct DoubleNode {
 
 // Double Node implementation
 template <typename T>
-DoubleNode<T>::DoubleNode(const T &value) : value(value) {}
+DoubleNode<T>::DoubleNode(const T &data) : data(data) {}
 
 template <typename T>
-DoubleNode<T>::DoubleNode(const T &value, std::shared_ptr<DoubleNode<T>> prev, std::shared_ptr<DoubleNode<T>> next) : value(value), prev(prev), next(next) {}
+DoubleNode<T>::DoubleNode(const T &data, std::shared_ptr<DoubleNode<T>> prev, std::shared_ptr<DoubleNode<T>> next) : data(data), prev(prev), next(next) {}
 
 // Tree Node interface
 template <typename T>
@@ -144,7 +144,7 @@ void TrieNode::remove(const char &data) {
 template <typename T>
 struct MapNode {
     const std::string key;
-    T value;
+    T data;
     MapNode<T> *next;
 
     MapNode(const std::string &, const T &);
@@ -152,5 +152,5 @@ struct MapNode {
 
 // Map Node implementation
 template <typename T>
-MapNode<T>::MapNode(const std::string &key, const T &value) : key(key), value(value), next(NULL) {}
+MapNode<T>::MapNode(const std::string &key, const T &data) : key(key), data(data), next(NULL) {}
 } // namespace ds

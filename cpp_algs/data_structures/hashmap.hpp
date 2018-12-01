@@ -141,8 +141,8 @@ void HashMap<T>::rehash() {
         MapNode<T> *head = temp[i];
         while (head != NULL) {
             std::string key = head->key;
-            T value = head->value;
-            insert(key, value);
+            T data = head->data;
+            insert(key, data);
             head = head->next;
         }
     }
@@ -153,18 +153,18 @@ void HashMap<T>::rehash() {
 }
 
 template <typename T>
-void HashMap<T>::insert(const std::string &key, const T &value) {
+void HashMap<T>::insert(const std::string &key, const T &data) {
     int bucketIndex = getBucketIndex(key);
     MapNode<T> *head = buckets[bucketIndex];
     while (head != NULL) {
         if (head->key == key) {
-            head->value = value;
+            head->data = data;
             return;
         }
         head = head->next;
     }
     head = buckets[bucketIndex];
-    MapNode<T> *node = new MapNode<T>(key, value);
+    MapNode<T> *node = new MapNode<T>(key, data);
     node->next = head;
     buckets[bucketIndex] = node;
     count++;
@@ -179,7 +179,7 @@ T HashMap<T>::getValue(const std::string &key) const {
     MapNode<T> *head = buckets[bucketIndex];
     while (head != NULL) {
         if (head->key == key) {
-            return head->value;
+            return head->data;
         }
         head = head->next;
     }
@@ -198,11 +198,11 @@ T HashMap<T>::remove(const std::string &key) {
             } else {
                 prev->next = head->next;
             }
-            T value = head->value;
+            T data = head->data;
             head->next = NULL;
             delete head;
             count--;
-            return value;
+            return data;
         }
         prev = head;
         head = head->next;
@@ -216,7 +216,7 @@ void HashMap<T>::print() const {
         MapNode<int> *head = buckets[i];
         while (head != NULL) {
             std::cout << head->key << " : ";
-            std::cout << head->value << '\n';
+            std::cout << head->data << '\n';
             head = head->next;
         }
     }

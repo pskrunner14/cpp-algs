@@ -90,7 +90,7 @@ template <typename T>
 SinglyLinkedList<T>::SinglyLinkedList(const SinglyLinkedList &s) {
     std::shared_ptr<SingleNode<T>> temp = s.getLinkedList();
     while (temp != NULL) {
-        insertNode(temp->value);
+        insertNode(temp->data);
         temp = temp->next;
     }
 }
@@ -100,7 +100,7 @@ SinglyLinkedList<T> &SinglyLinkedList<T>::operator=(const SinglyLinkedList &s) {
     if (this != s) {
         std::shared_ptr<SingleNode<T>> temp = s.getLinkedList();
         while (temp != NULL) {
-            insertNode(temp->value);
+            insertNode(temp->data);
             temp = temp->next;
         }
     }
@@ -108,8 +108,8 @@ SinglyLinkedList<T> &SinglyLinkedList<T>::operator=(const SinglyLinkedList &s) {
 }
 
 template <typename T>
-void SinglyLinkedList<T>::insertNode(const T &value) {
-    std::shared_ptr<SingleNode<T>> new_node(new SingleNode<T>(value));
+void SinglyLinkedList<T>::insertNode(const T &data) {
+    std::shared_ptr<SingleNode<T>> new_node(new SingleNode<T>(data));
     if (head == NULL) {
         head = new_node;
         tail = new_node;
@@ -129,9 +129,9 @@ void SinglyLinkedList<T>::insertArray(const vector<T> &vec) {
 }
 
 template <typename T>
-void SinglyLinkedList<T>::deleteNode(const T &value) {
+void SinglyLinkedList<T>::deleteNode(const T &data) {
     std::shared_ptr<SingleNode<T>> temp = head->next;
-    if (head->value == value) {
+    if (head->data == data) {
         if (temp != NULL) {
             head = temp;
         } else {
@@ -139,7 +139,7 @@ void SinglyLinkedList<T>::deleteNode(const T &value) {
             tail = NULL;
         }
         size--;
-    } else if (tail->value == value) {
+    } else if (tail->data == data) {
         if (temp != tail) {
             while (temp->next != tail) {
                 temp = temp->next;
@@ -153,7 +153,7 @@ void SinglyLinkedList<T>::deleteNode(const T &value) {
     } else {
         std::shared_ptr<SingleNode<T>> p_temp = head;
         while (temp != NULL) {
-            if (temp->value == value) {
+            if (temp->data == data) {
                 p_temp->next = temp->next;
                 size--;
                 break;
@@ -165,14 +165,14 @@ void SinglyLinkedList<T>::deleteNode(const T &value) {
 }
 
 template <typename T>
-std::shared_ptr<SingleNode<T>> SinglyLinkedList<T>::search(const T &value) const {
-    if (head->value == value) {
+std::shared_ptr<SingleNode<T>> SinglyLinkedList<T>::search(const T &data) const {
+    if (head->data == data) {
         return head;
-    } else if (tail->value == value) {
+    } else if (tail->data == data) {
         return tail;
     } else {
         std::shared_ptr<SingleNode<T>> temp = head;
-        while (temp != NULL && temp->value != value) {
+        while (temp != NULL && temp->data != data) {
             temp = temp->next;
         }
         return temp;
@@ -180,14 +180,14 @@ std::shared_ptr<SingleNode<T>> SinglyLinkedList<T>::search(const T &value) const
 }
 
 template <typename T>
-bool SinglyLinkedList<T>::contains(const T &value) const {
-    if (head->value == value) {
+bool SinglyLinkedList<T>::contains(const T &data) const {
+    if (head->data == data) {
         return true;
-    } else if (tail->value == value) {
+    } else if (tail->data == data) {
         return true;
     } else {
         std::shared_ptr<SingleNode<T>> temp = head;
-        while (temp != NULL && temp->value != value) {
+        while (temp != NULL && temp->data != data) {
             temp = temp->next;
         }
         if (temp != NULL) {
@@ -230,7 +230,7 @@ inline std::shared_ptr<SingleNode<T>> SinglyLinkedList<T>::getLinkedList() const
 template <typename T>
 void SinglyLinkedList<T>::print() const {
     for (std::shared_ptr<SingleNode<T>> temp = head; temp != NULL; temp = temp->next)
-        std::cout << temp->value << ' ';
+        std::cout << temp->data << ' ';
     std::cout << '\n';
 }
 } // namespace ds

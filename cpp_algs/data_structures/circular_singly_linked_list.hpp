@@ -83,8 +83,8 @@ CircularSinglyLinkedList<T>::CircularSinglyLinkedList(const vector<T> &vec) {
 }
 
 template <typename T>
-void CircularSinglyLinkedList<T>::insertNode(const T &value) {
-    std::shared_ptr<SingleNode<T>> new_node(new SingleNode<T>(value));
+void CircularSinglyLinkedList<T>::insertNode(const T &data) {
+    std::shared_ptr<SingleNode<T>> new_node(new SingleNode<T>(data));
     if (head == NULL) {
         head = new_node;
         tail = new_node;
@@ -107,12 +107,12 @@ void CircularSinglyLinkedList<T>::insertArray(const vector<T> &vec) {
 }
 
 template <typename T>
-void CircularSinglyLinkedList<T>::deleteNode(const T &value) {
+void CircularSinglyLinkedList<T>::deleteNode(const T &data) {
     std::shared_ptr<SingleNode<T>> temp = head->next;
-    if (head->value == value) {
+    if (head->data == data) {
         tail->next = temp;
         head = temp;
-    } else if (tail->value == value) {
+    } else if (tail->data == data) {
         while (temp->next != tail) {
             temp = temp->next;
         }
@@ -121,7 +121,7 @@ void CircularSinglyLinkedList<T>::deleteNode(const T &value) {
     } else {
         std::shared_ptr<SingleNode<T>> p_temp = head;
         while (temp != tail) {
-            if (temp->value == value) {
+            if (temp->data == data) {
                 p_temp->next = temp->next;
                 size--;
                 return;
@@ -133,15 +133,15 @@ void CircularSinglyLinkedList<T>::deleteNode(const T &value) {
 }
 
 template <typename T>
-std::shared_ptr<SingleNode<T>> CircularSinglyLinkedList<T>::search(const T &value) const {
-    if (head->value == value) {
+std::shared_ptr<SingleNode<T>> CircularSinglyLinkedList<T>::search(const T &data) const {
+    if (head->data == data) {
         return head;
-    } else if (tail->value == value) {
+    } else if (tail->data == data) {
         return tail;
     } else {
         std::shared_ptr<SingleNode<T>> temp = head->next;
         while (temp != head) {
-            if (temp->value == value) {
+            if (temp->data == data) {
                 return temp;
             }
             temp = temp->next;
@@ -151,15 +151,15 @@ std::shared_ptr<SingleNode<T>> CircularSinglyLinkedList<T>::search(const T &valu
 }
 
 template <typename T>
-bool CircularSinglyLinkedList<T>::contains(const T &value) const {
-    if (head->value == value) {
+bool CircularSinglyLinkedList<T>::contains(const T &data) const {
+    if (head->data == data) {
         return true;
-    } else if (tail->value == value) {
+    } else if (tail->data == data) {
         return true;
     } else {
         std::shared_ptr<SingleNode<T>> temp = head->next;
         while (temp != head) {
-            if (temp->value == value) {
+            if (temp->data == data) {
                 return true;
             }
             temp = temp->next;
@@ -182,7 +182,7 @@ template <typename T>
 void CircularSinglyLinkedList<T>::print() const {
     std::shared_ptr<SingleNode<T>> temp = head;
     for (; temp != tail; temp = temp->next)
-        std::cout << temp->value << ' ';
-    std::cout << temp->value << '\n';
+        std::cout << temp->data << ' ';
+    std::cout << temp->data << '\n';
 }
 } // namespace ds
