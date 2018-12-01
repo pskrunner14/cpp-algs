@@ -36,7 +36,7 @@ TEST_CASE("Singly Linked List test") {
 
     SECTION("searching a node in singly linked list") {
         s.insertNode(44);
-        REQUIRE(s.search(44)->value == 44);
+        REQUIRE(s.search(44)->data == 44);
 
         shared_ptr<ds::SingleNode<int>> node = s.search(103);
         REQUIRE(node.get() == NULL);
