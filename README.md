@@ -8,7 +8,10 @@ These are C++ implementations of various algorithms and data structures optimize
 
 ## Getting Started
 
-You need to have any recent C++ compiler with C++11 support and [CMAKE](https://cmake.org/) installed on your system.
+You need to have any recent C++ compiler with C++11 support installed on your system along with a few pre-requisites:
+
+* [Boost](https://www.boost.org/) 1.67 (libboost1.67)
+* [CMAKE](https://cmake.org/) >= 3.0
 
 ```bash
 git clone https://github.com/pskrunner14/cpp-algs.git

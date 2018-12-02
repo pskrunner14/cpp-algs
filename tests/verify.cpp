@@ -14,6 +14,7 @@ void init_matrices(vector<vector<vector<T>>> &, const vector<int> &, const T &, 
 void time_test(const vector<int> &);
 
 int main() {
+
     // Singly Linked List
     ds::SinglyLinkedList<int> sing;
     BOOST_ASSERT_MSG(sing.getSize() == 0, "Singly linked list getSize() is buggy");
