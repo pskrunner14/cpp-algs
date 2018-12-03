@@ -6,12 +6,23 @@ These are C++ implementations of various algorithms and data structures optimize
 
 **[See Wiki for more details](https://github.com/pskrunner14/cpp-algs/wiki)**
 
-## Getting Started
+## Install
 
 You need to have any recent C++ compiler with C++11 support installed on your system along with a few pre-requisites:
 
-* [Boost](https://www.boost.org/) 1.67 (libboost1.67)
-* [CMAKE](https://cmake.org/) >= 3.0
+* [Boost](https://www.boost.org/) (libboost)
+* [CMAKE](https://cmake.org/)
+
+The following commands will get you through the installation of the dependencies:
+
+```bash
+sudo apt-get install libboost-all-dev
+sudo add-apt-repository ppa:george-edison55/cmake-3.x
+sudo apt-get update
+sudo apt-get install cmake
+```
+
+Once you're done with the above installation, you can build the project using CMAKE:
 
 ```bash
 git clone https://github.com/pskrunner14/cpp-algs.git
@@ -24,3 +35,7 @@ cd cpp-algs/
 * [Introduction to Algorithms](https://mitpress.mit.edu/books/introduction-algorithms-third-edition)
 * [Algs4 Algorithms Library](https://algs4.cs.princeton.edu/home/)
 * [Stanford CS Education Library](http://cslibrary.stanford.edu/)
+
+## License
+
+This project is distributed under the [MIT License](https://opensource.org/licenses/MIT), see [LICENSE](./LICENSE) for more information.

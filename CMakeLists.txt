@@ -29,7 +29,7 @@ configure_file(
     "${PROJECT_SOURCE_DIR}/cpp_algs/config.hpp"
 )
 
-find_package(Boost 1.67)
+find_package(Boost)
     if(Boost_FOUND)
         include_directories(${Boost_INCLUDE_DIRS})
     endif()
