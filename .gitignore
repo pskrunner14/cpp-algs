@@ -33,7 +33,7 @@
 
 # CMake files
 build/*
-cpp_algs/config.hpp.in
+cpp_algs/config.hpp
 
 .vscode/*
 practice/*

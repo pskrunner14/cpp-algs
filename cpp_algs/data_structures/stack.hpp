@@ -29,7 +29,7 @@
  * Purpose: Stack interface and impl.
  * 
  * @author Prabhsimran Singh
- * @version 1.0 27/10/18
+ * @version 2.0 03/12/18
 */
 #include <iostream>
 
