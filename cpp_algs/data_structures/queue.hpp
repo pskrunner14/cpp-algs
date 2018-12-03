@@ -24,13 +24,14 @@
 #pragma once
 
 /**
- * Data Structures - queue
- * queue.hpp
+ * Data Structures - data
+ * data.hpp
  * Purpose: Queue interface and impl.
  * 
  * @author Prabhsimran Singh
- * @version 1.0 27/10/18
+ * @version 2.0 03/12/18
 */
+#include <algorithm>
 #include <iostream>
 
 namespace ds {
@@ -40,17 +41,18 @@ namespace ds {
 template <typename T>
 class Queue {
   private:
-    // pointer to our data queue
-    T *queue;
-
-    // current length of the queue i.e. only valid no. of elements
-    int length = 0;
+    // current size of the queue i.e. only valid no. of elements
+    int m_size = 0;
 
     // the total capacity of the queue including garbage space
-    int capacity = 10;
+    int m_capacity = 0;
 
-    // extends the data queue size by a factor of 2
+    // extends the queue size by a factor of 2
     void extend();
+
+  protected:
+    // pointer to our queue data
+    T *data;
 
   public:
     // default constructor
@@ -90,104 +92,107 @@ class Queue {
     bool empty() const;
 
     // returns the size of the queue
-    int size() const;
+    inline int size() const;
+
+    // returns the capacity of the queue
+    inline int capacity() const;
 };
 
 // -------------------------------------------- Implementation --------------------------------------------------//
 
 template <typename T>
 Queue<T>::Queue() {
-    queue = new T[capacity];
+    data = new T[m_capacity];
 }
 
 template <typename T>
-Queue<T>::Queue(const int &capacity) : capacity(capacity) {
-    queue = new T[capacity];
+Queue<T>::Queue(const int &capacity) : m_capacity(capacity) {
+    data = new T[capacity];
 }
 
 template <typename T>
 Queue<T>::Queue(const Queue &q) {
-    delete[] queue;
-    queue = new T[capacity];
-    for (int i = 0; i < q.size(); i++) {
-        enqueue(q[i]);
-    }
+    if (data)
+        delete[] data;
+    data = new T[q.capacity()];
+    m_capacity = q.capacity();
+    std::copy(q.data, q.data + q.size(), data);
+    m_size = q.size();
 }
 
 template <typename T>
 Queue<T>::~Queue() {
-    delete[] queue;
+    delete[] data;
 }
 
 template <typename T>
 void Queue<T>::extend() {
-    T *aux = new T[2 * capacity];
-    for (int i = 0; i < length; i++) {
-        aux[i] = queue[i];
-    }
-    delete[] queue;
-    queue = aux;
-    capacity *= 2;
+    T *aux = new T[2 * m_capacity];
+    std::move(data, data + m_size, aux);
+    delete[] data;
+    data = aux;
+    m_capacity *= 2;
 }
 
 template <typename T>
 void Queue<T>::enqueue(const T &val) {
-    if (length == capacity) {
+    if (m_size == m_capacity) {
         extend();
     }
-    queue[length++] = val;
+    data[m_size++] = val;
 }
 
 template <typename T>
 T Queue<T>::dequeue() {
     if (empty()) {
-        throw std::runtime_error("queue index out of bound");
+        throw std::runtime_error("data index out of bound");
     }
     T elem = peek();
-    queue++;
-    length--;
+    data++;
+    m_size--;
     return elem;
 }
 
 template <typename T>
 T Queue<T>::peek() const {
     if (empty()) {
-        throw std::runtime_error("queue index out of bound");
+        throw std::runtime_error("data index out of bound");
     }
-    return queue[0];
+    return data[0];
 }
 
 template <typename T>
 T Queue<T>::operator+(int index) const {
-    if (index >= length || index < 0) {
-        throw std::runtime_error("queue index out of bound");
+    if (index >= m_size || index < 0) {
+        throw std::runtime_error("data index out of bound");
     }
-    return queue[index];
+    return data[index];
 }
 
 template <typename T>
 T Queue<T>::operator[](int index) const {
-    if (index >= length || index < 0) {
-        throw std::runtime_error("queue index out of bound");
+    if (index >= m_size || index < 0) {
+        throw std::runtime_error("data index out of bound");
     }
-    return queue[index];
+    return data[index];
 }
 
 template <typename T>
 Queue<T> &Queue<T>::operator=(const Queue &q) {
     if (this != &q) {
-        delete[] queue;
-        queue = new T[capacity];
-        for (int i = 0; i < q.size(); i++) {
-            enqueue(q[i]);
-        }
+        if (data)
+            delete[] data;
+        data = new T[q.capacity()];
+        m_capacity = q.capacity();
+        std::copy(q.data, q.data + q.size(), data);
+        m_size = q.size();
     }
     return *this;
 }
 
 template <typename T>
 bool Queue<T>::empty() const {
-    if (length == 0) {
+    if (m_size == 0) {
         return true;
     }
     return false;
@@ -195,14 +200,19 @@ bool Queue<T>::empty() const {
 
 template <typename T>
 void Queue<T>::print() const {
-    for (int i = 0; i < length; i++) {
-        std::cout << queue[i] << ' ';
+    for (int i = 0; i < m_size; i++) {
+        std::cout << data[i] << ' ';
     }
     std::cout << '\n';
 }
 
 template <typename T>
-int Queue<T>::size() const {
-    return length;
+inline int Queue<T>::size() const {
+    return m_size;
+}
+
+template <typename T>
+inline int Queue<T>::capacity() const {
+    return m_capacity;
 }
 } // namespace ds

@@ -15,6 +15,19 @@ void time_test(const vector<int> &);
 
 int main() {
 
+    // Stack
+    ds::Stack<int> s1;
+    s1.push(10);
+    s1.push(20);
+    s1.print();
+
+    ds::Stack<int> s_copy;
+    s_copy = s1;
+    s_copy.print();
+
+    ds::Stack<int> s_copy2(s1);
+    s_copy2.print();
+
     // Singly Linked List
     ds::SinglyLinkedList<int> sing;
     BOOST_ASSERT_MSG(sing.getSize() == 0, "Singly linked list getSize() is buggy");

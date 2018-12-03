@@ -40,17 +40,18 @@ namespace ds {
 template <typename T>
 class Stack {
   private:
-    // pointer to our data stack
-    T *stack;
-
-    // current length of the stack i.e. only valid no. of elements
-    int length = 0;
+    // current size of the stack i.e. only valid no. of elements
+    int m_size = 0;
 
     // the total capacity of the stack including garbage space
-    int capacity = 10;
+    int m_capacity = 0;
 
     // extends the data stack size by a factor of 2
     void extend();
+
+  protected:
+    // pointer to our data stack
+    T *data;
 
   public:
     // default constructor
@@ -90,52 +91,54 @@ class Stack {
     bool empty() const;
 
     // returns the size of the stack
-    int size() const;
+    inline int size() const;
+
+    // returns the capacity of the stack
+    inline int capacity() const;
 };
 
 // -------------------------------------------- Implementation --------------------------------------------------//
 
 template <typename T>
 Stack<T>::Stack() {
-    stack = new T[capacity];
+    data = new T[m_capacity];
 }
 
 template <typename T>
-Stack<T>::Stack(const int &capacity) : capacity(capacity) {
-    stack = new T[capacity];
+Stack<T>::Stack(const int &capacity) : m_capacity(capacity) {
+    data = new T[capacity];
 }
 
 template <typename T>
 Stack<T>::Stack(const Stack &s) {
-    delete[] stack;
-    stack = new T[capacity];
-    for (int i = 0; i < s.size(); i++) {
-        push(s[i]);
-    }
+    if (data)
+        delete[] data;
+    data = new T[s.capacity()];
+    m_capacity = s.capacity();
+    std::copy(s.data, s.data + s.size(), data);
+    m_size = s.size();
 }
 
 template <typename T>
 Stack<T>::~Stack() {
-    delete[] stack;
+    delete[] data;
 }
 
 template <typename T>
 void Stack<T>::extend() {
-    T *aux = new T[2 * capacity];
-    for (int i = 0; i < length; i++) {
-        aux[i] = stack[i];
-    }
-    delete[] stack;
-    stack = aux;
-    capacity *= 2;
+    T *aux = new T[2 * m_capacity];
+    std::move(data, data + m_size, aux);
+    delete[] data;
+    data = aux;
+    m_capacity *= 2;
 }
 
 template <typename T>
 void Stack<T>::push(const T &val) {
-    if (length == capacity) {
+    if (m_size == m_capacity) {
         extend();
     }
-    stack[length++] = val;
+    data[m_size++] = val;
 }
 
 template <typename T>
@@ -143,8 +146,8 @@ T Stack<T>::pop() {
     if (empty()) {
         throw std::runtime_error("stack index out of bound");
     }
-    length--;
-    return stack[length];
+    m_size--;
+    return data[m_size];
 }
 
 template <typename T>
@@ -152,40 +155,41 @@ T Stack<T>::top() const {
     if (empty()) {
         throw std::runtime_error("stack index out of bound");
     }
-    return stack[length - 1];
+    return data[m_size - 1];
 }
 
 template <typename T>
 T Stack<T>::operator+(int index) const {
-    if (index >= length || index < 0) {
+    if (index >= m_size || index < 0) {
         throw std::runtime_error("stack index out of bound");
     }
-    return stack[index];
+    return data[index];
 }
 
 template <typename T>
 T Stack<T>::operator[](int index) const {
-    if (index >= length || index < 0) {
+    if (index >= m_size || index < 0) {
         throw std::runtime_error("stack index out of bound");
     }
-    return stack[index];
+    return data[index];
 }
 
 template <typename T>
 Stack<T> &Stack<T>::operator=(const Stack &s) {
     if (this != &s) {
-        delete[] stack;
-        stack = new T[capacity];
-        for (int i = 0; i < s.size(); i++) {
-            push(s[i]);
-        }
+        if (data)
+            delete[] data;
+        data = new T[s.capacity()];
+        m_capacity = s.capacity();
+        std::copy(s.data, s.data + s.size(), data);
+        m_size = s.size();
     }
     return *this;
 }
 
 template <typename T>
 bool Stack<T>::empty() const {
-    if (length == 0) {
+    if (m_size == 0) {
         return true;
     }
     return false;
@@ -193,14 +197,19 @@ bool Stack<T>::empty() const {
 
 template <typename T>
 void Stack<T>::print() const {
-    for (int i = 0; i < length; i++) {
-        std::cout << stack[i] << ' ';
+    for (int i = 0; i < m_size; i++) {
+        std::cout << data[i] << ' ';
     }
     std::cout << '\n';
 }
 
 template <typename T>
-int Stack<T>::size() const {
-    return length;
+inline int Stack<T>::size() const {
+    return m_size;
+}
+
+template <typename T>
+inline int Stack<T>::capacity() const {
+    return m_capacity;
 }
 } // namespace ds
