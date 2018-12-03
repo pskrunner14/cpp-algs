@@ -29,8 +29,10 @@
  * Purpose: Search interface
  * 
  * @author Prabhsimran Singh
- * @version 2.0 29/11/18 
+ * @version 2.1 03/12/18 
 */
+#include <iostream>
+#include <vector>
 
 namespace al {
 
@@ -38,15 +40,15 @@ namespace al {
 
 // linear search
 template <typename T>
-int linearSearch(T *, const int &, const T &);
+int linearSearch(const std::vector<T> &, const T &);
 
 // binary search
 template <typename T>
-int binarySearch(T *, const int &, const T &);
+int binarySearch(const std::vector<T> &, const T &);
 
 // ternary search
 template <typename T>
-int ternarySearch(T *, const int &, const T &);
+int ternarySearch(const std::vector<T> &, const T &);
 
 // -------------------------------------------- Implementation --------------------------------------------------//
 
@@ -54,14 +56,13 @@ int ternarySearch(T *, const int &, const T &);
  * Searches for a key in an array using Linear Search algorithm.
  * 
  * @param arr the array to search from (type T).
- * @param size the size of the array.
  * @param key the element to search for (type T).
  * @returns The index of the key element (default: -1)
 */
 template <typename T>
-int linearSearch(T *arr, const int &size, const T &key) {
+int linearSearch(const std::vector<T> &arr, const T &key) {
     int index = -1;
-    for (int i = 0; i < size; i++) {
+    for (int i = 0; i < arr.size(); i++) {
         if (arr[i] == key) {
             index = i;
             break;
@@ -74,14 +75,13 @@ int linearSearch(T *arr, const int &size, const T &key) {
  * Searches for a key in an array using Binary Search algorithm.
  * 
  * @param arr the array to search from (type T).
- * @param size the size of the array.
  * @param key the element to search for (type T).
  * @returns The index of the key element (default: -1)
 */
 template <typename T>
-int binarySearch(T *arr, const int &n, const T &key) {
+int binarySearch(const std::vector<T> &arr, const T &key) {
     int start = 0;
-    int end = n - 1;
+    int end = arr.size() - 1;
     while (start <= end) {
         int mid = (start + end) / 2;
         if (arr[mid] == key)
@@ -98,14 +98,13 @@ int binarySearch(T *arr, const int &n, const T &key) {
  * Searches for a key in an array using Ternary Search algorithm.
  * 
  * @param arr the array to search from (type T).
- * @param size the size of the array.
  * @param key the element to search for (type T).
  * @returns The index of the key element (default: -1)
 */
 template <typename T>
-int ternarySearch(T *arr, const int &n, const T &key) {
+int ternarySearch(const std::vector<T> &arr, const T &key) {
     int start = 0;
-    int end = n - 1;
+    int end = arr.size() - 1;
     while (start <= end) {
         int mid1 = start + (end - start) / 3;
         int mid2 = end - (end - start) / 3;

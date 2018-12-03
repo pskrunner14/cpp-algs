@@ -29,10 +29,12 @@
  * Purpose: Sorting interface
  * 
  * @author Prabhsimran Singh
- * @version 2.2 29/11/18 
+ * @version 2.3 03/12/18 
 */
-#include <bits/stdc++.h>
+#include <algorithm>
 #include <iostream>
+#include <random>
+#include <vector>
 
 namespace al {
 
@@ -40,46 +42,52 @@ namespace al {
 
 // bubble sort
 template <typename T>
-void bubbleSort(T *, const int &);
+void bubbleSort(std::vector<T> &);
 
 // heap sort
 template <typename T>
-void sink(T *, int, const int &);
+bool __less(std::vector<T> &, const int &, const int &);
 
 template <typename T>
-void heapSort(T *, int);
+void __exch(std::vector<T> &, const int &, const int &);
+
+template <typename T>
+void _sink(std::vector<T> &, int, const int &);
+
+template <typename T>
+void heapSort(std::vector<T> &);
 
 // insertion sort
 template <typename T>
-void insertionSort(T *, const int &);
+void insertionSort(std::vector<T> &);
 
 // merge sort
 template <typename T>
-void merge(T *, T *, const int &, const int &, const int &);
+void __merge(std::vector<T> &, std::vector<T> &, const int &, const int &, const int &);
 
 template <typename T>
-void msort(T *, T *, const int &, const int &);
+void _msort(std::vector<T> &, std::vector<T> &, const int &, const int &);
 
 template <typename T>
-void mergeSort(T *, const int &);
+void mergeSort(std::vector<T> &);
 
 // quick sort
 template <typename T>
-int partition(T *, const int &, const int &);
+int __partition(std::vector<T> &, const int &, const int &);
 
 template <typename T>
-void qsort(T *, const int &, const int &);
+void _qsort(std::vector<T> &, const int &, const int &);
 
 template <typename T>
-void quickSort(T *, const int &);
+void quickSort(std::vector<T> &, bool = false);
 
 // selection sort
 template <typename T>
-void selectionSort(T *, const int &);
+void selectionSort(std::vector<T> &);
 
 // shell sort
 template <typename T>
-void shellSort(T *, const int &);
+void shellSort(std::vector<T> &);
 
 // -------------------------------------------- Implementation --------------------------------------------------//
 
@@ -91,9 +99,9 @@ void shellSort(T *, const int &);
  * @param size the size of the array.
 */
 template <typename T>
-void bubbleSort(T *arr, const int &size) {
-    for (int i = 0; i < size - 1; i++) {
-        for (int j = 0; j < size - i - 1; j++) {
+void bubbleSort(std::vector<T> &arr) {
+    for (int i = 0; i < arr.size() - 1; i++) {
+        for (int j = 0; j < arr.size() - i - 1; j++) {
             if (arr[j] > arr[j + 1])
                 std::swap(arr[j], arr[j + 1]);
         }
@@ -102,14 +110,26 @@ void bubbleSort(T *arr, const int &size) {
 
 // heap sort
 template <typename T>
-void sink(T *arr, int k, const int &n) {
+bool __less(vector<T> &arr, const int &i, const int &j) {
+    return (arr[i - 1] < arr[j - 1]);
+}
+
+template <typename T>
+void __exch(vector<T> &arr, const int &i, const int &j) {
+    T swap = arr[i - 1];
+    arr[i - 1] = arr[j - 1];
+    arr[j - 1] = swap;
+}
+
+template <typename T>
+void _sink(vector<T> &arr, int k, const int &n) {
     while (2 * k <= n) {
         int j = 2 * k;
-        if (j < n && arr[j] < arr[j + 1])
+        if (j < n && __less(arr, j, j + 1))
             j++;
-        if (!arr[k] < arr[j])
+        if (!__less(arr, k, j))
             break;
-        std::swap(arr[k], arr[j]);
+        __exch(arr, k, j);
         k = j;
     }
 }
@@ -118,15 +138,15 @@ void sink(T *arr, int k, const int &n) {
  * Sorts an array using Heap Sort algorithm.
  * 
  * @param arr the array to sort (type T).
- * @param size the size of the array.
 */
 template <typename T>
-void heapSort(T *arr, int size) {
-    for (int k = size / 2; k >= 1; k--)
-        sink(arr, k, size);
-    while (size > 1) {
-        std::swap(arr[1], arr[size--]);
-        sink(arr, 1, size);
+void heapSort(std::vector<T> &arr) {
+    int n = arr.size();
+    for (int k = n / 2; k >= 1; k--)
+        _sink(arr, k, n);
+    while (n > 1) {
+        __exch(arr, 1, n--);
+        _sink(arr, 1, n);
     }
 }
 
@@ -135,11 +155,10 @@ void heapSort(T *arr, int size) {
  * Sorts an array using Insertion Sort algorithm.
  * 
  * @param arr the array to sort (type T).
- * @param size the size of the array.
 */
 template <typename T>
-void insertionSort(T *arr, const int &size) {
-    for (int i = 1; i < size; i++) {
+void insertionSort(std::vector<T> &arr) {
+    for (int i = 1; i < arr.size(); i++) {
         T key = arr[i];
         int index = i - 1;
         while (arr[index] > key && index >= 0) {
@@ -152,7 +171,7 @@ void insertionSort(T *arr, const int &size) {
 
 // merge sort
 template <typename T>
-void merge(T *arr, T *aux, const int &lo, const int &mid, const int &hi) {
+void __merge(std::vector<T> &arr, std::vector<T> &aux, const int &lo, const int &mid, const int &hi) {
     for (int k = lo; k <= hi; k++) {
         aux[k] = arr[k];
     }
@@ -170,31 +189,29 @@ void merge(T *arr, T *aux, const int &lo, const int &mid, const int &hi) {
 }
 
 template <typename T>
-void msort(T *arr, T *aux, const int &lo, const int &hi) {
+void _msort(std::vector<T> &arr, std::vector<T> &aux, const int &lo, const int &hi) {
     if (hi <= lo)
         return;
     int mid = lo + (hi - lo) / 2;
-    msort(arr, aux, lo, mid);
-    msort(arr, aux, mid + 1, hi);
-    merge(arr, aux, lo, mid, hi);
+    _msort(arr, aux, lo, mid);
+    _msort(arr, aux, mid + 1, hi);
+    __merge(arr, aux, lo, mid, hi);
 }
 
 /**
  * Sorts an array using Merge Sort algorithm.
  * 
  * @param arr the array to sort (type T).
- * @param size the size of the array.
 */
 template <typename T>
-void mergeSort(T *arr, const int &size) {
-    T *aux = new T[size];
-    msort(arr, aux, 0, size - 1);
-    delete[] aux;
+void mergeSort(std::vector<T> &arr) {
+    std::vector<T> aux(arr.size());
+    _msort(arr, aux, 0, arr.size() - 1);
 }
 
 // quick sort
 template <typename T>
-int partition(T *arr, const int &lo, const int &hi) {
+int __partition(std::vector<T> &arr, const int &lo, const int &hi) {
     int i = lo;
     int j = hi + 1;
     T v = arr[lo];
@@ -214,28 +231,30 @@ int partition(T *arr, const int &lo, const int &hi) {
 }
 
 template <typename T>
-void qsort(T *arr, const int &lo, const int &hi) {
+void _qsort(std::vector<T> &arr, const int &lo, const int &hi) {
     if (hi <= lo)
         return;
-    int p = partition(arr, lo, hi);
-    qsort(arr, lo, p - 1);
-    qsort(arr, p + 1, hi);
+    int p = __partition(arr, lo, hi);
+    _qsort(arr, lo, p - 1);
+    _qsort(arr, p + 1, hi);
 }
 
 /**
  * Sorts an array using Quick Sort algorithm.
  * 
  * @param arr the array to sort (type T).
- * @param size the size of the array.
 */
 template <typename T>
-void quickSort(T *arr, const int &size) {
-    // randomize the array to make
-    // worst case time O(nlogn) - has
-    // huge affect with very large inputs
-    // i.e. ~1M elements.
-    std::random_shuffle(arr, arr + size);
-    qsort(arr, 0, size - 1);
+void quickSort(std::vector<T> &arr, bool shuffle) {
+    if (shuffle) {
+        // randomize the array to make
+        // worst case time O(nlogn) - has
+        // huge affect with very large inputs
+        // i.e. ~1M elements.
+        auto rng = std::default_random_engine{};
+        std::shuffle(std::begin(arr), std::end(arr), rng);
+    }
+    _qsort(arr, 0, arr.size() - 1);
 }
 
 // selection sort
@@ -246,10 +265,10 @@ void quickSort(T *arr, const int &size) {
  * @param size the size of the array.
 */
 template <typename T>
-void selectionSort(T *arr, const int &size) {
-    for (int i = 0; i < size - 1; i++) {
+void selectionSort(std::vector<T> &arr) {
+    for (int i = 0; i < arr.size() - 1; i++) {
         int min = i;
-        for (int j = i + 1; j < size; j++) {
+        for (int j = i + 1; j < arr.size(); j++) {
             if (arr[j] < arr[min])
                 min = j;
         }
@@ -264,15 +283,14 @@ void selectionSort(T *arr, const int &size) {
  * Sorts an array using Shell Sort algorithm.
  * 
  * @param arr the array to sort (type T).
- * @param size the size of the array.
 */
 template <typename T>
-void shellSort(T *arr, const int &size) {
+void shellSort(std::vector<T> &arr) {
     int h = 1;
-    while (h < size / 3)
+    while (h < arr.size() / 3)
         h = 3 * h + 1;
     while (h >= 1) {
-        for (int i = h; i < size; i++) {
+        for (int i = h; i < arr.size(); i++) {
             for (int j = i; j >= h && arr[j] < arr[j - h]; j -= h)
                 std::swap(arr[j], arr[j - h]);
         }

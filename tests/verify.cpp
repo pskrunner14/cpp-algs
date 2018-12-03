@@ -15,18 +15,24 @@ void time_test(const vector<int> &);
 
 int main() {
 
+    // Sorting
+    vector<int> v = {541, 12, 56, 62, 1234, 656547, 123, 1, 6546, 51, 1334, 56612};
+    al::heapSort(v);
+    for (auto const &i : v) {
+        cout << i << " ";
+    }
+    cout << endl;
+    BOOST_ASSERT_MSG(std::is_sorted(v.begin(), v.end()), "sorting buggy");
+
     // Stack
     ds::Stack<int> s1;
     s1.push(10);
     s1.push(20);
-    s1.print();
 
     ds::Stack<int> s_copy;
     s_copy = s1;
-    s_copy.print();
 
     ds::Stack<int> s_copy2(s1);
-    s_copy2.print();
 
     // Singly Linked List
     ds::SinglyLinkedList<int> sing;

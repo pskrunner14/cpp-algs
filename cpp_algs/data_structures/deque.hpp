@@ -124,7 +124,7 @@ Deque<T>::Deque() {
 }
 
 template <typename T>
-Deque<T>::Deque(const int &capacity) : m_capacity(m_capacity) {
+Deque<T>::Deque(const int &capacity) : m_capacity(capacity) {
     front = capacity / 2;
     back = front;
     data = new T[capacity];
