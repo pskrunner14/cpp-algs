@@ -45,9 +45,9 @@ struct SingleNode {
     T data;
     std::shared_ptr<SingleNode<T>> next;
 
-    SingleNode(const T &);
+    explicit SingleNode(const T &);
 
-    SingleNode(const T &, std::shared_ptr<SingleNode<T>>);
+    SingleNode(const T &, std::shared_ptr<SingleNode<T>> &);
 };
 
 // Single Node implementation
@@ -55,7 +55,7 @@ template <typename T>
 SingleNode<T>::SingleNode(const T &data) : data(data) {}
 
 template <typename T>
-SingleNode<T>::SingleNode(const T &data, std::shared_ptr<SingleNode<T>>) : data(data), next(next) {}
+SingleNode<T>::SingleNode(const T &data, std::shared_ptr<SingleNode<T>> &next) : data(data), next(next) {}
 
 // Double Node interface
 template <typename T>
@@ -64,9 +64,9 @@ struct DoubleNode {
     std::shared_ptr<DoubleNode<T>> prev;
     std::shared_ptr<DoubleNode<T>> next;
 
-    DoubleNode(const T &);
+    explicit DoubleNode(const T &);
 
-    DoubleNode(const T &, std::shared_ptr<DoubleNode<T>>, std::shared_ptr<DoubleNode<T>>);
+    DoubleNode(const T &, std::shared_ptr<DoubleNode<T>> &, std::shared_ptr<DoubleNode<T>> &);
 };
 
 // Double Node implementation
@@ -74,7 +74,7 @@ template <typename T>
 DoubleNode<T>::DoubleNode(const T &data) : data(data) {}
 
 template <typename T>
-DoubleNode<T>::DoubleNode(const T &data, std::shared_ptr<DoubleNode<T>> prev, std::shared_ptr<DoubleNode<T>> next) : data(data), prev(prev), next(next) {}
+DoubleNode<T>::DoubleNode(const T &data, std::shared_ptr<DoubleNode<T>> &prev, std::shared_ptr<DoubleNode<T>> &next) : data(data), prev(prev), next(next) {}
 
 // Tree Node interface
 template <typename T>
@@ -82,7 +82,7 @@ struct TreeNode {
     T data;
     std::vector<std::shared_ptr<TreeNode<T>>> children;
 
-    TreeNode(const T &);
+    explicit TreeNode(const T &);
 };
 
 // Tree Node implementation
@@ -96,7 +96,7 @@ struct BinaryTreeNode {
     BinaryTreeNode *left;
     BinaryTreeNode *right;
 
-    BinaryTreeNode(const T &);
+    explicit BinaryTreeNode(const T &);
 
     BinaryTreeNode(const T &, BinaryTreeNode *, BinaryTreeNode *);
 };
@@ -114,7 +114,7 @@ struct TrieNode {
     bool isTerminal;
     std::map<char, std::shared_ptr<TrieNode>> children;
 
-    TrieNode(const char &);
+    explicit TrieNode(const char &);
 
     TrieNode(const char &, const bool &);
 

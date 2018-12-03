@@ -59,7 +59,7 @@ class Queue {
     Queue();
 
     // constructor with user defined capacity
-    Queue(const int &);
+    explicit Queue(const int &);
 
     // copy constructor to make deep copy of queue
     Queue(const Queue &);

@@ -51,7 +51,7 @@ class DoublyLinkedList {
   public:
     DoublyLinkedList();
 
-    DoublyLinkedList(const vector<T> &);
+    explicit DoublyLinkedList(const vector<T> &);
 
     DoublyLinkedList(const DoublyLinkedList &);
 

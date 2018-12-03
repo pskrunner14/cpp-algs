@@ -54,10 +54,10 @@ class BinarySearchTree {
     BinarySearchTree();
 
     // BST copy constructor
-    BinarySearchTree(const T &);
+    explicit BinarySearchTree(const T &);
 
     // BST constructor to create tree with vector of elements
-    BinarySearchTree(const vector<T> &);
+    explicit BinarySearchTree(const vector<T> &);
 
     // BST destructor
     ~BinarySearchTree();

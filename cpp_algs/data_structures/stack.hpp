@@ -58,7 +58,7 @@ class Stack {
     Stack();
 
     // constructor with user defined capacity
-    Stack(const int &);
+    explicit Stack(const int &);
 
     // copy constructor to make deep copy of stack
     Stack(const Stack &);

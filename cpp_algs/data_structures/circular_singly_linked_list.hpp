@@ -51,7 +51,7 @@ class CircularSinglyLinkedList {
   public:
     CircularSinglyLinkedList();
 
-    CircularSinglyLinkedList(const vector<T> &);
+    explicit CircularSinglyLinkedList(const vector<T> &);
 
     CircularSinglyLinkedList(const CircularSinglyLinkedList &);
 

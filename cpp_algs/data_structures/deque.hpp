@@ -68,7 +68,7 @@ class Deque {
     Deque();
 
     // constructor with user defined m_capacity
-    Deque(const int &);
+    explicit Deque(const int &);
 
     // copy constructor to make deep copy of deque
     Deque(const Deque &);

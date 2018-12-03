@@ -14,14 +14,9 @@ void init_matrices(vector<vector<vector<T>>> &, const vector<int> &, const T &, 
 void time_test(const vector<int> &);
 
 int main() {
-
     // Sorting
     vector<int> v = {541, 12, 56, 62, 1234, 656547, 123, 1, 6546, 51, 1334, 56612};
     al::heapSort(v);
-    for (auto const &i : v) {
-        cout << i << " ";
-    }
-    cout << endl;
     BOOST_ASSERT_MSG(std::is_sorted(v.begin(), v.end()), "sorting buggy");
 
     // Stack

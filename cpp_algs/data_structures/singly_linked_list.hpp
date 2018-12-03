@@ -51,7 +51,7 @@ class SinglyLinkedList {
   public:
     SinglyLinkedList();
 
-    SinglyLinkedList(const vector<T> &);
+    explicit SinglyLinkedList(const vector<T> &);
 
     SinglyLinkedList(const SinglyLinkedList &);
 

@@ -12,8 +12,10 @@ addons:
     packages:
       - g++-7
       - boost1.67
+      - cppcheck
 
 script:
+    - cppcheck --enable=all --platform=unix64 --language=c++ --std=c++11 cpp_algs/cpp_algs.hpp
     - mkdir build && cd build
     - cmake ..
     - make

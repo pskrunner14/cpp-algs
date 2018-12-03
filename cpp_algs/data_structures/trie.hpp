@@ -75,9 +75,7 @@ class Trie {
 
 // -------------------------------------------- Implementation --------------------------------------------------//
 
-Trie::Trie() {
-    root = std::shared_ptr<TrieNode>(new TrieNode('\0'));
-}
+Trie::Trie() : root(std::shared_ptr<TrieNode>(new TrieNode('\0'))) {}
 
 Trie::Trie(const Trie &t) {
     throw NotImplementedError();
