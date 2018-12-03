@@ -23,48 +23,39 @@
  */
 #pragma once
 
-// project wide includes
-#include <boost/assert.hpp>
-#include <stdexcept>
+/**
+ * Data Structures - linked list
+ * linked_list.hpp
+ * Purpose: Linked List abstract class
+ * 
+ * @author Prabhsimran Singh
+ * @version 2.0 27/10/18
+*/
+#include <iostream>
+#include <memory>
+#include <vector>
 
-// project wide members
-class NotImplementedError : public std::logic_error {
+namespace ds {
+
+// ---------------------------------------------- Interface ---------------------------------------------------//
+
+template <typename T, typename N>
+class LinkedList {
   public:
-    NotImplementedError() : std::logic_error("Function not yet implemented"){};
+    virtual void insertNode(const T &) = 0;
+
+    virtual void insertArray(const vector<T> &) = 0;
+
+    virtual void deleteNode(const T &) = 0;
+
+    virtual std::shared_ptr<N> search(const T &) const = 0;
+
+    virtual bool contains(const T &) const = 0;
+
+    virtual inline int size() const = 0;
+
+    virtual inline std::shared_ptr<N> getHead() const = 0;
+
+    virtual void print() const = 0;
 };
-
-// Algorithms
-
-// Searching
-#include "algorithms/search.hpp"
-
-// Sorting
-#include "algorithms/sort.hpp"
-
-// String Matching
-
-// Graphs
-
-// Misc
-#include "algorithms/misc.hpp"
-
-// Data Structures
-#include "data_structures/node.hpp"
-
-// Basic
-#include "data_structures/basic/deque.hpp"
-#include "data_structures/basic/queue.hpp"
-#include "data_structures/basic/stack.hpp"
-
-// Trees
-#include "data_structures/tree/binary_search_tree.hpp"
-#include "data_structures/tree/tree.hpp"
-#include "data_structures/tree/trie.hpp"
-
-// Linked Lists
-#include "data_structures/linked_list/circular_singly_linked_list.hpp"
-#include "data_structures/linked_list/doubly_linked_list.hpp"
-#include "data_structures/linked_list/singly_linked_list.hpp"
-
-// Misc
-#include "data_structures/misc/hashmap.hpp"
+} // namespace ds

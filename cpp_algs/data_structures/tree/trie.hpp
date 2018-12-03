@@ -36,8 +36,6 @@
 #include <queue>
 #include <string>
 
-#include "node.hpp"
-
 namespace ds {
 
 // ---------------------------------------------- Interface ---------------------------------------------------//

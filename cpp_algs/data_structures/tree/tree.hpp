@@ -37,8 +37,6 @@
 #include <queue>
 #include <vector>
 
-#include "node.hpp"
-
 namespace ds {
 
 // ---------------------------------------------- Interface ---------------------------------------------------//

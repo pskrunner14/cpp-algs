@@ -26,7 +26,7 @@
 /**
  * Data Structures - linked list
  * singly_linked_list.hpp
- * Purpose: Singly Linked List int64_terface
+ * Purpose: Singly Linked List interface
  * 
  * @author Prabhsimran Singh
  * @version 2.0 27/10/18
@@ -35,18 +35,18 @@
 #include <memory>
 #include <vector>
 
-#include "node.hpp"
+#include "linked_list.hpp"
 
 namespace ds {
 
 // ---------------------------------------------- Interface ---------------------------------------------------//
 
 template <typename T>
-class SinglyLinkedList {
+class SinglyLinkedList : public LinkedList<T, SingleNode<T>> {
   private:
     std::shared_ptr<SingleNode<T>> head;
     std::shared_ptr<SingleNode<T>> tail;
-    int64_t size = 0;
+    int m_size = 0;
 
   public:
     SinglyLinkedList();
@@ -57,23 +57,23 @@ class SinglyLinkedList {
 
     SinglyLinkedList &operator=(const SinglyLinkedList &);
 
-    void insertNode(const T &);
+    void insertNode(const T &) override;
 
-    void insertArray(const vector<T> &);
+    void insertArray(const vector<T> &) override;
 
-    void deleteNode(const T &);
+    void deleteNode(const T &) override;
 
-    std::shared_ptr<SingleNode<T>> search(const T &) const;
+    std::shared_ptr<SingleNode<T>> search(const T &) const override;
 
-    bool contains(const T &) const;
+    bool contains(const T &) const override;
 
     void reverse();
 
-    inline int64_t getSize() const;
+    inline int size() const override;
 
-    inline std::shared_ptr<SingleNode<T>> getLinkedList() const;
+    inline std::shared_ptr<SingleNode<T>> getHead() const override;
 
-    void print() const;
+    void print() const override;
 };
 
 // -------------------------------------------- Implementation --------------------------------------------------//
@@ -88,7 +88,7 @@ SinglyLinkedList<T>::SinglyLinkedList(const vector<T> &vec) {
 
 template <typename T>
 SinglyLinkedList<T>::SinglyLinkedList(const SinglyLinkedList &s) {
-    std::shared_ptr<SingleNode<T>> temp = s.getLinkedList();
+    std::shared_ptr<SingleNode<T>> temp = s.getHead();
     while (temp != NULL) {
         insertNode(temp->data);
         temp = temp->next;
@@ -98,7 +98,7 @@ SinglyLinkedList<T>::SinglyLinkedList(const SinglyLinkedList &s) {
 template <typename T>
 SinglyLinkedList<T> &SinglyLinkedList<T>::operator=(const SinglyLinkedList &s) {
     if (this != s) {
-        std::shared_ptr<SingleNode<T>> temp = s.getLinkedList();
+        std::shared_ptr<SingleNode<T>> temp = s.getHead();
         while (temp != NULL) {
             insertNode(temp->data);
             temp = temp->next;
@@ -113,11 +113,11 @@ void SinglyLinkedList<T>::insertNode(const T &data) {
     if (head == NULL) {
         head = new_node;
         tail = new_node;
-        size = 1;
+        m_size = 1;
     } else {
         tail->next = new_node;
         tail = new_node;
-        size++;
+        m_size++;
     }
 }
 
@@ -138,7 +138,7 @@ void SinglyLinkedList<T>::deleteNode(const T &data) {
             head = NULL;
             tail = NULL;
         }
-        size--;
+        m_size--;
     } else if (tail->data == data) {
         if (temp != tail) {
             while (temp->next != tail) {
@@ -149,13 +149,13 @@ void SinglyLinkedList<T>::deleteNode(const T &data) {
         }
         temp->next = NULL;
         tail = temp;
-        size--;
+        m_size--;
     } else {
         std::shared_ptr<SingleNode<T>> p_temp = head;
         while (temp != NULL) {
             if (temp->data == data) {
                 p_temp->next = temp->next;
-                size--;
+                m_size--;
                 break;
             }
             p_temp = temp;
@@ -218,12 +218,12 @@ void SinglyLinkedList<T>::reverse() {
 }
 
 template <typename T>
-inline int64_t SinglyLinkedList<T>::getSize() const {
-    return size;
+inline int SinglyLinkedList<T>::size() const {
+    return m_size;
 }
 
 template <typename T>
-inline std::shared_ptr<SingleNode<T>> SinglyLinkedList<T>::getLinkedList() const {
+inline std::shared_ptr<SingleNode<T>> SinglyLinkedList<T>::getHead() const {
     return head;
 }
 

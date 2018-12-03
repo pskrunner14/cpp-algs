@@ -23,6 +23,19 @@
  */
 #pragma once
 
+#include <iostream>
+#include <memory>
+#include <vector>
+
+#include "linked_list.hpp"
+
+namespace ds {
+
 // ---------------------------------------------- Interface ---------------------------------------------------//
 
+template <typename T>
+class CircularDoublyLinkedList : public LinkedList<T, DoubleNode<T>> {
+};
+
 // -------------------------------------------- Implementation --------------------------------------------------//
+} // namespace ds

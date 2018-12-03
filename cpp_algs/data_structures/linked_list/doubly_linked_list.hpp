@@ -35,18 +35,18 @@
 #include <memory>
 #include <vector>
 
-#include "node.hpp"
+#include "linked_list.hpp"
 
 namespace ds {
 
 // ---------------------------------------------- Interface ---------------------------------------------------//
 
 template <typename T>
-class DoublyLinkedList {
+class DoublyLinkedList : public LinkedList<T, DoubleNode<T>> {
   private:
     std::shared_ptr<DoubleNode<T>> head;
     std::shared_ptr<DoubleNode<T>> tail;
-    int size = 0;
+    int m_size = 0;
 
   public:
     DoublyLinkedList();
@@ -55,23 +55,23 @@ class DoublyLinkedList {
 
     DoublyLinkedList(const DoublyLinkedList &);
 
-    void insertNode(const T &);
+    void insertNode(const T &) override;
 
-    void insertArray(const vector<T> &);
+    void insertArray(const vector<T> &) override;
 
-    void deleteNode(const T &);
+    void deleteNode(const T &) override;
 
-    std::shared_ptr<DoubleNode<T>> search(const T &) const;
+    std::shared_ptr<DoubleNode<T>> search(const T &) const override;
 
-    bool contains(const T &) const;
+    bool contains(const T &) const override;
 
     void reverse();
 
-    inline int getSize() const;
+    inline int size() const override;
 
-    inline std::shared_ptr<DoubleNode<T>> getLinkedList() const;
+    inline std::shared_ptr<DoubleNode<T>> getHead() const override;
 
-    void print() const;
+    void print() const override;
 };
 
 // -------------------------------------------- Implementation --------------------------------------------------//
@@ -86,7 +86,7 @@ DoublyLinkedList<T>::DoublyLinkedList(const vector<T> &vec) {
 
 template <typename T>
 DoublyLinkedList<T>::DoublyLinkedList(const DoublyLinkedList &d) {
-    std::shared_ptr<DoubleNode<T>> temp = d.getLinkedList();
+    std::shared_ptr<DoubleNode<T>> temp = d.getHead();
     while (temp != NULL) {
         insertNode(temp->data);
         temp = temp->next;
@@ -99,12 +99,12 @@ void DoublyLinkedList<T>::insertNode(const T &data) {
     if (head == NULL) {
         head = new_node;
         tail = new_node;
-        size = 1;
+        m_size = 1;
     } else {
         tail->next = new_node;
         new_node->prev = tail;
         tail = new_node;
-        size++;
+        m_size++;
     }
 }
 
@@ -121,17 +121,17 @@ void DoublyLinkedList<T>::deleteNode(const T &data) {
     if (head->data == data) {
         head = temp;
         head->prev = NULL;
-        size--;
+        m_size--;
     } else if (tail->data == data) {
         temp = tail->prev;
         temp->next = NULL;
         tail = temp;
-        size--;
+        m_size--;
     } else {
         while (temp != NULL) {
             if (temp->data == data) {
                 temp->prev->next = temp->next;
-                size--;
+                m_size--;
                 break;
             }
             temp = temp->next;
@@ -202,12 +202,12 @@ void DoublyLinkedList<T>::reverse() {
 }
 
 template <typename T>
-inline int DoublyLinkedList<T>::getSize() const {
-    return size;
+inline int DoublyLinkedList<T>::size() const {
+    return m_size;
 }
 
 template <typename T>
-inline std::shared_ptr<DoubleNode<T>> DoublyLinkedList<T>::getLinkedList() const {
+inline std::shared_ptr<DoubleNode<T>> DoublyLinkedList<T>::getHead() const {
     return head;
 }
 

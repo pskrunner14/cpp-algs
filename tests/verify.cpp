@@ -31,7 +31,7 @@ int main() {
 
     // Singly Linked List
     ds::SinglyLinkedList<int> sing;
-    BOOST_ASSERT_MSG(sing.getSize() == 0, "Singly linked list getSize() is buggy");
+    BOOST_ASSERT_MSG(sing.size() == 0, "Singly linked list size() is buggy");
     sing.insertNode(10);
     BOOST_ASSERT_MSG(sing.contains(10), "Singly linked list insertion is buggy");
     sing.insertNode(20);
@@ -44,10 +44,10 @@ int main() {
     for (const auto &v : vec) {
         BOOST_ASSERT_MSG(sing.contains(v), "Singly linked list insertion of std::vector<int> is buggy");
     }
-    BOOST_ASSERT_MSG(sing.getSize() == 6, "Singly linked list getSize() is buggy");
+    BOOST_ASSERT_MSG(sing.size() == 6, "Singly linked list size() is buggy");
 
     ds::SinglyLinkedList<string> s = ds::SinglyLinkedList<string>();
-    BOOST_ASSERT_MSG(s.getSize() == 0, "Singly linked list getSize() is buggy");
+    BOOST_ASSERT_MSG(s.size() == 0, "Singly linked list size() is buggy");
     s.insertNode("hello");
     BOOST_ASSERT_MSG(s.contains("hello"), "Singly linked list std::string insertion is buggy");
     s.insertNode("world");
@@ -56,7 +56,7 @@ int main() {
     BOOST_ASSERT_MSG(!s.contains("hello"), "Singly linked list std::string deletion is buggy");
     s.insertNode("!");
     BOOST_ASSERT_MSG(s.search("!")->data == "!", "Singly linked list std::string search is buggy");
-    BOOST_ASSERT_MSG(s.getSize() == 2, "Singly linked list getSize() is buggy");
+    BOOST_ASSERT_MSG(s.size() == 2, "Singly linked list size() is buggy");
 
     // Matrix Chain Multiplication
     vector<int> dims = {6, 4, 2, 1};

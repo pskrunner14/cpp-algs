@@ -35,18 +35,18 @@
 #include <memory>
 #include <vector>
 
-#include "node.hpp"
+#include "linked_list.hpp"
 
 namespace ds {
 
 // ---------------------------------------------- Interface ---------------------------------------------------//
 
 template <typename T>
-class CircularSinglyLinkedList {
+class CircularSinglyLinkedList : public LinkedList<T, SingleNode<T>> {
   private:
     std::shared_ptr<SingleNode<T>> head;
     std::shared_ptr<SingleNode<T>> tail;
-    int size = 0;
+    int m_size = 0;
 
   public:
     CircularSinglyLinkedList();
@@ -55,21 +55,21 @@ class CircularSinglyLinkedList {
 
     CircularSinglyLinkedList(const CircularSinglyLinkedList &);
 
-    void insertNode(const T &);
+    void insertNode(const T &) override;
 
-    void insertArray(const vector<T> &);
+    void insertArray(const vector<T> &) override;
 
-    void deleteNode(const T &);
+    void deleteNode(const T &) override;
 
-    std::shared_ptr<SingleNode<T>> search(const T &) const;
+    std::shared_ptr<SingleNode<T>> search(const T &) const override;
 
-    bool contains(const T &) const;
+    bool contains(const T &) const override;
 
-    inline int getSize() const;
+    inline int size() const override;
 
-    inline std::shared_ptr<SingleNode<T>> getLinkedList() const;
+    inline std::shared_ptr<SingleNode<T>> getHead() const override;
 
-    void print() const;
+    void print() const override;
 };
 
 // -------------------------------------------- Implementation --------------------------------------------------//
@@ -90,12 +90,12 @@ void CircularSinglyLinkedList<T>::insertNode(const T &data) {
         tail = new_node;
         tail->next = head;
         head->next = tail;
-        size = 1;
+        m_size = 1;
     } else {
         tail->next = new_node;
         new_node->next = head;
         tail = new_node;
-        size++;
+        m_size++;
     }
 }
 
@@ -123,7 +123,7 @@ void CircularSinglyLinkedList<T>::deleteNode(const T &data) {
         while (temp != tail) {
             if (temp->data == data) {
                 p_temp->next = temp->next;
-                size--;
+                m_size--;
                 return;
             }
             p_temp = temp;
@@ -169,12 +169,12 @@ bool CircularSinglyLinkedList<T>::contains(const T &data) const {
 }
 
 template <typename T>
-inline int CircularSinglyLinkedList<T>::getSize() const {
-    return size;
+inline int CircularSinglyLinkedList<T>::size() const {
+    return m_size;
 }
 
 template <typename T>
-inline std::shared_ptr<SingleNode<T>> CircularSinglyLinkedList<T>::getLinkedList() const {
+inline std::shared_ptr<SingleNode<T>> CircularSinglyLinkedList<T>::getHead() const {
     return head;
 }
 
