@@ -33,12 +33,14 @@
 */
 #include <iostream>
 
+#include "container.hpp"
+
 namespace ds {
 
 // ---------------------------------------------- Interface ---------------------------------------------------//
 
 template <typename T>
-class Stack {
+class Stack : public Container {
   private:
     // current size of the stack i.e. only valid no. of elements
     int m_size = 0;
@@ -85,16 +87,16 @@ class Stack {
     Stack &operator=(const Stack &);
 
     // helper method to print the content of stack
-    void print() const;
+    void print() const override;
 
     // method that check if stack is empty
-    bool empty() const;
+    bool empty() const override;
 
     // returns the size of the stack
-    inline int size() const;
+    inline int size() const override;
 
     // returns the capacity of the stack
-    inline int capacity() const;
+    inline int capacity() const override;
 };
 
 // -------------------------------------------- Implementation --------------------------------------------------//

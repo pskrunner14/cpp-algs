@@ -6,7 +6,7 @@ using namespace std;
 #include <boost/random.hpp>
 #include <boost/timer/timer.hpp>
 
-#include "cpp_algs.hpp"
+#include <cpp_algs.hpp>
 
 template <typename T>
 void init_matrices(vector<vector<vector<T>>> &, const vector<int> &, const T &, bool = false);

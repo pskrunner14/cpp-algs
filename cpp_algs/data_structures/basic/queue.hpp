@@ -34,12 +34,14 @@
 #include <algorithm>
 #include <iostream>
 
+#include "container.hpp"
+
 namespace ds {
 
 // ---------------------------------------------- Interface ---------------------------------------------------//
 
 template <typename T>
-class Queue {
+class Queue : public Container {
   private:
     // current size of the queue i.e. only valid no. of elements
     int m_size = 0;
@@ -86,16 +88,16 @@ class Queue {
     Queue &operator=(const Queue &);
 
     // helper method to print the content of queue
-    void print() const;
+    void print() const override;
 
     // method that check if queue is empty
-    bool empty() const;
+    bool empty() const override;
 
     // returns the size of the queue
-    inline int size() const;
+    inline int size() const override;
 
     // returns the capacity of the queue
-    inline int capacity() const;
+    inline int capacity() const override;
 };
 
 // -------------------------------------------- Implementation --------------------------------------------------//
