@@ -50,6 +50,22 @@ class SkipList : public LinkedList<T, SkipNode<T>> {
 
   public:
     explicit SkipList();
+
+    void insertNode(const T &) override;
+
+    void insertArray(const vector<T> &) override;
+
+    void deleteNode(const T &) override;
+
+    std::shared_ptr<SkipNode<T>> search(const T &) const override;
+
+    bool contains(const T &) const override;
+
+    inline int size() const override;
+
+    inline std::shared_ptr<SkipNode<T>> getHead() const override;
+
+    void print() const override;
 };
 
 // -------------------------------------------- Implementation --------------------------------------------------//

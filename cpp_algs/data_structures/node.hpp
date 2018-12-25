@@ -55,7 +55,8 @@ template <typename T>
 SingleNode<T>::SingleNode(const T &data) : data(data) {}
 
 template <typename T>
-SingleNode<T>::SingleNode(const T &data, std::shared_ptr<SingleNode<T>> &next) : data(data), next(next) {}
+SingleNode<T>::SingleNode(const T &data, std::shared_ptr<SingleNode<T>> &next)
+    : data(data), next(next) {}
 
 // Double Node interface
 template <typename T>
@@ -74,7 +75,33 @@ template <typename T>
 DoubleNode<T>::DoubleNode(const T &data) : data(data) {}
 
 template <typename T>
-DoubleNode<T>::DoubleNode(const T &data, std::shared_ptr<DoubleNode<T>> &prev, std::shared_ptr<DoubleNode<T>> &next) : data(data), prev(prev), next(next) {}
+DoubleNode<T>::DoubleNode(const T &data, std::shared_ptr<DoubleNode<T>> &prev,
+                          std::shared_ptr<DoubleNode<T>> &next)
+    : data(data), prev(prev), next(next) {}
+
+// Skip Node interface
+template <typename T>
+struct SkipNode {
+    T data;
+    std::shared_ptr<SkipNode<T>> up;
+    std::shared_ptr<SkipNode<T>> prev;
+    std::shared_ptr<SkipNode<T>> next;
+    std::shared_ptr<SkipNode<T>> down;
+
+    explicit SkipNode(const T &);
+
+    SkipNode(const T &, std::shared_ptr<SkipNode<T>> &, std::shared_ptr<SkipNode<T>> &,
+             std::shared_ptr<SkipNode<T>> &, std::shared_ptr<SkipNode<T>> &);
+};
+
+// Skip Node implementation
+template <typename T>
+SkipNode<T>::SkipNode(const T &data) : data(data) {}
+
+template <typename T>
+SkipNode<T>::SkipNode(const T &data, std::shared_ptr<SkipNode<T>> &up, std::shared_ptr<SkipNode<T>> &prev,
+                      std::shared_ptr<SkipNode<T>> &next, std::shared_ptr<SkipNode<T>> &down)
+    : data(data), up(up), prev(prev), next(next), down(down) {}
 
 // Tree Node interface
 template <typename T>
@@ -106,7 +133,8 @@ template <typename T>
 BinaryTreeNode<T>::BinaryTreeNode(const T &data) : data(data), left(NULL), right(NULL) {}
 
 template <typename T>
-BinaryTreeNode<T>::BinaryTreeNode(const T &data, BinaryTreeNode *left, BinaryTreeNode *right) : data(data), left(left), right(right){};
+BinaryTreeNode<T>::BinaryTreeNode(const T &data, BinaryTreeNode *left, BinaryTreeNode *right)
+    : data(data), left(left), right(right){};
 
 // Trie Node interface
 struct TrieNode {
@@ -152,5 +180,6 @@ struct MapNode {
 
 // Map Node implementation
 template <typename T>
-MapNode<T>::MapNode(const std::string &key, const T &data) : key(key), data(data), next(NULL) {}
+MapNode<T>::MapNode(const std::string &key, const T &data)
+    : key(key), data(data), next(NULL) {}
 } // namespace ds
