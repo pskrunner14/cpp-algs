@@ -49,12 +49,6 @@ class Deque : public Container {
     // the total capacity of the deque including garbage space
     int m_capacity = 0;
 
-    // extends the data deque size by a factor of 2
-    void extend();
-
-    // adjusts the front and back positions for optimal space utilization
-    void calibrate();
-
   protected:
     // pointer to our data deque
     T *data;
@@ -64,6 +58,12 @@ class Deque : public Container {
 
     // back index of deque
     int back = 5;
+
+    // extends the data deque size by a factor of 2
+    void extend() override;
+
+    // adjusts the front and back positions for optimal space utilization
+    void calibrate();
 
   public:
     // default constructor

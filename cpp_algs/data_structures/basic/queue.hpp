@@ -49,12 +49,12 @@ class Queue : public Container {
     // the total capacity of the queue including garbage space
     int m_capacity = 0;
 
-    // extends the queue size by a factor of 2
-    void extend();
-
   protected:
     // pointer to our queue data
     T *data;
+
+    // extends the queue size by a factor of 2
+    void extend() override;
 
   public:
     // default constructor

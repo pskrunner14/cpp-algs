@@ -48,12 +48,12 @@ class Stack : public Container {
     // the total capacity of the stack including garbage space
     int m_capacity = 0;
 
-    // extends the data stack size by a factor of 2
-    void extend();
-
   protected:
     // pointer to our data stack
     T *data;
+
+    // extends the data stack size by a factor of 2
+    void extend() override;
 
   public:
     // default constructor

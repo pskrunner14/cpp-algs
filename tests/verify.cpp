@@ -93,7 +93,7 @@ int main() {
 
     cout << "Verified installation of library!" << '\n';
 
-    dims = {1000, 1234, 13, 542, 122, 11};
+    dims = {1000, 1234, 152, 13, 542, 122, 11, 424};
     time_test(dims);
 
     // cleanup

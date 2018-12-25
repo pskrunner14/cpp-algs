@@ -24,31 +24,32 @@
 #pragma once
 
 /**
- * Data Structures - container
- * container.hpp
- * Purpose: Container abstract class
+ * Data Structures - linked list
+ * skip_list.hpp
+ * Purpose: Skip List interface
  * 
  * @author Prabhsimran Singh
- * @version 1.0 04/12/18
+ * @version 1.0 24/12/18
 */
+#include <iostream>
+#include <memory>
+#include <vector>
+
+#include "linked_list.hpp"
+
 namespace ds {
 
-class Container {
-  protected:
-    // extends the data container size by factor of 2
-    virtual void extend() = 0;
+// ---------------------------------------------- Interface ---------------------------------------------------//
+
+template <typename T>
+class SkipList : public LinkedList<T, SkipNode<T>> {
+  private:
+    std::shared_ptr<SkipNode<T>> head;
+    std::shared_ptr<SkipNode<T>> tail;
+    int m_size = 0;
 
   public:
-    // helper method to print the content of container
-    virtual void print() const = 0;
-
-    // method that check if container is empty
-    virtual bool empty() const = 0;
-
-    // returns the size of the container
-    virtual inline int size() const = 0;
-
-    // returns the capacity of the container
-    virtual inline int capacity() const = 0;
+    explicit SkipList();
 };
-} // namespace ds
+
+// -------------------------------------------- Implementation --------------------------------------------------//

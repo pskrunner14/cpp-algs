@@ -29,10 +29,8 @@ configure_file(
     "${PROJECT_SOURCE_DIR}/cpp_algs/config.hpp"
 )
 
-find_package(Boost)
-    if(Boost_FOUND)
-        include_directories(${Boost_INCLUDE_DIRS})
-    endif()
+find_package(Boost REQUIRED)
+include_directories(${Boost_INCLUDE_DIRS})
 
 add_library(cpp_algs SHARED "cpp_algs/cpp_algs.hpp")
 set_target_properties(cpp_algs PROPERTIES LINKER_LANGUAGE CXX)
